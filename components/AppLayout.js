@@ -1,17 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const AppLayout = ({children}) => {
+const AppLayout = ({ children }) => {
     return (
-        <div style={{display:"flex"}}>
+        <div>
             <header> menus</header>
             {children}
+            <div>akjdhaksdalk</div>
         </div>
     )
 }
 
-AppLayout.propTypes = {
-
-}
+AppLayout.propTypes = {}
 
 export default AppLayout

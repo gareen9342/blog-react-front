@@ -1,11 +1,9 @@
-import {all, fork} from 'redux-saga/effects'
-import userSaga from './user'
+import { all, fork } from 'redux-saga/effects'
 import axios from 'axios'
+import userSaga from './user'
 
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true
 
-export default function* rootSaga(){
-    yield all([
-        fork(userSaga),
-    ])
+export default function* rootSaga() {
+    yield all([fork(userSaga)])
 }
