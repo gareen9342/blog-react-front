@@ -1,6 +1,8 @@
 body.light-mode {
     background-color: #fff;
-    // color:
+    color: #000;
 }
 body.dark-mode {
+    color: hsla(0, 0%, 100%, 0.65);
+    background: #001529;
 }
