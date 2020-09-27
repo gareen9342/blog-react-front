@@ -4,14 +4,18 @@ import useDarkMode from 'use-dark-mode'
 
 import styled from 'styled-components'
 import { Switch } from 'antd'
-import { DownOutlined, UserOutlined } from '@ant-design/icons'
+import Link from 'next/link'
+import { DownOutlined, UserOutlined, EditOutlined } from '@ant-design/icons'
 import useInput from '../hooks/useInput'
+import { BORDER } from '../styles/common/Theme'
 const HeaderWrap = styled.div`
     height: 60px;
+    position: relative;
     padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid #e6e6e6;
 `
 const RightBox = styled.div`
     display: flex;
@@ -19,42 +23,55 @@ const RightBox = styled.div`
 const LeftBox = styled.div`
     display: flex;
 `
+const DarkModeBtn = styled(Button)`
+    background-color: transparent;
+    border: ${BORDER};
+`
 
+const Logo = styled.h1`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-size: 15px;
+    transform: translate(-50%, -50%);
+`
 const Header = () => {
-    const [isLoggedIn, setIsLoggedIn] = useInput(true)
+    const [isLoggedIn, setIsLoggedIn] = useInput(false)
     const darkMode = useDarkMode(true)
-    const [dark, setDark] = useState(darkMode.value)
-    useEffect(() => {
-        setDark(`${darkMode.value}`)
-        return () => {}
-    }, [darkMode.value])
+    // const [dark, setDark] = useState(null)
+    // useEffect(() => {
+    //     setDark(`${darkMode.value}`)
+    //     return () => {}
+    // }, [darkMode.value])
     return (
         <HeaderWrap>
-            <LeftBox>
-                {/* <Switch
-                    // defaultChecked
-                    checked={darkMode.value}
-                    onChange={darkMode.toggle}
-                /> */}
-                {`${dark}`}
-                <button type="button" onClick={darkMode.toggle}>
-                    ☾
-                </button>
-            </LeftBox>
+            <LeftBox></LeftBox>
+            <Logo>마가린의 블로그입니다.</Logo>
             <RightBox>
+                <DarkModeBtn type="button" onClick={darkMode.toggle}>
+                    🌙
+                </DarkModeBtn>
                 {isLoggedIn ? (
                     <Dropdown.Button
                         overlay={
                             <Menu>
                                 <Menu.Item key="1" icon={<UserOutlined />}>
-                                    My Page
+                                    <Link href={`posts/mypage`}>
+                                        <a>마이페이지</a>
+                                    </Link>
+                                </Menu.Item>
+                                <Menu.Item key="3" icon={<EditOutlined />}>
+                                    <Link href="/write">
+                                        <a>글쓰기</a>
+                                    </Link>
                                 </Menu.Item>
                                 <Menu.Item key="2" icon={<UserOutlined />}>
-                                    Log out
+                                    <Button>로그아웃</Button>
                                 </Menu.Item>
                             </Menu>
                         }
                         placement="bottomCenter"
+                        style={{ backgroundColor: 'transparent' }}
                         icon={<UserOutlined />}
                     ></Dropdown.Button>
                 ) : (

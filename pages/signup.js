@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Form, Input, Checkbox, Button } from 'antd'
+import useInput from '../hooks/useInput'
 import AppLayout from '../components/AppLayout'
 const CenteredContainer = styled.div`
     display: flex;

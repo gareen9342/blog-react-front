@@ -13,13 +13,24 @@ const GlobalStyle = createGlobalStyle`
     body{
         min-height:100vh;
         position:relative;
+        .ant-btn{background-color:transparent !important;}
+        // .ant-dropdown-menu{}
+        // 헤더를 위한 스타일링
+        .ant-dropdown-menu-item svg path,
+        .ant-dropdown-menu-item span{color:#000}
         &.light-mode {
             background-color: #fff;
-            color: #000;
+            
+            *{
+                color: #000; 
+            }
         }
         &.dark-mode {
-            color: hsla(0, 0%, 100%, 0.65);
+           
             background: #001529;
+            *{
+                color: hsla(0, 0%, 100%, 0.65) 
+            }
         }
     }
 `

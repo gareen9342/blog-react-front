@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { Row, Col } from 'antd'
 import styled from 'styled-components'
 import Link from 'next/link'
 import {
@@ -19,9 +20,6 @@ const Sidebar = styled.div`
 const GnbList = styled.ol`
     display: flex;
     flex-direction: column;
-    li {
-        outline: 1px solid;
-    }
 `
 const GnbListItem = styled.li``
 
@@ -32,19 +30,9 @@ const GnbLink = styled.a`
 const Content = styled.div`
     width: calc(100% - 255px);
     padding: 0 20px;
-    outline: 1px solid;
 `
 
 const AppLayout = ({ children }) => {
-    const darkMode = useDarkMode(true)
-
-    const style = useMemo(
-        () => ({
-            color: darkMode.value ? 'hsla(0, 0%, 100%, 0.65)' : '#000',
-        }),
-        [darkMode.value]
-    )
-
     const arrMenus = [
         {
             menuName: 'Home',
@@ -54,7 +42,7 @@ const AppLayout = ({ children }) => {
         {
             menuName: '일상',
             key: 'Daily',
-            href: '/daily',
+            href: '/posts/daily',
             subMenus: [
                 {
                     key: '1',
@@ -80,17 +68,13 @@ const AppLayout = ({ children }) => {
                         {arrMenus.map((item) => (
                             <GnbListItem key={item.key}>
                                 <Link href={item.href}>
-                                    <GnbLink style={style}>
-                                        {item.menuName}
-                                    </GnbLink>
+                                    <GnbLink>{item.menuName}</GnbLink>
                                 </Link>
                             </GnbListItem>
                         ))}
                     </GnbList>
                 </Sidebar>
-                <Content style={{ padding: '0 24px', minHeight: 280 }}>
-                    Content
-                </Content>
+                <Content>{children}</Content>
             </Wrapper>
         </>
     )
