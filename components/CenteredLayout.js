@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Row, Col } from 'antd'
 const CenteredContainer = styled.div`
     display: flex;
-    padding: 50px 0;
+    padding: 100px 0;
     text-align: center;
     flex-direction: column;
     justify-content: center;

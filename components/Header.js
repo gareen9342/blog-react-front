@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Switch } from 'antd'
 import Link from 'next/link'
 import { DownOutlined, UserOutlined, EditOutlined } from '@ant-design/icons'
-import useInput from '../hooks/useInput'
+import { useSelector } from 'react-redux'
 import { BORDER } from '../styles/common/Theme'
 const HeaderWrap = styled.div`
     height: 60px;
@@ -36,13 +36,21 @@ const Logo = styled.h1`
     transform: translate(-50%, -50%);
 `
 const Header = () => {
-    const [isLoggedIn, setIsLoggedIn] = useInput(false)
     const darkMode = useDarkMode(true)
     // const [dark, setDark] = useState(null)
     // useEffect(() => {
     //     setDark(`${darkMode.value}`)
     //     return () => {}
     // }, [darkMode.value])
+
+    const { me } = useSelector((state) => state.user)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    useEffect(() => {
+        if (me && me.id) {
+            setIsLoggedIn(true)
+        }
+        return () => {}
+    }, [me && me.id])
     return (
         <HeaderWrap>
             <LeftBox></LeftBox>

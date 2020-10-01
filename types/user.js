@@ -9,3 +9,7 @@ export const LOG_OUT_FAILURE = 'logOutFailure'
 export const SIGN_UP_REQUEST = 'signUpRequest'
 export const SIGN_UP_SUCCESS = 'signUpSuccess'
 export const SIGN_UP_FAILURE = 'signUpFailure'
+
+export const LOAD_ME_REQUEST = 'loadMeRequest'
+export const LOAD_ME_SUCCESS = 'loadMeSuccess'
+export const LOAD_ME_FAILURE = 'loadMeFailure'
