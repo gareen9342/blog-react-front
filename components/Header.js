@@ -46,7 +46,11 @@ const Header = () => {
     return (
         <HeaderWrap>
             <LeftBox></LeftBox>
-            <Logo>마가린의 블로그입니다.</Logo>
+            <Logo>
+                <Link href="/">
+                    <a>마가린의 블로그입니다.</a>
+                </Link>
+            </Logo>
             <RightBox>
                 <DarkModeBtn type="button" onClick={darkMode.toggle}>
                     🌙
@@ -70,16 +74,30 @@ const Header = () => {
                                 </Menu.Item>
                             </Menu>
                         }
-                        placement="bottomCenter"
+                        placement="bottomRight"
                         style={{ backgroundColor: 'transparent' }}
                         icon={<UserOutlined />}
                     ></Dropdown.Button>
                 ) : (
-                    <Button>
-                        <Link href="/signup">
-                            <a>회웝가입</a>
-                        </Link>
-                    </Button>
+                    <Dropdown.Button
+                        overlay={
+                            <Menu>
+                                <Menu.Item>
+                                    <Link href="/signup">
+                                        <a>회원가입</a>
+                                    </Link>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <Link href="/login">
+                                        <a>로그인</a>
+                                    </Link>
+                                </Menu.Item>
+                            </Menu>
+                        }
+                        placement="bottomRight"
+                        style={{ backgroundColor: 'transparent' }}
+                        icon={<UserOutlined />}
+                    ></Dropdown.Button>
                 )}
             </RightBox>
         </HeaderWrap>
