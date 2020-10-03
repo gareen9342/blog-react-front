@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { Menu, Dropdown, message, Tooltip, Button } from 'antd'
+import React, { useState, useEffect, useCallback } from 'react'
+import { Menu, Dropdown, Button } from 'antd'
 import useDarkMode from 'use-dark-mode'
 
 import styled from 'styled-components'
-import { Switch } from 'antd'
 import Link from 'next/link'
 import { DownOutlined, UserOutlined, EditOutlined } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { BORDER } from '../styles/common/Theme'
+import { LOG_OUT_REQUEST } from '../types/user'
+import Router from 'next/router'
 const HeaderWrap = styled.div`
     height: 60px;
     position: relative;
@@ -43,6 +44,7 @@ const Header = () => {
     //     return () => {}
     // }, [darkMode.value])
 
+    const dispatch = useDispatch()
     const { me } = useSelector((state) => state.user)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     useEffect(() => {
@@ -51,6 +53,12 @@ const Header = () => {
         }
         return () => {}
     }, [me && me.id])
+    const onClickLogout = useCallback(() => {
+        dispatch({
+            type: LOG_OUT_REQUEST,
+        })
+        Router.push('/')
+    }, [])
     return (
         <HeaderWrap>
             <LeftBox></LeftBox>
@@ -63,12 +71,12 @@ const Header = () => {
                 <DarkModeBtn type="button" onClick={darkMode.toggle}>
                     🌙
                 </DarkModeBtn>
-                {isLoggedIn ? (
+                {me && me.id ? (
                     <Dropdown.Button
                         overlay={
                             <Menu>
                                 <Menu.Item key="1" icon={<UserOutlined />}>
-                                    <Link href={`posts/mypage`}>
+                                    <Link href={`/mypage`}>
                                         <a>마이페이지</a>
                                     </Link>
                                 </Menu.Item>
@@ -78,7 +86,9 @@ const Header = () => {
                                     </Link>
                                 </Menu.Item>
                                 <Menu.Item key="2" icon={<UserOutlined />}>
-                                    <Button>로그아웃</Button>
+                                    <Button onClick={onClickLogout}>
+                                        로그아웃
+                                    </Button>
                                 </Menu.Item>
                             </Menu>
                         }

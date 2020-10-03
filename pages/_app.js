@@ -39,6 +39,15 @@ const App = ({ Component }) => {
     return (
         <>
             <Head>
+                <link
+                    rel="stylesheet"
+                    href="//cdn.quilljs.com/1.2.6/quill.snow.css"
+                />
+                <link
+                    rel="stylesheet"
+                    href="node_modules/react-quill/dist/quill.snow.css"
+                ></link>
+
                 <meta charSet="utf-8" />
                 <title>garin's blog</title>
             </Head>
