@@ -1,122 +1,104 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import Router from 'next/router'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import CenteredLayout from '../components/CenteredLayout'
-import Dropzone, { ImageFile } from 'react-dropzone'
-import { Button } from 'antd'
-import Head from 'next/head'
+import { Button, Input, Select } from 'antd'
+import useInput from '../hooks/useInput'
+import dynamic from 'next/dynamic'
+import { myMenus } from '../config/menus'
+import { UPLOAD_POST_REQUEST } from '../types/post'
+
+import AddCategoryForm from '../components/AddCategoryForm'
+const Editor = dynamic(import('../components/Editor'), { ssr: false })
+
 const write = (props) => {
-    const { me } = useSelector((state) => state.user)
+    const dispatch = useDispatch()
+    // const { me } = useSelector((state) => state.user)
 
     // useEffect(() => {
-    //     if (!me || !me.id) {
+    //     if (!me.id) {
     //         alert('글을 작성하려면 로그인이 필요합니다.')
     //         Router.push('/login')
     //     }
     //     console.log(me)
     // }, [me && me.id])
 
-    /************* quill *************/
-    const Quill =
-        typeof window === 'object' ? require('react-quill') : () => false
-    const dropzoneRef = useRef()
+    /* select values */
+    const { Option } = Select
 
-    // console.log(dropzoneRef)
-    const onDrop = (e) => {
-        alert('opened')
-        console.log(e)
-    }
-    const openDialog = useCallback(() => {
-        if (dropzoneRef.current) {
-            dropzoneRef.current.open()
-        }
-    }, [dropzoneRef])
-    const modules = {
-        toolbar: {
-            container: [
-                [{ header: '1' }, { header: '2' }, { font: [] }],
-                [{ size: [] }],
-                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                [
-                    { list: 'ordered' },
-                    { list: 'bullet' },
-                    { indent: '-1' },
-                    { indent: '+1' },
-                ],
-                ['link', 'image', 'video'],
-                ['clean'],
-            ],
-            handlers: { image: openDialog },
-            clipboard: {
-                // toggle to add extra line breaks when pasting HTML:
-                matchVisual: false,
-            },
-        },
-    }
     /*
-     * Quill editor formats
-     * See https://quilljs.com/docs/formats/
-     */
-    const formats = [
-        'header',
-        'font',
-        'size',
-        'bold',
-        'italic',
-        'underline',
-        'strike',
-        'blockquote',
-        'list',
-        'bullet',
-        'indent',
-        'link',
-        'image',
-    ]
-    const [value, setValue] = useState('')
+    addCategory
+    name_hidden: req.body.name_hidden, // number
+      name_show: req.body.name_show,
+    */
+
+    /********* submit */
+    const [subject, onChangesubject] = useInput('')
+    const [content, setContent] = useState('')
+    const [category, setCategory] = useState('')
+    const [hashTag, onChangeHashTag] = useInput('')
+
+    const handleChange = useCallback((value) => {
+        setCategory(value)
+    }, [])
+
+    const handleSubmit = useCallback(() => {
+        if (!subject || !category || !content) {
+            return alert(
+                '필수 영역을 모두 작성해 주세요. (제목, 카테고리, 내용)'
+            )
+        }
+        dispatch({
+            type: UPLOAD_POST_REQUEST,
+            data: { subject, category, content, hashtag: hashTag },
+        })
+    }, [content, category, subject, hashTag])
 
     return (
         <>
             <CenteredLayout>
-                {/* <Button onClick={handleSubmit}>submit</Button> */}
-                <Quill
-                    value={value}
-                    onChange={setValue}
-                    theme="snow"
-                    modules={modules}
-                    formats={formats}
-                    // formats={formats}
+                <AddCategoryForm />
+                <Select placeholder="카테고리 선택" onChange={handleChange}>
+                    {myMenus.slice(1).map((x) => (
+                        <Option key={x.key} value={x.selectValue}>
+                            {x.menuName}
+                        </Option>
+                    ))}
+                </Select>
+                <br />
+                <Input
+                    value={subject}
+                    onChange={onChangesubject}
+                    placeholder={'제목을 입력해 주세요'}
                 />
-                <Dropzone ref={dropzoneRef} noClick noKeyboard>
-                    {({ getRootProps, getInputProps, acceptedFiles }) => {
-                        return (
-                            <div className="container">
-                                <div
-                                    {...getRootProps({ className: 'dropzone' })}
-                                >
-                                    <input {...getInputProps()} />
-                                    <p>Drag 'n' drop some files here</p>
-                                    <button type="button" onClick={openDialog}>
-                                        Open File Dialog
-                                    </button>
-                                </div>
-                                <aside>
-                                    <h4>Files</h4>
-                                    <ul>
-                                        {acceptedFiles.map((file) => (
-                                            <li key={file.path}>
-                                                {file.path} - {file.size} bytes
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </aside>
-                            </div>
-                        )
-                    }}
-                </Dropzone>
+                <br />
+                <Editor content={content} setContent={setContent} />
+                <Input
+                    value={hashTag}
+                    onChange={onChangeHashTag}
+                    placeholder="해시태그를 #을 이용해 넣어주세요."
+                />
+                <br />
+                <Button onClick={handleSubmit}>submit</Button>
             </CenteredLayout>
         </>
     )
 }
+
+/*
+{postData.split(/(#[^\s]+)/g).map((v, idx) => {
+        if (v.match(/(#[^\s#]+)/g)) {
+          return (
+            <Link href={`/hashtag/${v.slice(1)}`} key={idx}>
+              <a>{v}</a>
+            </Link>
+          );
+        }
+        return v;
+      })}
+
+
+*/
 
 write.propTypes = {}
 

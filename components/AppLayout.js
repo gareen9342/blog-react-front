@@ -2,11 +2,7 @@ import React, { useMemo } from 'react'
 import { Row, Col } from 'antd'
 import styled from 'styled-components'
 import Link from 'next/link'
-import {
-    UserOutlined,
-    LaptopOutlined,
-    NotificationOutlined,
-} from '@ant-design/icons'
+import { myMenus } from '../config/menus'
 import Header from './Header'
 import useDarkMode from 'use-dark-mode'
 
@@ -33,39 +29,13 @@ const Content = styled.div`
 `
 
 const AppLayout = ({ children }) => {
-    const arrMenus = [
-        {
-            menuName: 'Home',
-            key: 'Home',
-            href: '/',
-        },
-        {
-            menuName: '일상',
-            key: 'Daily',
-            href: '/posts/daily',
-            subMenus: [
-                {
-                    key: '1',
-                    name: 'option1',
-                },
-                {
-                    key: '2',
-                    name: 'option2',
-                },
-                {
-                    key: '3',
-                    name: 'option3',
-                },
-            ],
-        },
-    ]
     return (
         <>
             <Header />
             <Wrapper>
                 <Sidebar>
                     <GnbList>
-                        {arrMenus.map((item) => (
+                        {myMenus.map((item) => (
                             <GnbListItem key={item.key}>
                                 <Link href={item.href}>
                                     <GnbLink>{item.menuName}</GnbLink>
