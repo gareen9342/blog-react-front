@@ -6,11 +6,22 @@ import wrapper from '../store/configureStore'
 import { END } from 'redux-saga'
 import axios from 'axios'
 import { LOAD_ME_REQUEST } from '../types/user'
+import MainPost from '../components/MainPost'
+import styled from 'styled-components'
+const CenterContainer = styled.div`
+    width: 1040px;
+    margin: 0 auto;
+    padding: 30px 0;
+`
 const Home = () => {
     // const dispatch = useDispatch()
     return (
         <>
-            <AppLayout>childeren</AppLayout>
+            <AppLayout>
+                <CenterContainer>
+                    <MainPost />
+                </CenterContainer>
+            </AppLayout>
         </>
     )
 }
