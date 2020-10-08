@@ -6,39 +6,24 @@ import { Comment, Tooltip, Button, Form, Input } from 'antd'
 import moment from 'moment'
 import Link from 'next/link'
 import Avatar from 'antd/lib/avatar/avatar'
+import { useSelector, useDispatch } from 'react-redux'
 
-const CardWrapper = styled.div``
-const CateName = styled.p`
-    font-size: 15px;
-`
-const Title = styled.h2`
-    line-height: 50px;
-    height: 50px;
-`
-const BtnCont = styled.div`
-    height: 50px;
-    display: flex;
-`
-const PostButton = styled(Button)`
-    width: 50px;
-    height: 50px;
-    padding: 0;
-    line-height: 50px;
-    border: none;
-    box-sizing: border-box;
-    > .anticon {
-        font-size: 30px;
-    }
-`
-const Content = styled.div`
-    min-height: 500px;
-`
-const TitleArea = styled.div``
-
-const CommentArea = styled.div``
-const PostCard = () => {
+import {
+    CardWrapper,
+    CateName,
+    TitleArea,
+    Title,
+    AuthorName,
+    BtnCont,
+    PostButton,
+    CommentArea,
+    CommentCount,
+    Content,
+} from './styles'
+const PostCard = ({ postData }) => {
     const { TextArea } = Input
     const [isLiked, setIsLiked] = useState(false)
+    const { me } = useSelector((state) => state.user)
     const onUnLike = useCallback(() => {
         setIsLiked(!isLiked)
     }, [isLiked])
@@ -46,14 +31,16 @@ const PostCard = () => {
     const onLike = useCallback(() => {
         setIsLiked(!isLiked)
     }, [])
+    console.log(postData)
     return (
         <CardWrapper>
             <TitleArea>
-                <CateName>css</CateName>
-                <Title>이것은 아주 좋은 제목이다 와아아아아아ㅏ아아아</Title>
+                <CateName>{postData.Category.name_show}</CateName>
+                <Title>{postData.subject}</Title>
+                <AuthorName>author : {postData.User.name}</AuthorName>
                 <BtnCont>
                     {/* like button */}
-                    {isLiked ? (
+                    {me?.me.id?.postData.Likers.includes(me.id) ? (
                         <PostButton onClick={onUnLike}>
                             <HeartFilled />
                         </PostButton>
@@ -64,24 +51,39 @@ const PostCard = () => {
                     )}
                 </BtnCont>
             </TitleArea>
-            <Content>contentskjdhflkjhlfkjaksjldhaska</Content>
+            <Content dangerouslySetInnerHTML={{ __html: postData.content }} />
             <CommentArea>
-                <Comment
-                    author={
-                        <Link href="/">
-                            <a>author</a>
-                        </Link>
-                    }
-                    avatar={
-                        <Avatar src={'/images/usericon.svg'} alt="author" />
-                    }
-                    content={<p>코멘트 코멘트</p>}
-                    datetime={
-                        <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                            <span>{moment().fromNow()}</span>
-                        </Tooltip>
-                    }
-                />
+                <CommentCount>
+                    {postData.Comments.length} 개의 댓글
+                </CommentCount>
+                {postData.Comments.length > 0 &&
+                    postData.Comments.map((comment) =>
+                        postData.Comments.length(
+                            <Comment
+                                author={
+                                    <Link href="/">
+                                        <a>n</a>
+                                    </Link>
+                                }
+                                avatar={
+                                    <Avatar
+                                        src={'/images/usericon.svg'}
+                                        alt="author"
+                                    />
+                                }
+                                content={<p>코멘트 코멘트</p>}
+                                datetime={
+                                    <Tooltip
+                                        title={moment().format(
+                                            'YYYY-MM-DD HH:mm:ss'
+                                        )}
+                                    >
+                                        <span>{moment().fromNow()}</span>
+                                    </Tooltip>
+                                }
+                            />
+                        )
+                    )}
 
                 <Comment
                     avatar={<Avatar src={'/images/usericon.svg'} />}

@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
     body{
         min-height:100vh;
         position:relative;
+        font-size:16px;
         .ant-btn{background-color:transparent !important;}
         // .ant-dropdown-menu{}
         // 헤더를 위한 스타일링
@@ -34,6 +35,9 @@ const GlobalStyle = createGlobalStyle`
                 color: hsla(0, 0%, 100%, 0.65) 
             }
         }
+    }
+    h1,h2,h3,h4,h5,h6,p{
+        line-height:1;margin:0;padding:0;
     }
     .ant-input,
    .ant-input:focus, 
