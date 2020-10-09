@@ -9,6 +9,12 @@ import {
     LOAD_MAINPOST_REQUEST,
     LOAD_MAINPOST_SUCCESS,
     LOAD_MAINPOST_FAILURE,
+    LIKE_POST_REQUEST,
+    LIKE_POST_SUCCESS,
+    LIKE_POST_FAILURE,
+    UNLIKE_POST_REQUEST,
+    UNLIKE_POST_SUCCESS,
+    UNLIKE_POST_FAILURE,
 } from '../types/post'
 import produce from '../util/produce'
 
@@ -22,6 +28,9 @@ const initialState = {
     loadMainPostLoading: false,
     loadMainPostDone: false,
     loadMainPostError: null,
+    likePostLoading: false,
+    likePostDone: false,
+    likePostError: null,
     mainPost: {},
 }
 
@@ -69,6 +78,41 @@ const reducer = (state = initialState, action) =>
             case LOAD_MAINPOST_FAILURE:
                 draft.loadMainPostDone = true
                 draft.loadMainPostError = action.error
+                break
+            case LIKE_POST_REQUEST:
+                draft.likePostLoading = true
+                draft.likePostDone = false
+                draft.likePostError = null
+                break
+            case LIKE_POST_SUCCESS: {
+                draft.mainPost.Likers.push({
+                    id: action.data.userId,
+                })
+                draft.likePostLoading = false
+                draft.likePostDone = true
+                break
+            }
+            case LIKE_POST_FAILURE:
+                draft.likePostDone = true
+                draft.likePostError = action.error
+                break
+            case UNLIKE_POST_REQUEST:
+                draft.unlikePostLoading = true
+                draft.unlikePostDone = false
+                draft.unlikePostError = null
+                break
+            case UNLIKE_POST_SUCCESS: {
+                console.log('actiondata=', action.data)
+                draft.mainPost.Likers = draft.mainPost.Likers.filter(
+                    (y) => y.id !== action.data.userId
+                )
+                draft.unlikePostLoading = false
+                draft.unlikePostDone = true
+                break
+            }
+            case UNLIKE_POST_FAILURE:
+                draft.unlikePostDone = true
+                draft.unlikePostError = action.error
                 break
             default:
                 break

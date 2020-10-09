@@ -1,13 +1,10 @@
 import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { HeartOutlined, HeartFilled } from '@ant-design/icons'
-import { Comment, Tooltip, Button, Form, Input } from 'antd'
-import moment from 'moment'
-import Link from 'next/link'
-import Avatar from 'antd/lib/avatar/avatar'
-import { useSelector, useDispatch } from 'react-redux'
 
+import { HeartOutlined, HeartFilled } from '@ant-design/icons'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../types/post'
 import {
     CardWrapper,
     CateName,
@@ -16,22 +13,34 @@ import {
     AuthorName,
     BtnCont,
     PostButton,
-    CommentArea,
-    CommentCount,
     Content,
 } from './styles'
+import Comments from './Comments'
+
 const PostCard = ({ postData }) => {
-    const { TextArea } = Input
-    const [isLiked, setIsLiked] = useState(false)
+    const dispatch = useDispatch()
+
     const { me } = useSelector((state) => state.user)
     const onUnLike = useCallback(() => {
-        setIsLiked(!isLiked)
-    }, [isLiked])
+        if (!me) {
+            alert('로그인 한 유저만 이용이 가능합니다.')
+        }
+        dispatch({
+            type: UNLIKE_POST_REQUEST,
+            data: postData.id,
+        })
+    }, [])
 
     const onLike = useCallback(() => {
-        setIsLiked(!isLiked)
+        if (!me) {
+            alert('로그인 한 유저만 이용이 가능합니다.')
+        }
+        dispatch({
+            type: LIKE_POST_REQUEST,
+            data: postData.id,
+        })
     }, [])
-    console.log(postData)
+
     return (
         <CardWrapper>
             <TitleArea>
@@ -40,7 +49,9 @@ const PostCard = ({ postData }) => {
                 <AuthorName>author : {postData.User.name}</AuthorName>
                 <BtnCont>
                     {/* like button */}
-                    {me?.me.id?.postData.Likers.includes(me.id) ? (
+                    {me &&
+                    me.id &&
+                    postData.Likers.find((x) => x.id === me.id) ? (
                         <PostButton onClick={onUnLike}>
                             <HeartFilled />
                         </PostButton>
@@ -51,66 +62,10 @@ const PostCard = ({ postData }) => {
                     )}
                 </BtnCont>
             </TitleArea>
+            {/* 내용 영역 */}
             <Content dangerouslySetInnerHTML={{ __html: postData.content }} />
-            <CommentArea>
-                <CommentCount>
-                    {postData.Comments.length} 개의 댓글
-                </CommentCount>
-                {postData.Comments.length > 0 &&
-                    postData.Comments.map((comment) =>
-                        postData.Comments.length(
-                            <Comment
-                                author={
-                                    <Link href="/">
-                                        <a>n</a>
-                                    </Link>
-                                }
-                                avatar={
-                                    <Avatar
-                                        src={'/images/usericon.svg'}
-                                        alt="author"
-                                    />
-                                }
-                                content={<p>코멘트 코멘트</p>}
-                                datetime={
-                                    <Tooltip
-                                        title={moment().format(
-                                            'YYYY-MM-DD HH:mm:ss'
-                                        )}
-                                    >
-                                        <span>{moment().fromNow()}</span>
-                                    </Tooltip>
-                                }
-                            />
-                        )
-                    )}
-
-                <Comment
-                    avatar={<Avatar src={'/images/usericon.svg'} />}
-                    content={
-                        <>
-                            <Form.Item>
-                                <TextArea
-                                    rows={4}
-                                    // disabled={}
-                                    // onChange={onChange}
-                                    // value={value}
-                                />
-                            </Form.Item>
-                            <Form.Item>
-                                <Button
-                                    htmlType="submit"
-                                    // loading={submitting}
-                                    // onClick={onSubmit}
-                                    type="primary"
-                                >
-                                    Add Comment
-                                </Button>
-                            </Form.Item>
-                        </>
-                    }
-                />
-            </CommentArea>
+            {/* 덧글 영역 */}
+            <Comments comments={postData.Comments} />
         </CardWrapper>
     )
 }
