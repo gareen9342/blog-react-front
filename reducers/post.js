@@ -18,6 +18,9 @@ import {
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_FAILURE,
     ADD_COMMENT_REQUEST,
+    DELETE_COMMENT_SUCCESS,
+    DELETE_COMMENT_FAILURE,
+    DELETE_COMMENT_REQUEST,
 } from '../types/post'
 import produce from '../util/produce'
 
@@ -40,6 +43,9 @@ const initialState = {
     addCommentLoading: false,
     addCommentDone: false,
     addCommentError: null,
+    deleteCommentLoading: false,
+    deleteCommentDone: false,
+    deleteCommentError: null,
     mainPost: {},
 }
 
@@ -135,6 +141,23 @@ const reducer = (state = initialState, action) =>
             case ADD_COMMENT_FAILURE:
                 draft.addCommentDone = true
                 draft.addCommentError = action.error
+                break
+            case DELETE_COMMENT_REQUEST:
+                draft.deleteCommentLoading = true
+                draft.deleteCommentDone = false
+                draft.deleteCommentError = null
+                break
+            case DELETE_COMMENT_SUCCESS: {
+                draft.mainPost.Comments = draft.mainPost.Comments.filter(
+                    (y) => y.id !== +action.data.commentId
+                )
+                draft.deleteCommentLoading = false
+                draft.deleteCommentDone = true
+                break
+            }
+            case DELETE_COMMENT_FAILURE:
+                draft.deleteCommentDone = true
+                draft.deleteCommentError = action.error
                 break
             default:
                 break

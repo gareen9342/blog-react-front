@@ -15,6 +15,9 @@ import {
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_FAILURE,
     ADD_COMMENT_REQUEST,
+    DELETE_COMMENT_SUCCESS,
+    DELETE_COMMENT_FAILURE,
+    DELETE_COMMENT_REQUEST,
 } from '../types/post'
 import axios from 'axios'
 
@@ -119,6 +122,27 @@ function* addComment(action) {
         })
     }
 }
+
+function deleteCommentAPI(data) {
+    return axios.delete(`/post/${data.postId}/${data.commentId}`)
+}
+
+function* deleteComment(action) {
+    try {
+        const result = yield call(deleteCommentAPI, action.data)
+        console.log(result)
+        yield put({
+            type: DELETE_COMMENT_SUCCESS,
+            data: result.data,
+        })
+    } catch (error) {
+        console.error(error)
+        yield put({
+            type: DELETE_COMMENT_FAILURE,
+            error: error.response.data,
+        })
+    }
+}
 function* watchUploadPost() {
     yield takeLatest(UPLOAD_POST_REQUEST, uploadPost)
 }
@@ -139,6 +163,10 @@ function* watchAddComment() {
     yield takeLatest(ADD_COMMENT_REQUEST, addComment)
 }
 
+function* watchDeleteComment() {
+    yield takeLatest(DELETE_COMMENT_REQUEST, deleteComment)
+}
+
 export default function* postSaga() {
     yield all([
         fork(watchUploadPost),
@@ -146,5 +174,6 @@ export default function* postSaga() {
         fork(watchLikePost),
         fork(watchUnlike),
         fork(watchAddComment),
+        fork(watchDeleteComment),
     ])
 }

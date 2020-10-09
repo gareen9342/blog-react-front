@@ -42,3 +42,10 @@ export const Content = styled.div`
     min-height: 500px;
     padding-bottom: 50px;
 `
+
+export const DeleteButton = styled(Button)`
+    width: auto;
+    height: auto;
+    font-size: 0.7em;
+    padding: 0 5px;
+`

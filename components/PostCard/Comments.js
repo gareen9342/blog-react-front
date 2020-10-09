@@ -4,14 +4,18 @@ import { Comment, Tooltip, Button, Form, Input } from 'antd'
 import moment from 'moment'
 import Link from 'next/link'
 import Avatar from 'antd/lib/avatar/avatar'
-import { CommentArea, CommentCount } from './styles'
+import { CommentArea, CommentCount, DeleteButton } from './styles'
 import useInput from '../../hooks/useInput'
-import { ADD_COMMENT_REQUEST } from '../../types/post'
+import { ADD_COMMENT_REQUEST, DELETE_COMMENT_REQUEST } from '../../types/post'
 const Comments = ({ comments, me, postId }) => {
     const { TextArea } = Input
     const dispatch = useDispatch()
     const [commentText, onChangeCommentText] = useInput('')
-    const { addCommentLoading } = useSelector((state) => state.post)
+    const {
+        addCommentLoading,
+        deleteCommentError,
+        deleteCommentLoading,
+    } = useSelector((state) => state.post)
     const onSubmitComment = useCallback(() => {
         console.log(postId, commentText)
         dispatch({
@@ -22,6 +26,16 @@ const Comments = ({ comments, me, postId }) => {
             },
         })
     }, [commentText])
+
+    const onDeleteComment = useCallback((commentId) => {
+        dispatch({
+            type: DELETE_COMMENT_REQUEST,
+            data: {
+                postId: postId,
+                commentId: commentId,
+            },
+        })
+    }, [])
     return (
         <CommentArea>
             {console.log(comments)}
@@ -51,7 +65,15 @@ const Comments = ({ comments, me, postId }) => {
                                 <span>{moment().fromNow()}</span>
                             </Tooltip>
                         }
-                    />
+                    >
+                        <DeleteButton
+                            danger
+                            loading={deleteCommentLoading}
+                            onClick={() => onDeleteComment(comment.id)}
+                        >
+                            delete
+                        </DeleteButton>
+                    </Comment>
                 ))}
 
             {me && me.id && (
