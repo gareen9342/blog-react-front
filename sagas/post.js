@@ -12,6 +12,9 @@ import {
     UNLIKE_POST_REQUEST,
     UNLIKE_POST_SUCCESS,
     UNLIKE_POST_FAILURE,
+    ADD_COMMENT_SUCCESS,
+    ADD_COMMENT_FAILURE,
+    ADD_COMMENT_REQUEST,
 } from '../types/post'
 import axios from 'axios'
 
@@ -93,6 +96,29 @@ function* unlikePost(action) {
         })
     }
 }
+
+function addCommentAPI(data) {
+    console.log(data)
+    return axios.post(`/post/${data.postId}/comment`, {
+        content: data.content,
+    })
+}
+
+function* addComment(action) {
+    try {
+        const result = yield call(addCommentAPI, action.data)
+        yield put({
+            type: ADD_COMMENT_SUCCESS,
+            data: result.data,
+        })
+    } catch (err) {
+        console.error(err)
+        yield put({
+            type: ADD_COMMENT_FAILURE,
+            error: err.response.data,
+        })
+    }
+}
 function* watchUploadPost() {
     yield takeLatest(UPLOAD_POST_REQUEST, uploadPost)
 }
@@ -108,11 +134,17 @@ function* watchLikePost() {
 function* watchUnlike() {
     yield takeLatest(UNLIKE_POST_REQUEST, unlikePost)
 }
+
+function* watchAddComment() {
+    yield takeLatest(ADD_COMMENT_REQUEST, addComment)
+}
+
 export default function* postSaga() {
     yield all([
         fork(watchUploadPost),
         fork(watchloadMainPost),
         fork(watchLikePost),
         fork(watchUnlike),
+        fork(watchAddComment),
     ])
 }

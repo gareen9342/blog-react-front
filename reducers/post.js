@@ -15,6 +15,9 @@ import {
     UNLIKE_POST_REQUEST,
     UNLIKE_POST_SUCCESS,
     UNLIKE_POST_FAILURE,
+    ADD_COMMENT_SUCCESS,
+    ADD_COMMENT_FAILURE,
+    ADD_COMMENT_REQUEST,
 } from '../types/post'
 import produce from '../util/produce'
 
@@ -31,6 +34,12 @@ const initialState = {
     likePostLoading: false,
     likePostDone: false,
     likePostError: null,
+    unlikePostLoading: false,
+    unlikePostDone: false,
+    unlikePostError: null,
+    addCommentLoading: false,
+    addCommentDone: false,
+    addCommentError: null,
     mainPost: {},
 }
 
@@ -102,7 +111,6 @@ const reducer = (state = initialState, action) =>
                 draft.unlikePostError = null
                 break
             case UNLIKE_POST_SUCCESS: {
-                console.log('actiondata=', action.data)
                 draft.mainPost.Likers = draft.mainPost.Likers.filter(
                     (y) => y.id !== action.data.userId
                 )
@@ -113,6 +121,20 @@ const reducer = (state = initialState, action) =>
             case UNLIKE_POST_FAILURE:
                 draft.unlikePostDone = true
                 draft.unlikePostError = action.error
+                break
+            case ADD_COMMENT_REQUEST:
+                draft.addCommentLoading = true
+                draft.addCommentDone = false
+                draft.addCommentError = null
+                break
+            case ADD_COMMENT_SUCCESS:
+                draft.mainPost.Comments.push(action.data)
+                draft.addCommentLoading = false
+                draft.addCommentDone = true
+                break
+            case ADD_COMMENT_FAILURE:
+                draft.addCommentDone = true
+                draft.addCommentError = action.error
                 break
             default:
                 break

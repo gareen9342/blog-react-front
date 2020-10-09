@@ -65,7 +65,11 @@ const PostCard = ({ postData }) => {
             {/* 내용 영역 */}
             <Content dangerouslySetInnerHTML={{ __html: postData.content }} />
             {/* 덧글 영역 */}
-            <Comments comments={postData.Comments} />
+            <Comments
+                comments={postData.Comments}
+                me={me}
+                postId={postData.id}
+            />
         </CardWrapper>
     )
 }
