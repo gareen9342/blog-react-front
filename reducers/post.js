@@ -24,6 +24,12 @@ import {
     DELETE_POST_SUCCESS,
     DELETE_POST_FAILURE,
     DELETE_POST_REQUEST,
+    LOAD_POSTLIST_SUCCESS,
+    LOAD_POSTLIST_FAILURE,
+    LOAD_POSTLIST_REQUEST,
+    LOAD_SINGLE_POST_SUCCESS,
+    LOAD_SINGLE_POST_FAILURE,
+    LOAD_SINGLE_POST_REQUEST,
 } from '../types/post'
 import produce from '../util/produce'
 
@@ -52,7 +58,12 @@ const initialState = {
     deletePostLoading: false,
     deletePostDone: false,
     deletePostError: null,
+    loadPostListLoading: false,
+    loadPostListDone: false,
+    loadPostListError: null,
     mainPost: {},
+    categoryPostList: {},
+    singlePost: {},
 }
 
 // 이전 상태를 액션을 ㄴ통해 다음 상태로 만들어 내는 함수 (불변성은 지키면서)
@@ -181,6 +192,22 @@ const reducer = (state = initialState, action) =>
             case DELETE_POST_FAILURE:
                 draft.deletePostDone = true
                 draft.deletePostError = action.error
+                break
+            case LOAD_POSTLIST_REQUEST:
+                draft.loadPostListLoading = true
+                draft.loadPostListDone = false
+                draft.loadPostListError = null
+                break
+            case LOAD_POSTLIST_SUCCESS: {
+                draft.categoryPostList = action.data.posts
+                draft.singlePost = action.data.post
+                draft.loadPostListLoading = false
+                draft.loadPostListDone = true
+                break
+            }
+            case LOAD_POSTLIST_FAILURE:
+                draft.loadPostListDone = true
+                draft.loadPostListError = action.error
                 break
             default:
                 break

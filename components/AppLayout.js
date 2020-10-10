@@ -1,10 +1,8 @@
-import React, { useMemo } from 'react'
-import { Row, Col } from 'antd'
+import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { myMenus } from '../config/menus'
 import Header from './Header'
-import useDarkMode from 'use-dark-mode'
 
 const Wrapper = styled.div`
     display: flex;
@@ -37,7 +35,7 @@ const AppLayout = ({ children }) => {
                     <GnbList>
                         {myMenus.map((item) => (
                             <GnbListItem key={item.key}>
-                                <Link href={item.href}>
+                                <Link href={`/post/${item.selectValue}`}>
                                     <GnbLink>{item.menuName}</GnbLink>
                                 </Link>
                             </GnbListItem>

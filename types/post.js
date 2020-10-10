@@ -30,9 +30,17 @@ export const DELETE_POST_REQUEST = 'deletePostRequest'
 export const DELETE_POST_SUCCESS = 'deletePostSuccess'
 export const DELETE_POST_FAILURE = 'deletePostFailure'
 
+export const LOAD_POSTLIST_REQUEST = 'loadPostlistRequest'
+export const LOAD_POSTLIST_SUCCESS = 'loadPostlistSuccess'
+export const LOAD_POSTLIST_FAILURE = 'loadPostlistFailure'
+
+export const LOAD_SINGLE_POST_REQUEST = 'loadSinglePostRequest'
+export const LOAD_SINGLE_POST_SUCCESS = 'loadSinglePostSuccess'
+export const LOAD_SINGLE_POST_FAILURE = 'loadSinglePostFailure'
+
 /**
  * delete post
- * getpostBy Id
+ * load single post
  * get category post list
  * upload avatar
  * get comments

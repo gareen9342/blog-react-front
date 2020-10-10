@@ -21,6 +21,12 @@ import {
     DELETE_POST_SUCCESS,
     DELETE_POST_FAILURE,
     DELETE_POST_REQUEST,
+    LOAD_POSTLIST_SUCCESS,
+    LOAD_POSTLIST_FAILURE,
+    LOAD_POSTLIST_REQUEST,
+    LOAD_SINGLE_POST_SUCCESS,
+    LOAD_SINGLE_POST_FAILURE,
+    LOAD_SINGLE_POST_REQUEST,
 } from '../types/post'
 import axios from 'axios'
 
@@ -167,6 +173,27 @@ function* deletePost(action) {
     }
 }
 
+function loadPostListAPI(data) {
+    // categoryId
+    return axios.get(`/post/${data}`)
+}
+
+function* loadPostList(action) {
+    try {
+        const result = yield call(loadPostListAPI, action.data)
+        yield put({
+            type: LOAD_POSTLIST_SUCCESS,
+            data: result.data,
+        })
+    } catch (error) {
+        console.error(error)
+        yield put({
+            type: LOAD_POSTLIST_FAILURE,
+            error: error.response.data,
+        })
+    }
+}
+
 /*watch functions */
 function* watchUploadPost() {
     yield takeLatest(UPLOAD_POST_REQUEST, uploadPost)
@@ -196,6 +223,10 @@ function* watchDeletePost() {
     yield takeLatest(DELETE_POST_REQUEST, deletePost)
 }
 
+function* watchLoadPostList() {
+    yield takeLatest(LOAD_POSTLIST_REQUEST, loadPostList)
+}
+
 export default function* postSaga() {
     yield all([
         fork(watchUploadPost),
@@ -205,5 +236,6 @@ export default function* postSaga() {
         fork(watchAddComment),
         fork(watchDeleteComment),
         fork(watchDeletePost),
+        fork(watchLoadPostList),
     ])
 }
