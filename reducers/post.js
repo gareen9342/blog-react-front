@@ -21,6 +21,9 @@ import {
     DELETE_COMMENT_SUCCESS,
     DELETE_COMMENT_FAILURE,
     DELETE_COMMENT_REQUEST,
+    DELETE_POST_SUCCESS,
+    DELETE_POST_FAILURE,
+    DELETE_POST_REQUEST,
 } from '../types/post'
 import produce from '../util/produce'
 
@@ -46,6 +49,9 @@ const initialState = {
     deleteCommentLoading: false,
     deleteCommentDone: false,
     deleteCommentError: null,
+    deletePostLoading: false,
+    deletePostDone: false,
+    deletePostError: null,
     mainPost: {},
 }
 
@@ -158,6 +164,23 @@ const reducer = (state = initialState, action) =>
             case DELETE_COMMENT_FAILURE:
                 draft.deleteCommentDone = true
                 draft.deleteCommentError = action.error
+                break
+            case DELETE_POST_REQUEST:
+                draft.deletePostLoading = true
+                draft.deletePostDone = false
+                draft.deletePostError = null
+                break
+            case DELETE_POST_SUCCESS: {
+                // if (draft.mainPost.id === action.data.postId) {
+                //     draft.mainPost = null
+                // }
+                draft.deletePostLoading = false
+                draft.deletePostDone = true
+                break
+            }
+            case DELETE_POST_FAILURE:
+                draft.deletePostDone = true
+                draft.deletePostError = action.error
                 break
             default:
                 break

@@ -25,3 +25,22 @@ export const ADD_COMMENT_FAILURE = 'addCommentFailure'
 export const DELETE_COMMENT_REQUEST = 'deleteCommentRequest'
 export const DELETE_COMMENT_SUCCESS = 'deleteCommentSuccess'
 export const DELETE_COMMENT_FAILURE = 'deleteCommentFailure'
+
+export const DELETE_POST_REQUEST = 'deletePostRequest'
+export const DELETE_POST_SUCCESS = 'deletePostSuccess'
+export const DELETE_POST_FAILURE = 'deletePostFailure'
+
+/**
+ * delete post
+ * getpostBy Id
+ * get category post list
+ * upload avatar
+ * get comments
+ * upload daily record
+ * post upload 시 접근할 수 있는 사용자 정의
+ * 운영자/ 회원 /
+ *
+ *
+ *
+ *
+ */

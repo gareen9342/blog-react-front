@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Comment, Tooltip, Button, Form, Input } from 'antd'
 import moment from 'moment'
@@ -10,10 +10,11 @@ import { ADD_COMMENT_REQUEST, DELETE_COMMENT_REQUEST } from '../../types/post'
 const Comments = ({ comments, me, postId }) => {
     const { TextArea } = Input
     const dispatch = useDispatch()
-    const [commentText, onChangeCommentText] = useInput('')
+    const [commentText, onChangeCommentText, setCommentText] = useInput('')
     const {
         addCommentLoading,
         deleteCommentError,
+        addCommentDone,
         deleteCommentLoading,
     } = useSelector((state) => state.post)
     const onSubmitComment = useCallback(() => {
@@ -36,6 +37,12 @@ const Comments = ({ comments, me, postId }) => {
             },
         })
     }, [])
+
+    useEffect(() => {
+        if (addCommentDone) {
+            setCommentText('')
+        }
+    }, [addCommentDone])
     return (
         <CommentArea>
             {console.log(comments)}
@@ -66,13 +73,15 @@ const Comments = ({ comments, me, postId }) => {
                             </Tooltip>
                         }
                     >
-                        <DeleteButton
-                            danger
-                            loading={deleteCommentLoading}
-                            onClick={() => onDeleteComment(comment.id)}
-                        >
-                            delete
-                        </DeleteButton>
+                        {me && comment.User.id === me.id && (
+                            <DeleteButton
+                                danger
+                                loading={deleteCommentLoading}
+                                onClick={() => onDeleteComment(comment.id)}
+                            >
+                                delete
+                            </DeleteButton>
+                        )}
                     </Comment>
                 ))}
 

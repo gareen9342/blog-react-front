@@ -22,7 +22,11 @@ const Home = () => {
             <AppLayout>
                 <CenterContainer>
                     {/* main post */}
-                    {mainPost ? <PostCard postData={mainPost} /> : 'mainPost'}
+                    {mainPost ? (
+                        <PostCard postData={mainPost} />
+                    ) : (
+                        '게시물이 존재하지 않습니다.'
+                    )}
                 </CenterContainer>
             </AppLayout>
         </>
