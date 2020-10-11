@@ -33,13 +33,24 @@ const AppLayout = ({ children }) => {
             <Wrapper>
                 <Sidebar>
                     <GnbList>
-                        {myMenus.map((item) => (
-                            <GnbListItem key={item.key}>
-                                <Link href={`/post/${item.selectValue}`}>
-                                    <GnbLink>{item.menuName}</GnbLink>
+                        <GnbListItem>
+                            <Link href="/">
+                                <GnbLink>Home</GnbLink>
+                            </Link>
+                        </GnbListItem>
+                        {myMenus.map((menu) => (
+                            <GnbListItem key={menu.key}>
+                                <Link
+                                    href="/post/[...category]"
+                                    as={`/post/${menu.name_hidden}`}
+                                >
+                                    <GnbLink>{menu.menuName}</GnbLink>
                                 </Link>
                             </GnbListItem>
                         ))}
+                        <Link href="/post/[...category]" as={'/post/1/ddd'}>
+                            <a>testest</a>
+                        </Link>
                     </GnbList>
                 </Sidebar>
                 <Content>{children}</Content>

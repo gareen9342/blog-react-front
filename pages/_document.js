@@ -36,7 +36,7 @@ class MyDocument extends Document {
                 <Head />
                 <body>
                     <script src="https://polyfill.io/v3/polyfill.min.js?features=default%2Ces2015%2Ces2016%2Ces2017%2Ces2018%2Ces2019"></script>
-                    <script src="noflash.js" />
+                    {/* <script src="noflash.js" /> */}
 
                     <Main />
                     <NextScript />

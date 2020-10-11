@@ -200,7 +200,7 @@ const reducer = (state = initialState, action) =>
                 break
             case LOAD_POSTLIST_SUCCESS: {
                 draft.categoryPostList = action.data.posts
-                draft.singlePost = action.data.post
+                // draft.singlePost = action.data.post
                 draft.loadPostListLoading = false
                 draft.loadPostListDone = true
                 break

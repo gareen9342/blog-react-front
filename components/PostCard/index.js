@@ -26,15 +26,6 @@ import {
     DeleteButton,
 } from './styles'
 import Comments from './Comments'
-function confirm(e) {
-    console.log(e)
-    message.success('Click on Yes')
-}
-
-function cancel(e) {
-    console.log(e)
-    message.error('Click on No')
-}
 
 const PostCard = ({ postData }) => {
     const dispatch = useDispatch()
@@ -81,7 +72,9 @@ const PostCard = ({ postData }) => {
     return (
         <CardWrapper>
             <TitleArea>
-                <CateName>{postData.Category.name_show}</CateName>
+                <CateName>
+                    {postData.Category && postData.Category.name_show}
+                </CateName>
                 <Title>{postData.subject}</Title>
                 <AuthorName>author : {postData.User.name}</AuthorName>
 

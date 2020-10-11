@@ -175,7 +175,7 @@ function* deletePost(action) {
 
 function loadPostListAPI(data) {
     // categoryId
-    return axios.get(`/post/${data}`)
+    return axios.get(`/post/${data}/list`)
 }
 
 function* loadPostList(action) {
