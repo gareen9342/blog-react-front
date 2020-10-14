@@ -15,7 +15,7 @@ const InputWrap = styled.div`
 `
 
 const ErrorMessage = styled.p`
-    color: #ff0000 !important;
+    color: #ff0000;
 `
 const signup = () => {
     const [email, onChangeEmail] = useInput('')

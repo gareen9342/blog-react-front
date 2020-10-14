@@ -17,7 +17,7 @@ const GnbList = styled.ol`
 `
 const GnbListItem = styled.li`
     &.on a {
-        color: #f00 !important;
+        color: #f00;
     }
 `
 
@@ -44,6 +44,13 @@ const AppLayout = ({ children }) => {
                         >
                             <Link href="/">
                                 <GnbLink>Home</GnbLink>
+                            </Link>
+                        </GnbListItem>
+                        <GnbListItem
+                            className={router.pathname === '/diary' && 'on'}
+                        >
+                            <Link href="/diary">
+                                <GnbLink>Daily</GnbLink>
                             </Link>
                         </GnbListItem>
                         {myMenus.map((menu) => (

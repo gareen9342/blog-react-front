@@ -36,10 +36,9 @@ const PostCard = ({ postData }) => {
     const { deletePostLoading, deletePostDone } = useSelector(
         (state) => state.post
     )
-    const [deleteCheck, setDeleteCheck] = useState(false)
 
     const onUnLike = useCallback(() => {
-        if (!me) {
+        if (!me?.id) {
             alert('로그인 한 유저만 이용이 가능합니다.')
         }
         dispatch({

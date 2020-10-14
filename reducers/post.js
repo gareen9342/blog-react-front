@@ -123,7 +123,7 @@ const reducer = (state = initialState, action) =>
                 draft.likePostError = null
                 break
             case LIKE_POST_SUCCESS: {
-                draft.SinglePost.Likers.push({
+                draft.singlePost.Likers.push({
                     id: action.data.userId,
                 })
                 draft.likePostLoading = false
@@ -140,7 +140,7 @@ const reducer = (state = initialState, action) =>
                 draft.unlikePostError = null
                 break
             case UNLIKE_POST_SUCCESS: {
-                draft.SinglePost.Likers = draft.SinglePost.Likers.filter(
+                draft.singlePost.Likers = draft.singlePost.Likers.filter(
                     (y) => y.id !== action.data.userId
                 )
                 draft.unlikePostLoading = false
@@ -157,7 +157,7 @@ const reducer = (state = initialState, action) =>
                 draft.addCommentError = null
                 break
             case ADD_COMMENT_SUCCESS:
-                draft.SinglePost.Comments.push(action.data)
+                draft.singlePost.Comments.push(action.data)
                 draft.addCommentLoading = false
                 draft.addCommentDone = true
                 break
@@ -171,7 +171,7 @@ const reducer = (state = initialState, action) =>
                 draft.deleteCommentError = null
                 break
             case DELETE_COMMENT_SUCCESS: {
-                draft.SinglePost.Comments = draft.SinglePost.Comments.filter(
+                draft.singlePost.Comments = draft.singlePost.Comments.filter(
                     (y) => y.id !== +action.data.commentId
                 )
                 draft.deleteCommentLoading = false
@@ -188,8 +188,8 @@ const reducer = (state = initialState, action) =>
                 draft.deletePostError = null
                 break
             case DELETE_POST_SUCCESS: {
-                // if (draft.SinglePost.id === action.data.postId) {
-                //     draft.SinglePost = null
+                // if (draft.singlePost.id === action.data.postId) {
+                //     draft.singlePost = null
                 // }
                 draft.deletePostLoading = false
                 draft.deletePostDone = true

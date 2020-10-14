@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Menu, Dropdown, Button } from 'antd'
-import useDarkMode from 'use-dark-mode'
 
 import styled from 'styled-components'
 import Link from 'next/link'
 import { DownOutlined, UserOutlined, EditOutlined } from '@ant-design/icons'
 import { useSelector, useDispatch } from 'react-redux'
-import { BORDER } from '../styles/common/Theme'
 import { LOG_OUT_REQUEST } from '../types/user'
 import Router from 'next/router'
 const HeaderWrap = styled.div`
@@ -24,10 +22,6 @@ const RightBox = styled.div`
 const LeftBox = styled.div`
     display: flex;
 `
-const DarkModeBtn = styled(Button)`
-    background-color: transparent;
-    border: ${BORDER};
-`
 
 const Logo = styled.h1`
     position: absolute;
@@ -37,7 +31,7 @@ const Logo = styled.h1`
     transform: translate(-50%, -50%);
 `
 const Header = () => {
-    const darkMode = useDarkMode(true)
+    // const darkMode = useDarkMode(true)
     // const [dark, setDark] = useState(null)
     // useEffect(() => {
     //     setDark(`${darkMode.value}`)
@@ -46,13 +40,6 @@ const Header = () => {
 
     const dispatch = useDispatch()
     const { me } = useSelector((state) => state.user)
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    useEffect(() => {
-        if (me && me.id) {
-            setIsLoggedIn(true)
-        }
-        return () => {}
-    }, [me && me.id])
     const onClickLogout = useCallback(() => {
         dispatch({
             type: LOG_OUT_REQUEST,
@@ -68,9 +55,9 @@ const Header = () => {
                 </Link>
             </Logo>
             <RightBox>
-                <DarkModeBtn type="button" onClick={darkMode.toggle}>
+                {/* <DarkModeBtn type="button" onClick={darkMode.toggle}>
                     🌙
-                </DarkModeBtn>
+                </DarkModeBtn> */}
                 {me && me.id ? (
                     <Dropdown.Button
                         overlay={
