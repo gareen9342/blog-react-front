@@ -59,11 +59,8 @@ const write = (props) => {
             <CenteredLayout>
                 <AddCategoryForm />
                 <Select placeholder="카테고리 선택" onChange={handleChange}>
-                    {myMenus.slice(1).map((x) => (
-                        <Option key={x.key} value={x.selectValue}>
-                            {x.menuName}
-                        </Option>
-                    ))}
+                    <Option value={1}>css</Option>
+                    <Option value={2}>JavaScript</Option>
                 </Select>
                 <br />
                 <Input

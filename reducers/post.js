@@ -30,6 +30,9 @@ import {
     LOAD_SINGLE_POST_SUCCESS,
     LOAD_SINGLE_POST_FAILURE,
     LOAD_SINGLE_POST_REQUEST,
+    LOAD_HASHTAG_POSTS_SUCCESS,
+    LOAD_HASHTAG_POSTS_FAILURE,
+    LOAD_HASHTAG_POSTS_REQUEST,
 } from '../types/post'
 import produce from '../util/produce'
 
@@ -40,9 +43,9 @@ const initialState = {
     addCategoryLoading: false,
     addCategoryDone: false,
     addCategoryError: null,
-    loadMainPostLoading: false,
-    loadMainPostDone: false,
-    loadMainPostError: null,
+    loadSinglePostLoading: false,
+    loadSinglePostDone: false,
+    loadSinglePostError: null,
     likePostLoading: false,
     likePostDone: false,
     likePostError: null,
@@ -61,9 +64,12 @@ const initialState = {
     loadPostListLoading: false,
     loadPostListDone: false,
     loadPostListError: null,
-    mainPost: {},
-    categoryPostList: {},
+    hashtagPostListLoading: false,
+    hashtagPostListDone: false,
+    hashtagPostListError: null,
     singlePost: {},
+    categoryPostList: {},
+    hashtagPostList: [],
 }
 
 // 이전 상태를 액션을 ㄴ통해 다음 상태로 만들어 내는 함수 (불변성은 지키면서)
@@ -97,19 +103,19 @@ const reducer = (state = initialState, action) =>
                 draft.addCategoryDone = true
                 draft.addCategoryError = action.error
                 break
-            case LOAD_MAINPOST_REQUEST:
-                draft.loadMainPostLoading = true
-                draft.loadMainPostDone = false
-                draft.loadMainPostError = null
+            case LOAD_SINGLE_POST_REQUEST:
+                draft.loadSinglePostLoading = true
+                draft.loadSinglePostDone = false
+                draft.loadSinglePostError = null
                 break
-            case LOAD_MAINPOST_SUCCESS:
-                draft.loadMainPostLoading = false
-                draft.loadMainPostDone = true
-                draft.mainPost = action.data
+            case LOAD_SINGLE_POST_SUCCESS:
+                draft.loadSinglePostLoading = false
+                draft.loadSinglePostDone = true
+                draft.singlePost = action.data
                 break
-            case LOAD_MAINPOST_FAILURE:
-                draft.loadMainPostDone = true
-                draft.loadMainPostError = action.error
+            case LOAD_SINGLE_POST_FAILURE:
+                draft.loadSinglePostDone = true
+                draft.loadSinglePostError = action.error
                 break
             case LIKE_POST_REQUEST:
                 draft.likePostLoading = true
@@ -117,7 +123,7 @@ const reducer = (state = initialState, action) =>
                 draft.likePostError = null
                 break
             case LIKE_POST_SUCCESS: {
-                draft.mainPost.Likers.push({
+                draft.SinglePost.Likers.push({
                     id: action.data.userId,
                 })
                 draft.likePostLoading = false
@@ -134,7 +140,7 @@ const reducer = (state = initialState, action) =>
                 draft.unlikePostError = null
                 break
             case UNLIKE_POST_SUCCESS: {
-                draft.mainPost.Likers = draft.mainPost.Likers.filter(
+                draft.SinglePost.Likers = draft.SinglePost.Likers.filter(
                     (y) => y.id !== action.data.userId
                 )
                 draft.unlikePostLoading = false
@@ -151,7 +157,7 @@ const reducer = (state = initialState, action) =>
                 draft.addCommentError = null
                 break
             case ADD_COMMENT_SUCCESS:
-                draft.mainPost.Comments.push(action.data)
+                draft.SinglePost.Comments.push(action.data)
                 draft.addCommentLoading = false
                 draft.addCommentDone = true
                 break
@@ -165,7 +171,7 @@ const reducer = (state = initialState, action) =>
                 draft.deleteCommentError = null
                 break
             case DELETE_COMMENT_SUCCESS: {
-                draft.mainPost.Comments = draft.mainPost.Comments.filter(
+                draft.SinglePost.Comments = draft.SinglePost.Comments.filter(
                     (y) => y.id !== +action.data.commentId
                 )
                 draft.deleteCommentLoading = false
@@ -182,8 +188,8 @@ const reducer = (state = initialState, action) =>
                 draft.deletePostError = null
                 break
             case DELETE_POST_SUCCESS: {
-                // if (draft.mainPost.id === action.data.postId) {
-                //     draft.mainPost = null
+                // if (draft.SinglePost.id === action.data.postId) {
+                //     draft.SinglePost = null
                 // }
                 draft.deletePostLoading = false
                 draft.deletePostDone = true
@@ -208,6 +214,21 @@ const reducer = (state = initialState, action) =>
             case LOAD_POSTLIST_FAILURE:
                 draft.loadPostListDone = true
                 draft.loadPostListError = action.error
+                break
+            case LOAD_HASHTAG_POSTS_REQUEST:
+                draft.hashtagPostListLoading = true
+                draft.hashtagPostListDone = false
+                draft.hashtagPostListError = null
+                break
+            case LOAD_HASHTAG_POSTS_SUCCESS: {
+                draft.hashtagPostList = action.data
+                draft.loadPostListLoading = false
+                draft.loadPostListDone = true
+                break
+            }
+            case LOAD_HASHTAG_POSTS_FAILURE:
+                draft.hashtagPostListDone = true
+                draft.hashtagPostListError = action.error
                 break
             default:
                 break

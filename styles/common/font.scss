@@ -1,0 +1,27 @@
+/**
+ * -------------------------------
+ * 변수
+ * -------------------------------
+ */
+
+//Typography
+$base: 16px;
+$noto-sans-korean-path: 'path/noto-sans-korean-webfont/fonts/';
+
+@mixin resetFont($fonts, $font-color) {
+    #{$fonts} {
+        font-weight: 400;
+        color: $font-color;
+        font-family: 'Noto Sans Korean', 'Helvetica Neue', Helvetica, Arial,
+            sans-serif;
+        -webkit-font-smoothing: antialiased;
+        text-decoration: none;
+        letter-spacing: -0.5px;
+        line-height: 1;
+    }
+}
+
+@include resetFont(
+    'body,div,h1,h2,h3,h4,h5,h6,p,a,button,li,.title,td,th',
+    #363636
+);

@@ -6,6 +6,7 @@ import 'draft-js/dist/Draft.css'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import styled, { createGlobalStyle } from 'styled-components'
 import wrapper from '../store/configureStore'
+import '../styles/common/font.scss'
 // import '../styles/common/globalStyles.scss'
 /**
  * 페이지들의 공통적인 css 처리 등은 여기서 한다.

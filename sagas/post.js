@@ -1,11 +1,8 @@
-import { all, fork, put, takeLatest, call } from 'redux-saga/effects'
+import { all, fork, put, takeLatest, throttle, call } from 'redux-saga/effects'
 import {
     UPLOAD_POST_REQUEST,
     UPLOAD_POST_SUCCESS,
     UPLOAD_POST_FAILURE,
-    LOAD_MAINPOST_REQUEST,
-    LOAD_MAINPOST_SUCCESS,
-    LOAD_MAINPOST_FAILURE,
     LIKE_POST_REQUEST,
     LIKE_POST_SUCCESS,
     LIKE_POST_FAILURE,
@@ -27,6 +24,9 @@ import {
     LOAD_SINGLE_POST_SUCCESS,
     LOAD_SINGLE_POST_FAILURE,
     LOAD_SINGLE_POST_REQUEST,
+    LOAD_HASHTAG_POSTS_SUCCESS,
+    LOAD_HASHTAG_POSTS_FAILURE,
+    LOAD_HASHTAG_POSTS_REQUEST,
 } from '../types/post'
 import axios from 'axios'
 
@@ -50,21 +50,21 @@ function* uploadPost(action) {
     }
 }
 
-function loadMainPostAPI() {
-    return axios.get('/post')
+function loadSinglePostAPI(postId) {
+    return axios.get(`/post?postId=${postId ? postId : ''}`)
 }
-function* loadMainPost(action) {
+function* loadSinglePost(action) {
     try {
-        const result = yield call(loadMainPostAPI)
+        const result = yield call(loadSinglePostAPI, action.data)
         console.log(result)
         yield put({
-            type: LOAD_MAINPOST_SUCCESS,
+            type: LOAD_SINGLE_POST_SUCCESS,
             data: result.data,
         })
     } catch (err) {
         console.error(err)
         yield put({
-            type: LOAD_MAINPOST_FAILURE,
+            type: LOAD_SINGLE_POST_FAILURE,
             error: err.response.data,
         })
     }
@@ -175,7 +175,7 @@ function* deletePost(action) {
 
 function loadPostListAPI(data) {
     // categoryId
-    return axios.get(`/post/${data}/list`)
+    return axios.get(`/post/${data}`)
 }
 
 function* loadPostList(action) {
@@ -194,13 +194,39 @@ function* loadPostList(action) {
     }
 }
 
+function loadHashtagPostsAPI(data, lastId) {
+    //주소에 한글이나 특수 문자 들어가면 에러나니까 변환해서 서버로 보내고, 받을 수 있다
+    return axios.get(
+        `/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`
+    )
+}
+
+function* loadHashtagPosts(action) {
+    try {
+        const result = yield call(
+            loadHashtagPostsAPI,
+            action.data,
+            action.lastId
+        )
+        yield put({
+            type: LOAD_HASHTAG_POSTS_SUCCESS,
+            data: result.data,
+        })
+    } catch (err) {
+        console.error(err)
+        yield put({
+            type: LOAD_HASHTAG_POSTS_FAILURE,
+            error: err.response.data,
+        })
+    }
+}
 /*watch functions */
 function* watchUploadPost() {
     yield takeLatest(UPLOAD_POST_REQUEST, uploadPost)
 }
 
-function* watchloadMainPost() {
-    yield takeLatest(LOAD_MAINPOST_REQUEST, loadMainPost)
+function* watchLoadSinglePost() {
+    yield takeLatest(LOAD_SINGLE_POST_REQUEST, loadSinglePost)
 }
 
 function* watchLikePost() {
@@ -227,15 +253,20 @@ function* watchLoadPostList() {
     yield takeLatest(LOAD_POSTLIST_REQUEST, loadPostList)
 }
 
+function* watchLoadHashtagPosts() {
+    yield throttle(5000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts)
+}
+
 export default function* postSaga() {
     yield all([
         fork(watchUploadPost),
-        fork(watchloadMainPost),
+        fork(watchLoadSinglePost),
         fork(watchLikePost),
         fork(watchUnlike),
         fork(watchAddComment),
         fork(watchDeleteComment),
         fork(watchDeletePost),
         fork(watchLoadPostList),
+        fork(watchLoadHashtagPosts),
     ])
 }

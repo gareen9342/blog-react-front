@@ -49,3 +49,12 @@ export const DeleteButton = styled(Button)`
     font-size: 0.7em;
     padding: 0 5px;
 `
+export const HashTagArea = styled.div`
+    padding-bottom: 50px;
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 50px;
+`
+
+export const HashTagItem = styled.span`
+    color: #666 !important;
+`

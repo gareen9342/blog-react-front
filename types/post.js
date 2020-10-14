@@ -38,6 +38,10 @@ export const LOAD_SINGLE_POST_REQUEST = 'loadSinglePostRequest'
 export const LOAD_SINGLE_POST_SUCCESS = 'loadSinglePostSuccess'
 export const LOAD_SINGLE_POST_FAILURE = 'loadSinglePostFailure'
 
+export const LOAD_HASHTAG_POSTS_REQUEST = 'loadHashtagPostsRequest'
+export const LOAD_HASHTAG_POSTS_SUCCESS = 'loadHashtagPostsSuccess'
+export const LOAD_HASHTAG_POSTS_FAILURE = 'loadHashtagPostsFailure'
+
 /**
  * delete post
  * load single post

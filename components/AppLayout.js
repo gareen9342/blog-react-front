@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { myMenus } from '../config/menus'
 import Header from './Header'
-
+import { useRouter } from 'next/router'
 const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
@@ -15,7 +15,11 @@ const GnbList = styled.ol`
     display: flex;
     flex-direction: column;
 `
-const GnbListItem = styled.li``
+const GnbListItem = styled.li`
+    &.on a {
+        color: #f00 !important;
+    }
+`
 
 const GnbLink = styled.a`
     padding: 10px 15px;
@@ -27,30 +31,36 @@ const Content = styled.div`
 `
 
 const AppLayout = ({ children }) => {
+    const router = useRouter()
+    const { category } = router.query
     return (
         <>
             <Header />
             <Wrapper>
                 <Sidebar>
                     <GnbList>
-                        <GnbListItem>
+                        <GnbListItem
+                            className={router.pathname === '/' && 'on'}
+                        >
                             <Link href="/">
                                 <GnbLink>Home</GnbLink>
                             </Link>
                         </GnbListItem>
                         {myMenus.map((menu) => (
-                            <GnbListItem key={menu.key}>
+                            <GnbListItem
+                                key={menu.key}
+                                className={`${
+                                    menu.name_hidden.includes(category) && 'on'
+                                }`}
+                            >
                                 <Link
-                                    href="/post/[...category]"
+                                    href="/post/[category]"
                                     as={`/post/${menu.name_hidden}`}
                                 >
                                     <GnbLink>{menu.menuName}</GnbLink>
                                 </Link>
                             </GnbListItem>
                         ))}
-                        <Link href="/post/[...category]" as={'/post/1/ddd'}>
-                            <a>testest</a>
-                        </Link>
                     </GnbList>
                 </Sidebar>
                 <Content>{children}</Content>

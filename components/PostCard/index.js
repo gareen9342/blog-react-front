@@ -7,7 +7,7 @@ import {
     HeartFilled,
     QuestionCircleOutlined,
 } from '@ant-design/icons'
-
+import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux'
 import {
     DELETE_POST_REQUEST,
@@ -24,6 +24,8 @@ import {
     PostButton,
     Content,
     DeleteButton,
+    HashTagItem,
+    HashTagArea,
 } from './styles'
 import Comments from './Comments'
 
@@ -47,8 +49,8 @@ const PostCard = ({ postData }) => {
     }, [])
 
     const onLike = useCallback(() => {
-        if (!me) {
-            alert('로그인 한 유저만 이용이 가능합니다.')
+        if (!me?.id) {
+            return alert('로그인 한 유저만 이용이 가능합니다.')
         }
         dispatch({
             type: LIKE_POST_REQUEST,
@@ -61,7 +63,6 @@ const PostCard = ({ postData }) => {
             data: postData.id,
         })
     }, [])
-
     useEffect(() => {
         if (deletePostDone) {
             // alert('게시물이 성공적으로 삭제되었습니다.')
@@ -108,6 +109,21 @@ const PostCard = ({ postData }) => {
             </TitleArea>
             {/* 내용 영역 */}
             <Content dangerouslySetInnerHTML={{ __html: postData.content }} />
+            <HashTagArea>
+                {postData.Hashtags &&
+                    postData.Hashtags.length > 0 &&
+                    postData.Hashtags.map((hashtag) => (
+                        <HashTagItem key={hashtag.id}>
+                            <Link
+                                href="/hashtag/[tag]"
+                                as={`/hashtag/${hashtag.name}`}
+                            >
+                                <a>#{hashtag.name}</a>
+                            </Link>
+                        </HashTagItem>
+                    ))}
+            </HashTagArea>
+
             {/* 덧글 영역 */}
             <Comments
                 comments={postData.Comments}

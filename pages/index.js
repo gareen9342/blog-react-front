@@ -3,7 +3,7 @@ import wrapper from '../store/configureStore'
 const { default: AppLayout } = require('../components/AppLayout')
 import axios from 'axios'
 import { END } from 'redux-saga'
-import { LOAD_MAINPOST_REQUEST } from '../types/post'
+import { LOAD_SINGLE_POST_REQUEST } from '../types/post'
 import { LOAD_ME_REQUEST } from '../types/user'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -16,14 +16,14 @@ const CenterContainer = styled.div`
 `
 const Home = () => {
     // const dispatch = useDispatch()
-    const { mainPost } = useSelector((state) => state.post)
+    const { singlePost } = useSelector((state) => state.post)
     return (
         <>
             <AppLayout>
                 <CenterContainer>
                     {/* main post */}
-                    {mainPost && mainPost.id ? (
-                        <PostCard postData={mainPost} />
+                    {singlePost && singlePost.id ? (
+                        <PostCard postData={singlePost} />
                     ) : (
                         '게시물이 존재하지 않습니다.'
                     )}
@@ -45,7 +45,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
             axios.defaults.headers.Cookie = cookie
         }
         context.store.dispatch({
-            type: LOAD_MAINPOST_REQUEST,
+            type: LOAD_SINGLE_POST_REQUEST,
         })
         context.store.dispatch({
             type: LOAD_ME_REQUEST,
