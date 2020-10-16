@@ -52,6 +52,11 @@ const Subject = styled.p`
     text-transform: uppercase;
     letter-spacing: 2px;
 `
+const Wrapper = styled.div`
+    width: 1020px;
+    margin: 0 auto;
+    padding: 50px 0;
+`
 const Posts = () => {
     const router = useRouter()
     const { category } = router.query
@@ -63,47 +68,52 @@ const Posts = () => {
         },
         []
     )
+
     return (
         <AppLayout>
-            <Row gutter={16} style={{ padding: '30px 0' }}>
-                {categoryPostList.length > 0 &&
-                    categoryPostList.map((item) => (
-                        <Col key={item.id} xs={24} md={6}>
-                            <PreviewCard
-                                hoverable
-                                onClick={handleClick(item.id)}
-                                cover={
-                                    <TextBox
-                                        backgroundColor={
-                                            backgroundList[
-                                                Math.floor(
-                                                    Math.random() *
-                                                        backgroundList.length
-                                                )
-                                            ]
-                                        }
-                                    >
-                                        <Subject>{item.subject}</Subject>
-                                    </TextBox>
-                                }
-                            >
-                                <Meta
-                                    avatar={
-                                        item.User.avatar ? (
-                                            <Avatar src={item.User.avatar} />
-                                        ) : (
-                                            <UserOutlined />
-                                        )
+            <Wrapper>
+                <Row gutter={16}>
+                    {categoryPostList.length > 0 &&
+                        categoryPostList.map((item) => (
+                            <Col key={item.id} xs={24} md={6}>
+                                <PreviewCard
+                                    hoverable
+                                    onClick={handleClick(item.id)}
+                                    cover={
+                                        <TextBox
+                                            backgroundColor={
+                                                backgroundList[
+                                                    Math.floor(
+                                                        Math.random() *
+                                                            backgroundList.length
+                                                    )
+                                                ]
+                                            }
+                                        >
+                                            <Subject>{item.subject}</Subject>
+                                        </TextBox>
                                     }
-                                    title={item.subject}
-                                    description={moment(item.createdAt).format(
-                                        'YYYY.MM.DD'
-                                    )}
-                                />
-                            </PreviewCard>
-                        </Col>
-                    ))}
-            </Row>
+                                >
+                                    <Meta
+                                        avatar={
+                                            item.User.avatar ? (
+                                                <Avatar
+                                                    src={item.User.avatar}
+                                                />
+                                            ) : (
+                                                <UserOutlined />
+                                            )
+                                        }
+                                        title={item.subject}
+                                        description={moment(
+                                            item.createdAt
+                                        ).format('YYYY.MM.DD')}
+                                    />
+                                </PreviewCard>
+                            </Col>
+                        ))}
+                </Row>
+            </Wrapper>
         </AppLayout>
     )
 }

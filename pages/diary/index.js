@@ -1,11 +1,14 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import AppLayout from '../../components/AppLayout'
 import styled from 'styled-components'
-import { Button, Row, Col, Carousel } from 'antd'
+import { Button, Row, Col } from 'antd'
 import { useRouter } from 'next/router'
 import { LOAD_DIARIES_REQUEST } from '../../types/diary'
 import moment from 'moment'
+import Link from 'next/link'
+import Modal from '../../components/Modal'
+import ImgSlider from '../../components/ImgSlider'
 const DiaryWrapper = styled.div`
     width: 1020px;
     margin: 0 auto;
@@ -47,9 +50,9 @@ const CardListItem = styled.div`
     position: relative;
 `
 const CardListDate = styled.p`
-    font-size: 1em;
+    font-size: 1.3em;
     line-height: 1.5;
-    padding: 20px 0 0;
+    padding: 8px 0 30px;
     text-align: center;
     > span {
         color: #ff6176;
@@ -104,9 +107,31 @@ function Daily() {
             })
         }
     }, [hasMorePosts, loadDiariesLoading])
+
+    // modal
+    const [modalVisible, setModalVisible] = useState(false)
+    const [modalData, setModalData] = useState({})
+    const openModal = useCallback(
+        (data) => () => {
+            setModalData(data)
+            setModalVisible(true)
+        },
+        [modalVisible, modalData]
+    )
+    const closeModal = useCallback(() => {
+        setModalVisible(false)
+    }, [modalVisible])
     return (
         <AppLayout>
             <DiaryWrapper>
+                <Modal
+                    visible={modalVisible}
+                    closable={true}
+                    maskClosable={true}
+                    onClose={closeModal}
+                    bgColor={'rgba(0,0,0,0.3)'}
+                    children={modalData}
+                />
                 <TopArea>
                     <Title>My Daily Record</Title>
                     <SubTitle>하루에 한 줄을 기록합니다 :)</SubTitle>
@@ -116,32 +141,23 @@ function Daily() {
                     <WriteBtn onClick={onClickWrite}>write</WriteBtn>
                 </TopNav>
                 <Row gutter={16}>
-                    {diaryList &&
-                        diaryList.length > 0 &&
-                        diaryList.map((diary, idx) => (
+                    {diaryList.length > 0 &&
+                        diaryList.map((diary) => (
                             <Col key={diary.id} span={8}>
-                                <CardListItem>
-                                    <Carousel autoplay>
-                                        {diary.Images &&
-                                            diary.Images.map((img) => (
-                                                <div key={img.id}>
-                                                    <img
-                                                        src={img.src}
-                                                        style={{
-                                                            width: 100 + '%',
-                                                        }}
-                                                    />
-                                                </div>
-                                            ))}
-                                    </Carousel>
+                                <CardListItem onClick={openModal(diary)}>
+                                    {diary.Images && (
+                                        <ImgSlider images={diary.Images} />
+                                    )}
+
                                     <ParaGraph>{diary.content}</ParaGraph>
                                 </CardListItem>
+
                                 <CardListDate>
                                     {moment(diary.createdAt).format(
                                         'YYYY.MM.DD'
                                     )}
-                                    <br />
-                                    <span>{diaryList.length - idx}</span>
+                                    {/* <br /> */}
+                                    {/* <span>{diaryList.length - idx}</span> */}
                                 </CardListDate>
                             </Col>
                         ))}

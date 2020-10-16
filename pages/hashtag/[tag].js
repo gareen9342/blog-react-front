@@ -17,7 +17,7 @@ const CenterContainer = styled.div`
     margin: 0 auto;
     padding: 30px 0;
 `
-function tag() {
+function hashtag() {
     const router = useRouter()
     const { hashtagPostList } = useSelector((state) => state.post)
     const { tag } = router.query
@@ -26,7 +26,7 @@ function tag() {
         <AppLayout>
             <CenterContainer>
                 <HashTagTitle>{tag}</HashTagTitle>
-                {hashtagPostList &&
+                {hashtagPostList.length > 0 &&
                     hashtagPostList.map((post) => (
                         <Link
                             key={post.id}
@@ -62,4 +62,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
         await context.store.sagaTask.toPromise()
     }
 )
-export default tag
+export default hashtag

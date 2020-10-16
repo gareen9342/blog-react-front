@@ -30,8 +30,13 @@ export const PostButton = styled(Button)`
     line-height: 50px;
     border: none;
     box-sizing: border-box;
+    &.ant-btn-text:active,
+    &.ant-btn-text:focus {
+        background: none;
+    }
     > .anticon {
         font-size: 30px;
+        color: #eb2f96;
     }
 `
 export const CommentArea = styled.div``
