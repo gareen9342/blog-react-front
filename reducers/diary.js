@@ -6,6 +6,12 @@ import {
     LOAD_DIARIES_REQUEST,
     LOAD_DIARIES_SUCCESS,
     LOAD_DIARIES_FAILURE,
+    LOAD_MAIN_DIARIES_REQUEST,
+    LOAD_MAIN_DIARIES_SUCCESS,
+    LOAD_MAIN_DIARIES_FAILURE,
+    LOAD_SINGLE_DIARY_REQUEST,
+    LOAD_SINGLE_DIARY_SUCCESS,
+    LOAD_SINGLE_DIARY_FAILURE,
 } from '../types/diary'
 import produce from '../util/produce'
 
@@ -13,11 +19,15 @@ const initialState = {
     loadDiariesLoading: false,
     loadDiariesDone: false,
     loadDiariesError: null,
+    loadMainDiariesLoading: false,
+    loadMainDiariesDone: false,
+    loadMainDiariesError: null,
     uploadDiaryLoading: false,
     uploadDiaryDone: false,
     uploadDiaryError: null,
     hasMorePosts: false,
     diaryList: [],
+    mainDiaryList: [],
 }
 
 // 이전 상태를 액션을 ㄴ통해 다음 상태로 만들어 내는 함수 (불변성은 지키면서)
@@ -53,6 +63,20 @@ const reducer = (state = initialState, action) =>
             case LOAD_DIARIES_FAILURE:
                 draft.loadDiariesLoading = false
                 draft.loadDiariesError = action.error
+                break
+            case LOAD_MAIN_DIARIES_REQUEST:
+                draft.loadMainDiariesLoading = true
+                draft.loadMainDiariesError = null
+                draft.loadMainDiariesDone = false
+                break
+            case LOAD_MAIN_DIARIES_SUCCESS:
+                draft.loadMainDiariesLoading = false
+                draft.loadMainDiariesDone = true
+                draft.mainDiaryList = action.data
+                break
+            case LOAD_MAIN_DIARIES_FAILURE:
+                draft.loadMainDiariesLoading = false
+                draft.loadMainDiariesError = action.error
                 break
             default:
                 break

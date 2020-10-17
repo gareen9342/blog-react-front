@@ -6,27 +6,10 @@ import { Button, Row, Col } from 'antd'
 import { useRouter } from 'next/router'
 import { LOAD_DIARIES_REQUEST } from '../../types/diary'
 import moment from 'moment'
-import Link from 'next/link'
+
 import Modal from '../../components/Modal'
 import ImgSlider from '../../components/ImgSlider'
-const DiaryWrapper = styled.div`
-    width: 1020px;
-    margin: 0 auto;
-    padding: 30px 0;
-    // outline: 1px solid;
-`
-const Title = styled.h2`
-    text-align: center;
-    font-size: 2em;
-    font-weight: 200;
-`
-
-const SubTitle = styled.p`
-    padding: 20px 0 0;
-    font-size: 1em;
-    text-align: center;
-    font-weight: 200;
-`
+import { CenterContainer, Title, SubTitle } from '../../styles/common/UI'
 
 const TopArea = styled.div`
     position: relative;
@@ -123,7 +106,7 @@ function Daily() {
     }, [modalVisible])
     return (
         <AppLayout>
-            <DiaryWrapper>
+            <CenterContainer>
                 <Modal
                     visible={modalVisible}
                     closable={true}
@@ -133,8 +116,10 @@ function Daily() {
                     children={modalData}
                 />
                 <TopArea>
-                    <Title>My Daily Record</Title>
-                    <SubTitle>하루에 한 줄을 기록합니다 :)</SubTitle>
+                    <Title textAlign={'center'}>My Daily Record</Title>
+                    <SubTitle textAlign={'center'}>
+                        하루에 한 줄을 기록합니다 :)
+                    </SubTitle>
                 </TopArea>
                 {/* {me && me.id &&} */}
                 <TopNav>
@@ -162,10 +147,11 @@ function Daily() {
                             </Col>
                         ))}
                 </Row>
+
                 {hasMorePosts && !loadDiariesLoading && (
                     <MoreBtn onClick={loadMore}>더보기</MoreBtn>
                 )}
-            </DiaryWrapper>
+            </CenterContainer>
         </AppLayout>
     )
 }

@@ -9,12 +9,7 @@ import { END } from 'redux-saga'
 import axios from 'axios'
 import Link from 'next/link'
 import PostCard from '../../../components/PostCard'
-import styled from 'styled-components'
-const CenterContainer = styled.div`
-    width: 1040px;
-    margin: 0 auto;
-    padding: 30px 0;
-`
+import { CenterContainer } from '../../../styles/common/UI'
 
 function SinglePost() {
     const { singlePost } = useSelector((state) => state.post)

@@ -68,7 +68,7 @@ const initialState = {
     hashtagPostListDone: false,
     hashtagPostListError: null,
     singlePost: {},
-    categoryPostList: {},
+    categoryPostList: [],
     hashtagPostList: [],
 }
 
@@ -188,9 +188,6 @@ const reducer = (state = initialState, action) =>
                 draft.deletePostError = null
                 break
             case DELETE_POST_SUCCESS: {
-                // if (draft.singlePost.id === action.data.postId) {
-                //     draft.singlePost = null
-                // }
                 draft.deletePostLoading = false
                 draft.deletePostDone = true
                 break

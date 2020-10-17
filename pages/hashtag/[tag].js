@@ -9,14 +9,11 @@ import Link from 'next/link'
 import AppLayout from '../../components/AppLayout'
 import { LOAD_HASHTAG_POSTS_REQUEST } from '../../types/post'
 import { LOAD_ME_REQUEST } from '../../types/user'
+import { CenterContainer } from '../../styles/common/UI'
 const HashTagTitle = styled.h2`
     font-size: 1.5em;
 `
-const CenterContainer = styled.div`
-    width: 1040px;
-    margin: 0 auto;
-    padding: 30px 0;
-`
+
 function hashtag() {
     const router = useRouter()
     const { hashtagPostList } = useSelector((state) => state.post)

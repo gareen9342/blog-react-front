@@ -96,21 +96,11 @@ const PostCard = ({ postData }) => {
                     {me &&
                     me.id &&
                     postData.Likers.find((x) => x.id === me.id) ? (
-                        <PostButton
-                            ghost
-                            type="text"
-                            htmlType="button"
-                            onClick={onUnLike}
-                        >
+                        <PostButton ghost htmlType="button" onClick={onUnLike}>
                             <HeartFilled />
                         </PostButton>
                     ) : (
-                        <PostButton
-                            ghost
-                            type="text"
-                            htmlType="button"
-                            onClick={onLike}
-                        >
+                        <PostButton ghost htmlType="button" onClick={onLike}>
                             <HeartOutlined />
                         </PostButton>
                     )}

@@ -61,13 +61,16 @@ const FooterBar = styled(Footer)`
 const AppLayout = ({ children }) => {
     const router = useRouter()
     const { category } = router.query
-    const [collapsed, setCollapsed] = useState(false)
+    const [collapsed, setCollapsed] = useState(true)
     const toggle = useCallback(() => {
         setCollapsed(!collapsed)
     }, [collapsed])
 
-    const onSearch = useCallback((e) => {
-        console.log(e.target.value)
+    const onSearch = useCallback((value) => {
+        if (!value) {
+            return alert('검색 키워드가 없습니다.')
+        }
+        router.push(`/search/${value}`)
     }, [])
     return (
         <>
@@ -75,13 +78,14 @@ const AppLayout = ({ children }) => {
                 <SideBar
                     trigger={null}
                     width={300}
+                    defaultCollapsed={true}
                     collapsedWidth="0"
                     collapsible
                     collapsed={collapsed}
                 >
                     <SearchBar
                         placeholder="궁금한 내용을 검색해보세요"
-                        onSearch={(value) => console.log(value)}
+                        onSearch={onSearch}
                         //   style={{ width: 200 }}
                     />
 

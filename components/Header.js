@@ -72,7 +72,7 @@ const Header = ({ toggle, collapsed }) => {
     return (
         <HeaderWrap>
             <LeftBox>
-                <NavBtn type="text" ghost onClick={toggle}>
+                <NavBtn type="text" onClick={toggle}>
                     {collapsed ? <MenuOutlined /> : <LeftOutlined />}
                 </NavBtn>
             </LeftBox>

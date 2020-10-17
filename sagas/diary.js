@@ -6,11 +6,16 @@ import {
     LOAD_DIARIES_REQUEST,
     LOAD_DIARIES_SUCCESS,
     LOAD_DIARIES_FAILURE,
+    LOAD_MAIN_DIARIES_REQUEST,
+    LOAD_MAIN_DIARIES_SUCCESS,
+    LOAD_MAIN_DIARIES_FAILURE,
+    LOAD_SINGLE_DIARY_REQUEST,
+    LOAD_SINGLE_DIARY_SUCCESS,
+    LOAD_SINGLE_DIARY_FAILURE,
 } from '../types/diary'
 import axios from 'axios'
 
 function uploadDiaryAPI(data) {
-    console.log(data)
     return axios.post('/diary', data)
 }
 function* uploadDiary(action) {
@@ -47,6 +52,26 @@ function* loadDiaries(action) {
         })
     }
 }
+
+function loadMainDiariesAPI() {
+    return axios.get(`/diary/main`)
+}
+function* loadMainDiaries() {
+    try {
+        const result = yield call(loadMainDiariesAPI)
+        yield put({
+            type: LOAD_MAIN_DIARIES_SUCCESS,
+            data: result.data,
+        })
+    } catch (error) {
+        console.error(error)
+        yield put({
+            type: LOAD_MAIN_DIARIES_FAILURE,
+            error: error.response.data,
+        })
+    }
+}
+
 function* watchUploadDiary() {
     yield takeLatest(UPLOAD_DIARY_REQUEST, uploadDiary)
 }
@@ -55,6 +80,14 @@ function* watchLoadDiaries() {
     yield takeLatest(LOAD_DIARIES_REQUEST, loadDiaries)
 }
 
+function* watchLoadMainDiaries() {
+    yield takeLatest(LOAD_MAIN_DIARIES_REQUEST, loadMainDiaries)
+}
+
 export default function* diarySaga() {
-    yield all([fork(watchUploadDiary), fork(watchLoadDiaries)])
+    yield all([
+        fork(watchUploadDiary),
+        fork(watchLoadDiaries),
+        fork(watchLoadMainDiaries),
+    ])
 }
