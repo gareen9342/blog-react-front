@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone'
 import axios from 'axios'
 import { PlusOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
-
+import { backUrl } from '../config/config'
 const FileUploadWrap = styled.div`
     height: 300px;
     display: flex;
@@ -63,9 +63,17 @@ function FileUpload(props) {
             formData.append('image', files[0])
 
             axios
-                .post('http://localhost:4000/post/image', formData, {
-                    withCredentials: true,
-                })
+                .post(
+                    `${
+                        process.env.NODE_ENV === 'production'
+                            ? backUrl
+                            : 'http://localhost:4000'
+                    }/post/image`,
+                    formData,
+                    {
+                        withCredentials: true,
+                    }
+                )
                 .then((res) => {
                     if (res.data.success) {
                         setImages([...Images, res.data.url])

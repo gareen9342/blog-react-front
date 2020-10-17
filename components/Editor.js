@@ -5,7 +5,7 @@ import { Editor } from 'react-draft-wysiwyg'
 import draftToHtml from 'draftjs-to-html'
 import htmlToDraft from 'html-to-draftjs'
 import axios from 'axios'
-
+import { backUrl } from '../config/config'
 const setContentsTest = (content) => {
     const blocksFromHtml = htmlToDraft(content)
     const { contentBlocks, entityMap } = blocksFromHtml
@@ -35,9 +35,17 @@ const MyEditor = ({ content, setContent }) => {
         const formData = new FormData()
         formData.append('image', file)
         return axios
-            .post('http://localhost:4000/post/image', formData, {
-                withCredentials: true,
-            })
+            .post(
+                `${
+                    process.env.NODE_ENV === 'production'
+                        ? backUrl
+                        : 'http://localhost:4000'
+                }/post/image`,
+                formData,
+                {
+                    withCredentials: true,
+                }
+            )
             .then((res) => {
                 // console.log(res.data)
                 return { data: { link: res.data.url } }

@@ -5,8 +5,10 @@ import postSaga from './post'
 import categorySaga from './category'
 import diarySaga from './diary'
 import searchSaga from './search'
+import { backUrl } from '../config/config'
 //process.env.NODE_ENV === 'production'?
-axios.defaults.baseURL = 'http://localhost:4000'
+axios.defaults.baseURL =
+    process.env.NODE_ENV === 'production' ? backUrl : 'http://localhost:80'
 axios.defaults.withCredentials = true
 
 export default function* rootSaga() {
