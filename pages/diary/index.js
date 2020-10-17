@@ -5,11 +5,15 @@ import styled from 'styled-components'
 import { Button, Row, Col } from 'antd'
 import { useRouter } from 'next/router'
 import { LOAD_DIARIES_REQUEST } from '../../types/diary'
+import { LOAD_ME_REQUEST } from '../../types/user'
 import moment from 'moment'
-
-import Modal from '../../components/Modal'
+import wrapper from '../../store/configureStore'
+import { END } from 'redux-saga'
+import axios from 'axios'
+// import Modal from '../../components/Modal'
 import ImgSlider from '../../components/ImgSlider'
 import { CenterContainer, Title, SubTitle } from '../../styles/common/UI'
+import Link from 'next/link'
 
 const TopArea = styled.div`
     position: relative;
@@ -75,12 +79,6 @@ function Daily() {
         router.push('/diary-write')
     }, [])
 
-    useEffect(() => {
-        dispatch({
-            type: LOAD_DIARIES_REQUEST,
-        })
-    }, [])
-
     const loadMore = useCallback(() => {
         if (hasMorePosts && !loadDiariesLoading) {
             const lastId = diaryList[diaryList.length - 1]?.id
@@ -91,50 +89,49 @@ function Daily() {
         }
     }, [hasMorePosts, loadDiariesLoading])
 
-    // modal
-    const [modalVisible, setModalVisible] = useState(false)
-    const [modalData, setModalData] = useState({})
-    const openModal = useCallback(
-        (data) => () => {
-            setModalData(data)
-            setModalVisible(true)
-        },
-        [modalVisible, modalData]
-    )
-    const closeModal = useCallback(() => {
-        setModalVisible(false)
-    }, [modalVisible])
     return (
         <AppLayout>
             <CenterContainer>
-                <Modal
+                {/* <Modal
                     visible={modalVisible}
                     closable={true}
                     maskClosable={true}
                     onClose={closeModal}
                     bgColor={'rgba(0,0,0,0.3)'}
                     children={modalData}
-                />
+                /> */}
                 <TopArea>
                     <Title textAlign={'center'}>My Daily Record</Title>
                     <SubTitle textAlign={'center'}>
                         하루에 한 줄을 기록합니다 :)
                     </SubTitle>
                 </TopArea>
-                {/* {me && me.id &&} */}
-                <TopNav>
-                    <WriteBtn onClick={onClickWrite}>write</WriteBtn>
-                </TopNav>
+                {me && me.role && (
+                    <TopNav>
+                        <WriteBtn onClick={onClickWrite}>write</WriteBtn>
+                    </TopNav>
+                )}
                 <Row gutter={16}>
                     {diaryList.length > 0 &&
                         diaryList.map((diary) => (
                             <Col key={diary.id} span={8}>
-                                <CardListItem onClick={openModal(diary)}>
-                                    {diary.Images && (
-                                        <ImgSlider images={diary.Images} />
-                                    )}
+                                <CardListItem>
+                                    <Link
+                                        href="/diary/[id]"
+                                        as={`/diary/${diary.id}`}
+                                    >
+                                        <a>
+                                            {diary.Images && (
+                                                <ImgSlider
+                                                    images={diary.Images}
+                                                />
+                                            )}
 
-                                    <ParaGraph>{diary.content}</ParaGraph>
+                                            <ParaGraph>
+                                                {diary.content}
+                                            </ParaGraph>
+                                        </a>
+                                    </Link>
                                 </CardListItem>
 
                                 <CardListDate>
@@ -155,5 +152,27 @@ function Daily() {
         </AppLayout>
     )
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(
+    async (context) => {
+        //서버쪽에서 실행시에는 context.req 존재
+
+        const cookie = context.req ? context.req.headers.cookie : ''
+
+        axios.defaults.headers.Cookie = ''
+
+        if (context.req && cookie) {
+            axios.defaults.headers.Cookie = cookie
+        }
+        context.store.dispatch({
+            type: LOAD_DIARIES_REQUEST,
+        })
+        context.store.dispatch({
+            type: LOAD_ME_REQUEST,
+        })
+        context.store.dispatch(END)
+        await context.store.sagaTask.toPromise()
+    }
+)
 
 export default Daily

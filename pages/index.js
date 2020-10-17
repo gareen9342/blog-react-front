@@ -3,17 +3,17 @@ import wrapper from '../store/configureStore'
 const { default: AppLayout } = require('../components/AppLayout')
 import axios from 'axios'
 import { END } from 'redux-saga'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Link from 'next/link'
 import styled from 'styled-components'
-import { Button, Avatar, Row, Col } from 'antd'
-import { SubTitle, HeartIcon, CenterContainer } from '../styles/common/UI'
+import { Divider, Row, Col, Button } from 'antd'
+import { HeartIcon, CenterContainer } from '../styles/common/UI'
 import { LOAD_POSTLIST_REQUEST } from '../types/post'
 import { LOAD_ME_REQUEST } from '../types/user'
 import { LOAD_MAIN_DIARIES_REQUEST } from '../types/diary'
 import PostList from '../components/PostList'
 import ImgSlider from '../components/ImgSlider'
-
+import { RightOutlined } from '@ant-design/icons'
 const CardListItem = styled.div`
     // width: calc(33.333% - 16px);
     // max-height: 200px;
@@ -37,24 +37,30 @@ const ParaGraph = styled.h3`
     overflow: hidden;
     font-size: 1.8em;
 `
+
+const MainSubTitle = styled.h2`
+    font-size: 1em;
+    font-weight: 200;
+    text-align: left;
+`
+const BtnWrap = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    > a {
+        font-weight: 200;
+        font-size: 1em;
+    }
+`
+
 const Home = () => {
     // const dispatch = useDispatch()
     const { categoryPostList, loadPostListError } = useSelector(
         (state) => state.post
     )
-    const {
-        loadMainDiariesLoading,
-        loadMainDiariesError,
-        mainDiaryList,
-    } = useSelector((state) => state.diary)
-    const dispatch = useDispatch()
-    //다이어리 데이터
-    useEffect(() => {
-        dispatch({
-            type: LOAD_MAIN_DIARIES_REQUEST,
-        })
-        return () => {}
-    }, [])
+    const { loadMainDiariesError, mainDiaryList } = useSelector(
+        (state) => state.diary
+    )
 
     //ㅇㅔ러처리
     useEffect(() => {
@@ -64,44 +70,54 @@ const Home = () => {
         if (loadPostListError) {
             alert(loadPostListError)
         }
-        return () => {}
     }, [loadMainDiariesError, loadPostListError])
-
-    console.log(mainDiaryList, categoryPostList)
 
     return (
         <>
             <AppLayout>
                 <CenterContainer>
-                    <SubTitle>
-                        저의 일상 모음입니다
-                        <HeartIcon style={{ color: 'hotpink' }} />
-                    </SubTitle>
+                    <Divider orientation="left" plain>
+                        <MainSubTitle>
+                            일상 모음
+                            <HeartIcon style={{ color: 'hotpink' }} />
+                        </MainSubTitle>
+                    </Divider>
                     <br />
                     <Row gutter={16}>
-                        {loadMainDiariesLoading
-                            ? 'diaries loading...'
-                            : mainDiaryList.slice(0, 4).map((diary) => (
-                                  <Col key={diary.id} span={6}>
-                                      <CardListItem>
-                                          {diary.Images && (
-                                              <ImgSlider
-                                                  images={diary.Images}
-                                              />
-                                          )}
-                                          <ParaGraph>{diary.content}</ParaGraph>
-                                      </CardListItem>
-                                  </Col>
-                              ))}
+                        {mainDiaryList.length > 0 &&
+                            mainDiaryList.map((diary) => (
+                                <Col key={diary.id} span={6}>
+                                    <CardListItem>
+                                        <Link
+                                            href="/diary/[id]"
+                                            as={`/diary/${diary.id}`}
+                                        >
+                                            <a>
+                                                {diary.Images && (
+                                                    <ImgSlider
+                                                        images={diary.Images}
+                                                    />
+                                                )}
+                                                <ParaGraph>
+                                                    {diary.content}
+                                                </ParaGraph>
+                                            </a>
+                                        </Link>
+                                    </CardListItem>
+                                </Col>
+                            ))}
                     </Row>
-                    <div
-                        style={{ display: 'flex', justifyContent: 'flex-end' }}
-                    >
+                    <BtnWrap>
                         <Link href="/diary">
-                            <a>더 보기</a>
+                            <a>
+                                일상 카테고리 더 보기
+                                <RightOutlined />
+                            </a>
                         </Link>
-                    </div>
-                    <SubTitle>최신 게시물 입니다.</SubTitle>
+                    </BtnWrap>
+                    <Divider orientation="left" plain>
+                        <MainSubTitle>최신 게시물</MainSubTitle>
+                    </Divider>
                     <PostList posts={categoryPostList} />
                 </CenterContainer>
             </AppLayout>
@@ -123,6 +139,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
         context.store.dispatch({
             type: LOAD_POSTLIST_REQUEST,
             data: 'main',
+        })
+        context.store.dispatch({
+            type: LOAD_MAIN_DIARIES_REQUEST,
         })
         context.store.dispatch({
             type: LOAD_ME_REQUEST,

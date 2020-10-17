@@ -15,7 +15,7 @@ import {
 import axios from 'axios'
 
 function addCategoryAPI(data) {
-    console.log(data)
+    // console.log(data)
     return axios.post('/category', data)
 }
 function* addCategory(action) {

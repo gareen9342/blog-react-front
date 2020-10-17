@@ -81,7 +81,7 @@ function FileUpload(props) {
         (image) => {
             let newImages = [...Images]
             setImages(newImages.filter((x) => x !== image))
-            console.log(Images)
+            // console.log(Images)
             props.uploadImageFunction(Images)
         },
         [Images]

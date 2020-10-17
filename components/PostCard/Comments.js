@@ -13,12 +13,10 @@ const Comments = ({ comments, me, postId }) => {
     const [commentText, onChangeCommentText, setCommentText] = useInput('')
     const {
         addCommentLoading,
-        deleteCommentError,
         addCommentDone,
         deleteCommentLoading,
     } = useSelector((state) => state.post)
     const onSubmitComment = useCallback(() => {
-        console.log(postId, commentText)
         dispatch({
             type: ADD_COMMENT_REQUEST,
             data: {

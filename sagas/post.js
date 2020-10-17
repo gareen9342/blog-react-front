@@ -36,7 +36,7 @@ function uploadPostAPI(data) {
 function* uploadPost(action) {
     try {
         const result = yield call(uploadPostAPI, action.data)
-        console.log(result)
+        // console.log(result)
         yield put({
             type: UPLOAD_POST_SUCCESS,
             data: result.data,
@@ -56,7 +56,7 @@ function loadSinglePostAPI(postId) {
 function* loadSinglePost(action) {
     try {
         const result = yield call(loadSinglePostAPI, action.data)
-        console.log(result)
+        // console.log(result)
         yield put({
             type: LOAD_SINGLE_POST_SUCCESS,
             data: result.data,
@@ -110,7 +110,7 @@ function* unlikePost(action) {
 }
 
 function addCommentAPI(data) {
-    console.log(data)
+    // console.log(data)
     return axios.post(`/post/${data.postId}/comment`, {
         content: data.content,
     })
@@ -139,7 +139,7 @@ function deleteCommentAPI(data) {
 function* deleteComment(action) {
     try {
         const result = yield call(deleteCommentAPI, action.data)
-        console.log(result)
+        // console.log(result)
         yield put({
             type: DELETE_COMMENT_SUCCESS,
             data: result.data,

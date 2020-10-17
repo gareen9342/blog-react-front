@@ -18,7 +18,7 @@ function hashtag() {
     const router = useRouter()
     const { hashtagPostList } = useSelector((state) => state.post)
     const { tag } = router.query
-    console.log(hashtagPostList)
+    // console.log(hashtagPostList)
     return (
         <AppLayout>
             <CenterContainer>

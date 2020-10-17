@@ -13,15 +13,15 @@ const Editor = dynamic(import('../components/Editor'), { ssr: false })
 
 const write = (props) => {
     const dispatch = useDispatch()
-    // const { me } = useSelector((state) => state.user)
-
-    // useEffect(() => {
-    //     if (!me.id) {
-    //         alert('글을 작성하려면 로그인이 필요합니다.')
-    //         Router.push('/login')
-    //     }
-    //     console.log(me)
-    // }, [me && me.id])
+    const { me } = useSelector((state) => state.user)
+    const { uploadPostLoading, uploadPostDone, uploadPostError } = useSelector(
+        (state) => state.post
+    )
+    useEffect(() => {
+        if (!(me && me.role == 1)) {
+            Router.push('/')
+        }
+    }, [me && me.role])
 
     /* select values */
     const { Option } = Select
@@ -53,6 +53,19 @@ const write = (props) => {
             data: { subject, category, content, hashtag: hashTag },
         })
     }, [content, category, subject, hashTag])
+
+    useEffect(() => {
+        if (uploadPostError) {
+            alert(uploadPostError)
+        }
+    }, [uploadPostError])
+
+    useEffect(() => {
+        if (!uploadPostLoading && uploadPostDone) {
+            alert('포스팅이 성공적으로 완료되었습니다.')
+            Router.push('/')
+        }
+    }, [uploadPostDone, uploadPostLoading])
 
     return (
         <>

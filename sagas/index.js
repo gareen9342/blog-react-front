@@ -5,6 +5,7 @@ import postSaga from './post'
 import categorySaga from './category'
 import diarySaga from './diary'
 import searchSaga from './search'
+//process.env.NODE_ENV === 'production'?
 axios.defaults.baseURL = 'http://localhost:4000'
 axios.defaults.withCredentials = true
 

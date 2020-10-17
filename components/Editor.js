@@ -39,7 +39,7 @@ const MyEditor = ({ content, setContent }) => {
                 withCredentials: true,
             })
             .then((res) => {
-                console.log(res.data)
+                // console.log(res.data)
                 return { data: { link: res.data.url } }
             })
     }, [])

@@ -49,7 +49,7 @@ function Modal({
                     )}
                     {/* {children}
                      */}
-                    {console.log(children)}
+                    {/* {console.log(children)} */}
                     {children.name}
                     <ImgSlider images={children.Images} />
                 </ModalInner>

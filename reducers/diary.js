@@ -22,12 +22,15 @@ const initialState = {
     loadMainDiariesLoading: false,
     loadMainDiariesDone: false,
     loadMainDiariesError: null,
+    loadSingleDiaryLoading: false,
+    loadSingleDiaryDone: false,
+    loadSingleDiaryError: null,
     uploadDiaryLoading: false,
     uploadDiaryDone: false,
     uploadDiaryError: null,
-    hasMorePosts: false,
     diaryList: [],
     mainDiaryList: [],
+    singleDiary: {},
 }
 
 // 이전 상태를 액션을 ㄴ통해 다음 상태로 만들어 내는 함수 (불변성은 지키면서)
@@ -77,6 +80,20 @@ const reducer = (state = initialState, action) =>
             case LOAD_MAIN_DIARIES_FAILURE:
                 draft.loadMainDiariesLoading = false
                 draft.loadMainDiariesError = action.error
+                break
+            case LOAD_SINGLE_DIARY_REQUEST:
+                draft.loadSingleDiaryLoading = true
+                draft.loadSingleDiaryError = null
+                draft.loadSingleDiaryDone = false
+                break
+            case LOAD_SINGLE_DIARY_SUCCESS:
+                draft.loadSingleDiaryLoading = false
+                draft.loadSingleDiaryDone = true
+                draft.singleDiary = action.data
+                break
+            case LOAD_SINGLE_DIARY_FAILURE:
+                draft.loadSingleDiaryLoading = false
+                draft.loadSingleDiaryError = action.error
                 break
             default:
                 break

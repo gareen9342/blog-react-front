@@ -72,6 +72,25 @@ function* loadMainDiaries() {
     }
 }
 
+function loadSingleDairyAPI(diaryId) {
+    return axios.get(`/diary/${diaryId}`)
+}
+function* loadSingleDiary(action) {
+    try {
+        const result = yield call(loadSingleDairyAPI, action.data)
+        yield put({
+            type: LOAD_SINGLE_DIARY_SUCCESS,
+            data: result.data,
+        })
+    } catch (error) {
+        console.error(error)
+        yield put({
+            type: LOAD_SINGLE_DIARY_FAILURE,
+            error: error.response.data,
+        })
+    }
+}
+
 function* watchUploadDiary() {
     yield takeLatest(UPLOAD_DIARY_REQUEST, uploadDiary)
 }
@@ -84,10 +103,14 @@ function* watchLoadMainDiaries() {
     yield takeLatest(LOAD_MAIN_DIARIES_REQUEST, loadMainDiaries)
 }
 
+function* watchLoadSingleDiary() {
+    yield takeLatest(LOAD_SINGLE_DIARY_REQUEST, loadSingleDiary)
+}
 export default function* diarySaga() {
     yield all([
         fork(watchUploadDiary),
         fork(watchLoadDiaries),
         fork(watchLoadMainDiaries),
+        fork(watchLoadSingleDiary),
     ])
 }

@@ -18,7 +18,7 @@ const InputWrap = styled.div`
 const login = () => {
     const [email, onChangeEmail] = useInput('')
     const [password, onChangePassword] = useInput('')
-    const { me } = useSelector((state) => state.user)
+    const { me, logInError } = useSelector((state) => state.user)
     const dispatch = useDispatch()
     const onSubmit = useCallback(() => {
         dispatch({
@@ -36,6 +36,12 @@ const login = () => {
             Router.push('/')
         }
     }, [me && me.id])
+
+    useEffect(() => {
+        if (logInError) {
+            alert(logInError)
+        }
+    }, [logInError])
     return (
         <CenteredLayout>
             <Form onFinish={onSubmit}>

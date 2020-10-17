@@ -16,6 +16,7 @@ const SubmitBtn = styled(Button)`
 
 function DiaryWriteForm() {
     const { TextArea } = Input
+    const dispatch = useDispatch()
     const [images, setImages] = useState('')
     const [content, onChangeContent] = useInput('')
     const {
@@ -23,13 +24,21 @@ function DiaryWriteForm() {
         uploadDiaryDone,
         uploadDiaryError,
     } = useSelector((state) => state.diary)
+    const { me } = useSelector((state) => state.user)
+
+    useEffect(() => {
+        if (!(me && me.role == 1)) {
+            Router.push('/')
+        }
+    }, [me && me.role])
+
     const uploadImageFunction = useCallback(
         (imagesArray) => {
             setImages(imagesArray)
         },
         [images]
     )
-    const dispatch = useDispatch()
+
     const onSubmit = useCallback(() => {
         if (!content) {
             return alert('텍스트 작성란을 기입해주세요')
