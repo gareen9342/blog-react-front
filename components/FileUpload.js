@@ -67,7 +67,7 @@ function FileUpload(props) {
                     `${
                         process.env.NODE_ENV === 'production'
                             ? backUrl
-                            : 'http://localhost:4000'
+                            : 'http://localhost:80'
                     }/post/image`,
                     formData,
                     {
