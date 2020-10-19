@@ -5,7 +5,6 @@ import CenteredLayout from '../components/CenteredLayout'
 import { Button, Input, Select } from 'antd'
 import useInput from '../hooks/useInput'
 import dynamic from 'next/dynamic'
-import { myMenus } from '../config/menus'
 import { UPLOAD_POST_REQUEST } from '../types/post'
 
 import AddCategoryForm from '../components/AddCategoryForm'
@@ -74,6 +73,10 @@ const write = (props) => {
                 <Select placeholder="카테고리 선택" onChange={handleChange}>
                     <Option value={1}>css</Option>
                     <Option value={2}>JavaScript</Option>
+                    <Option value={3}>사는 이야기</Option>
+                    <Option value={4}>HTML</Option>
+                    <Option value={5}>Java</Option>
+                    <Option value={6}>NodeJS</Option>
                 </Select>
                 <br />
                 <Input
@@ -94,21 +97,6 @@ const write = (props) => {
         </>
     )
 }
-
-/*
-{postData.split(/(#[^\s]+)/g).map((v, idx) => {
-        if (v.match(/(#[^\s#]+)/g)) {
-          return (
-            <Link href={`/hashtag/${v.slice(1)}`} key={idx}>
-              <a>{v}</a>
-            </Link>
-          );
-        }
-        return v;
-      })}
-
-
-*/
 
 write.propTypes = {}
 

@@ -21,7 +21,12 @@ function PostList({ posts, category }) {
                     <List.Item.Meta
                         avatar={
                             item.User.avatar ? (
-                                <Avatar src={item.User.avatar} />
+                                <Avatar
+                                    src={item.User.avatar.replace(
+                                        /\/thumb\//,
+                                        '/original/'
+                                    )}
+                                />
                             ) : (
                                 <UserOutlined />
                             )
