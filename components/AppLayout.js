@@ -110,7 +110,7 @@ const AppLayout = ({ children }) => {
                                     <IconCont>
                                         <CoffeeOutlined />
                                     </IconCont>
-                                    Daily
+                                    Daily Record
                                 </GnbLink>
                             </Link>
                         </GnbListItem>

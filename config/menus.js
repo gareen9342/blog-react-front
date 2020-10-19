@@ -12,6 +12,11 @@ select value
 
 export const myMenus = [
     {
+        menuName: '사는 이야기',
+        key: 'life',
+        name_hidden: '3',
+    },
+    {
         menuName: 'CSS',
         key: 'css',
         name_hidden: '1',
@@ -20,6 +25,21 @@ export const myMenus = [
         menuName: 'JavaScript',
         key: 'javascript',
         name_hidden: '2',
+    },
+    {
+        menuName: 'HTML',
+        key: 'html',
+        name_hidden: '4',
+    },
+    {
+        menuName: 'Java',
+        key: 'java',
+        name_hidden: '5',
+    },
+    {
+        menuName: 'NodeJS',
+        key: 'node',
+        name_hidden: '6',
     },
     // {
     //     _id: 3,
