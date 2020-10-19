@@ -111,12 +111,7 @@ function FileUpload(props) {
                             key={idx}
                             onClick={() => deleteHandler(img)}
                         >
-                            <PreviewImg
-                                src={`${img.replace(
-                                    /\/thumb\//,
-                                    '/original/'
-                                )}`}
-                            />
+                            <PreviewImg src={img} />
                         </PreviewImgFrame>
                     ))}
                 </div>

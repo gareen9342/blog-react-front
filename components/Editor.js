@@ -114,7 +114,7 @@ const MediaComponent = (props) => {
         <div>
             {emptyHtml}
             <img
-                src={data.src.replace(/\/thumb\//, '/original/')}
+                src={data.src}
                 alt={data.alt || ''}
                 style={{
                     height: data.height || 'auto',

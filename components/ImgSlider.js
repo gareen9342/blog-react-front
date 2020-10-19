@@ -8,7 +8,7 @@ function ImgSlider({ images }) {
                 images.map((img, idx) => (
                     <div key={idx}>
                         <img
-                            src={img.src.replace(/\/thumb\//, '/original/')}
+                            src={img.src}
                             style={{
                                 width: 100 + '%',
                             }}
