@@ -6,6 +6,7 @@ import CenteredLayout from '../components/CenteredLayout'
 import { useDispatch, useSelector } from 'react-redux'
 import { SIGN_UP_REQUEST } from '../types/user'
 import Router from 'next/router'
+
 const InputWrap = styled.div`
     padding: 25px 0;
     > label {

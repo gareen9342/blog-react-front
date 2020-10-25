@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import Head from 'next/head'
 import AppLayout from '../../../components/AppLayout'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
@@ -15,6 +16,28 @@ function SinglePost() {
     const { singlePost } = useSelector((state) => state.post)
     return (
         <AppLayout>
+            <Head>
+                <title>
+                    {singlePost.subject}
+                    님의 글
+                </title>
+                <meta name="description" content={singlePost.content} />
+                {/* 
+                    og~ 카카오톡 공유할 때 뜨는 것 
+                
+                */}
+                <meta property="og:title" content={singlePost.subject} />
+                <meta property="og:description" content={singlePost.content} />
+                {/* <meta property="og:image" content={singlePost.Images[0] ? singlePost.Images[0].src : 'http://localhost/favicon.ico'} /> */}
+                <meta
+                    property="og:url"
+                    content={`${
+                        process.env.NODE_ENV === 'production'
+                            ? `http://garinsblog.com/post/${singlePost.id}`
+                            : 'www.garinslog.com'
+                    }`}
+                />
+            </Head>
             <CenterContainer>
                 {singlePost && singlePost.id ? (
                     <PostCard postData={singlePost} />

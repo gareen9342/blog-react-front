@@ -4,7 +4,6 @@ import Dropzone from 'react-dropzone'
 import axios from 'axios'
 import { PlusOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
-import { backUrl } from '../config/config'
 const FileUploadWrap = styled.div`
     height: 300px;
     display: flex;
@@ -66,7 +65,7 @@ function FileUpload(props) {
                 .post(
                     `${
                         process.env.NODE_ENV === 'production'
-                            ? backUrl
+                            ? process.env.BACKURL
                             : 'http://localhost:80'
                     }/post/image`,
                     formData,
