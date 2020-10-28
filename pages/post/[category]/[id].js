@@ -33,7 +33,7 @@ function SinglePost() {
                     property="og:url"
                     content={`${
                         process.env.NODE_ENV === 'production'
-                            ? `http://garinsblog.com/post/${singlePost.id}`
+                            ? `https://garinsblog.com/post/${singlePost.id}`
                             : 'www.garinslog.com'
                     }`}
                 />

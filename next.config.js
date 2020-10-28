@@ -37,7 +37,4 @@ module.exports = withBundleAnalyzer({
             // }
         }
     },
-    env: {
-        BACKURL: process.env.BACKURL,
-    },
 })

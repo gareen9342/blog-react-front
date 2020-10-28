@@ -5,6 +5,7 @@ import { Editor } from 'react-draft-wysiwyg'
 import draftToHtml from 'draftjs-to-html'
 import htmlToDraft from 'html-to-draftjs'
 import axios from 'axios'
+import { backUrl } from '../config/config'
 
 const setContentsTest = (content) => {
     const blocksFromHtml = htmlToDraft(content)
@@ -38,7 +39,7 @@ const MyEditor = ({ content, setContent }) => {
             .post(
                 `${
                     process.env.NODE_ENV === 'production'
-                        ? process.env.BACKURL
+                        ? backUrl
                         : 'http://localhost:80'
                 }/post/image`,
                 formData,
