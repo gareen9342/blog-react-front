@@ -29,6 +29,7 @@ function hashtag() {
                             key={post.id}
                             href="/post/[category]/[id]"
                             as={`/post/${post.Category.name_hidden}/${post.id}`}
+                            prefetch={false}
                         >
                             <a>{post.subject}</a>
                         </Link>

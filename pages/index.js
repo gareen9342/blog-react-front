@@ -91,6 +91,7 @@ const Home = () => {
                                         <Link
                                             href="/diary/[id]"
                                             as={`/diary/${diary.id}`}
+                                            prefetch={false}
                                         >
                                             <a>
                                                 {diary.Images && (
@@ -108,7 +109,7 @@ const Home = () => {
                             ))}
                     </Row>
                     <BtnWrap>
-                        <Link href="/diary">
+                        <Link href="/diary" prefetch={false}>
                             <a>
                                 일상 카테고리 더 보기
                                 <RightOutlined />

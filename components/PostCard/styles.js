@@ -46,6 +46,24 @@ export const CommentCount = styled.p`
 export const Content = styled.div`
     min-height: 500px;
     padding-bottom: 50px;
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    li,
+    span {
+        line-height: 1.5;
+    }
+
+    ul li {
+        list-style: disc;
+    }
+    ol li {
+        list-style: decimal;
+    }
 `
 
 export const DeleteButton = styled(Button)`
