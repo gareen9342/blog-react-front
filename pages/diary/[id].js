@@ -10,20 +10,23 @@ import { LOAD_ME_REQUEST } from '../../types/user'
 import styled from 'styled-components'
 import ImgSlider from '../../components/ImgSlider'
 import { useSelector } from 'react-redux'
-const ContentWrap = styled.div`
-    display: flex;
-    justfy-content: space-between;
-`
+import { Row, Col } from 'antd'
 
 const ImgFrame = styled.div`
-    width: 50%;
+    @media screen and (max-width: 768px) {
+        max-height: 90vh;
+        overflow: hidden;
+    }
 `
 
 const TxtFrame = styled.div`
-    width: 50%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    @media screen and (max-width: 768px) {
+        min-height: 40vh;
+    }
 `
 
 const Txt = styled.p`
@@ -52,16 +55,20 @@ function SingleDiary() {
                 <br />
                 <br />
                 <br />
-                <ContentWrap>
-                    <ImgFrame>
-                        {singleDiary.Images && (
-                            <ImgSlider images={singleDiary.Images} />
-                        )}
-                    </ImgFrame>
-                    <TxtFrame>
-                        <Txt>{singleDiary.content}</Txt>
-                    </TxtFrame>
-                </ContentWrap>
+                <Row gutter={0}>
+                    <Col xs={24} md={12} lg={12}>
+                        <ImgFrame>
+                            {singleDiary.Images && (
+                                <ImgSlider images={singleDiary.Images} />
+                            )}
+                        </ImgFrame>
+                    </Col>
+                    <Col xs={24} md={12} lg={12}>
+                        <TxtFrame>
+                            <Txt>{singleDiary.content}</Txt>
+                        </TxtFrame>
+                    </Col>
+                </Row>
             </CenterContainer>
         </AppLayout>
     )

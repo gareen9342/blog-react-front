@@ -16,7 +16,8 @@ import ImgSlider from '../components/ImgSlider'
 import { RightOutlined } from '@ant-design/icons'
 const CardListItem = styled.div`
     // width: calc(33.333% - 16px);
-    // max-height: 200px;
+    max-height: 243px;
+    overflow: hidden;
     margin-bottom: 30px;
     position: relative;
 `
@@ -78,7 +79,7 @@ const Home = () => {
                 <CenterContainer>
                     <Divider orientation="left" plain>
                         <MainSubTitle>
-                            일상 모음
+                            일상 모음 &nbsp;
                             <HeartIcon style={{ color: 'hotpink' }} />
                         </MainSubTitle>
                     </Divider>
@@ -86,7 +87,7 @@ const Home = () => {
                     <Row gutter={16}>
                         {mainDiaryList.length > 0 &&
                             mainDiaryList.map((diary) => (
-                                <Col key={diary.id} span={6}>
+                                <Col key={diary.id} xs={24} md={12} lg={6}>
                                     <CardListItem>
                                         <Link
                                             href="/diary/[id]"

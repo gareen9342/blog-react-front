@@ -4,6 +4,9 @@ export const CenterContainer = styled.div`
     width: 1020px;
     margin: 0 auto;
     padding: 50px 0;
+    @media screen and (max-width: 1020px) {
+        width: 90%;
+    }
 `
 
 export const Title = styled.h2`

@@ -54,7 +54,36 @@ const App = ({ Component }) => {
         <>
             <Head>
                 <meta charSet="utf-8" />
-                <title>garin's blog</title>
+                <title>Garin's</title>
+                <link
+                    rel="icon"
+                    type="image/png"
+                    sizes="16x16"
+                    href="/images/favicon-16x16.png"
+                ></link>
+                <link
+                    rel="icon"
+                    type="image/png"
+                    sizes="32x32"
+                    href="/images/favicon-32x32.png"
+                ></link>
+                <meta
+                    name="description"
+                    content="안녕하세요, 마가린 개발 블로그 입니다."
+                />
+                {/* <meta property="og:image" content={singlePost.Images[0] ? singlePost.Images[0].src : 'http://localhost/favicon.ico'} /> */}
+                <meta property="og:title" content="마가린 블로그" />
+                <meta
+                    property="og:description"
+                    content="안녕하세요, 마가린 개발 블로그 입니다."
+                />
+                <meta
+                    property="og:url"
+                    content={`${
+                        process.env.NODE_ENV === 'production' &&
+                        `https://garinsblog.com`
+                    }`}
+                />
             </Head>
 
             <GlobalStyle />

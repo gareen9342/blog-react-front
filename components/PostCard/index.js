@@ -19,16 +19,18 @@ import {
     CateName,
     TitleArea,
     Title,
-    AuthorName,
+    PostDate,
     BtnCont,
     PostButton,
     Content,
     DeleteButton,
     HashTagItem,
     HashTagArea,
+    Likes,
 } from './styles'
 import Comments from './Comments'
-
+import moment from 'moment'
+moment.locale('ko')
 const PostCard = ({ postData }) => {
     const dispatch = useDispatch()
 
@@ -76,21 +78,7 @@ const PostCard = ({ postData }) => {
                     {postData.Category && postData.Category.name_show}
                 </CateName>
                 <Title>{postData.subject}</Title>
-                <AuthorName>author : {postData.User.name}</AuthorName>
 
-                {me && me.id && postData.User.id === me.id && (
-                    <Popconfirm
-                        title="Are you sure？"
-                        onConfirm={onDeletePost}
-                        icon={
-                            <QuestionCircleOutlined style={{ color: 'red' }} />
-                        }
-                    >
-                        <DeleteButton loading={deletePostLoading}>
-                            delete this post
-                        </DeleteButton>
-                    </Popconfirm>
-                )}
                 <BtnCont>
                     {/* like button */}
                     {me &&
@@ -103,6 +91,27 @@ const PostCard = ({ postData }) => {
                         <PostButton ghost htmlType="button" onClick={onLike}>
                             <HeartOutlined />
                         </PostButton>
+                    )}
+                    &nbsp; &nbsp;
+                    <Likes>{postData.Likers.length}</Likes> &nbsp; &nbsp;
+                    <PostDate>
+                        {moment(postData.createdAt).format('YYYY / MM / DD')}
+                    </PostDate>
+                    &nbsp;&nbsp;
+                    {me && me.id && postData.User.id === me.id && (
+                        <Popconfirm
+                            title="Are you sure？"
+                            onConfirm={onDeletePost}
+                            icon={
+                                <QuestionCircleOutlined
+                                    style={{ color: 'red' }}
+                                />
+                            }
+                        >
+                            <DeleteButton loading={deletePostLoading}>
+                                delete this post
+                            </DeleteButton>
+                        </Popconfirm>
                     )}
                 </BtnCont>
             </TitleArea>
@@ -117,8 +126,9 @@ const PostCard = ({ postData }) => {
                                 href="/hashtag/[tag]"
                                 as={`/hashtag/${hashtag.name}`}
                             >
-                                <a>#{hashtag.name}</a>
+                                <a># {hashtag.name}</a>
                             </Link>
+                            &nbsp;
                         </HashTagItem>
                     ))}
             </HashTagArea>

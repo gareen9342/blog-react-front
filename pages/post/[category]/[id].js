@@ -17,17 +17,13 @@ function SinglePost() {
     return (
         <AppLayout>
             <Head>
-                <title>
-                    {singlePost.subject}
-                    님의 글
-                </title>
+                <title>{singlePost.subject}</title>
                 <meta name="description" content={singlePost.content} />
                 {/* 
                     og~ 카카오톡 공유할 때 뜨는 것 
                 
                 */}
                 <meta property="og:title" content={singlePost.subject} />
-                <meta property="og:description" content={singlePost.content} />
                 {/* <meta property="og:image" content={singlePost.Images[0] ? singlePost.Images[0].src : 'http://localhost/favicon.ico'} /> */}
                 <meta
                     property="og:url"

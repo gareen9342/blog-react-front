@@ -15,19 +15,16 @@ export const Title = styled.h2`
     word-wrap: break-word;
     white-space: pre-wrap;
 `
-export const AuthorName = styled.p`
-    font-size: 1em;
-    padding-bottom: 12px;
+export const PostDate = styled.p`
+    color: #9b9b9b;
+    font-size: 0.9em;
 `
 export const BtnCont = styled.div`
-    height: 50px;
     display: flex;
+    align-items: center;
 `
 export const PostButton = styled(Button)`
-    width: 50px;
-    height: 50px;
     padding: 0;
-    line-height: 50px;
     border: none;
     box-sizing: border-box;
     &.ant-btn-text:active,
@@ -35,8 +32,9 @@ export const PostButton = styled(Button)`
         background: none;
     }
     > .anticon {
-        font-size: 30px;
-        color: #eb2f96;
+        vertical-align: middle;
+        font-size: 20px;
+        color: #d59bf6;
     }
 `
 export const CommentArea = styled.div``
@@ -45,7 +43,9 @@ export const CommentCount = styled.p`
 `
 export const Content = styled.div`
     min-height: 500px;
-    padding-bottom: 50px;
+    padding: 20px 30px 50px;
+    margin-top: 30px;
+    border: 1px solid #e6e6e6;
     p,
     h1,
     h2,
@@ -60,9 +60,11 @@ export const Content = styled.div`
 
     ul li {
         list-style: disc;
+        list-style-position: inside;
     }
     ol li {
         list-style: decimal;
+        list-style-position: inside;
     }
 `
 
@@ -72,12 +74,22 @@ export const DeleteButton = styled(Button)`
     font-size: 0.7em;
     padding: 0 5px;
 `
+
+export const Likes = styled.p`
+    color: #9b9b9b;
+    font-size: 0.9em;
+    display: inline-block;
+`
 export const HashTagArea = styled.div`
     padding-bottom: 50px;
     border-bottom: 1px solid #e6e6e6;
-    margin-bottom: 50px;
+    margin: 50px 0;
 `
 
 export const HashTagItem = styled.span`
-    color: #666 !important;
+    > a {
+        color: #d59bf6 !important;
+        font-weight: 666;
+        font-size: 0.9em;
+    }
 `

@@ -31,7 +31,8 @@ const TopNav = styled.div`
 
 const CardListItem = styled.div`
     // width: calc(33.333% - 16px);
-    height: 300px;
+    max-height: 243px;
+    overflow: hidden;
     border: 1px solid #e6e6e6;
     margin-bottom: 30px;
     position: relative;
@@ -114,7 +115,7 @@ function Daily() {
                 <Row gutter={16}>
                     {diaryList.length > 0 &&
                         diaryList.map((diary) => (
-                            <Col key={diary.id} span={8}>
+                            <Col key={diary.id} xs={24} md={12} lg={6}>
                                 <CardListItem>
                                     <Link
                                         href="/diary/[id]"
