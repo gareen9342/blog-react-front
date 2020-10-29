@@ -54,7 +54,7 @@ const App = ({ Component }) => {
         <>
             <Head>
                 <meta charSet="utf-8" />
-                <title>Garin's</title>
+                <title>꿈많은 개발자 누피씨의 개발블로그</title>
                 <link
                     rel="icon"
                     type="image/png"
@@ -69,13 +69,13 @@ const App = ({ Component }) => {
                 ></link>
                 <meta
                     name="description"
-                    content="안녕하세요, 마가린 개발 블로그 입니다."
+                    content="안녕하세요, 누피씨의 개발로그 입니다."
                 />
                 {/* <meta property="og:image" content={singlePost.Images[0] ? singlePost.Images[0].src : 'http://localhost/favicon.ico'} /> */}
-                <meta property="og:title" content="마가린 블로그" />
+                <meta property="og:title" content="누피씨 개발로그" />
                 <meta
                     property="og:description"
-                    content="안녕하세요, 마가린 개발 블로그 입니다."
+                    content="안녕하세요, 누피씨 개발 블로그 입니다."
                 />
                 <meta
                     property="og:url"

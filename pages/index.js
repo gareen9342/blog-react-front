@@ -13,7 +13,11 @@ import { LOAD_ME_REQUEST } from '../types/user'
 import { LOAD_MAIN_DIARIES_REQUEST } from '../types/diary'
 import PostList from '../components/PostList'
 import ImgSlider from '../components/ImgSlider'
-import { RightOutlined } from '@ant-design/icons'
+import {
+    RightOutlined,
+    NotificationOutlined,
+    PushpinOutlined,
+} from '@ant-design/icons'
 const CardListItem = styled.div`
     // width: calc(33.333% - 16px);
     max-height: 243px;
@@ -53,7 +57,21 @@ const BtnWrap = styled.div`
         font-size: 1em;
     }
 `
-
+const MainNoticeWrap = styled.div`
+    padding-bottom: 50px;
+`
+const MainNotice = styled.h2`
+    font-size: 0.9em;
+    font-weight: 200;
+    text-align: left;
+    margin-bottom: 15px;
+`
+const MainNoticeSub = styled.h3`
+    font-size: 0.9em;
+    font-weight: 200;
+    text-align: left;
+    line-height: 1.4;
+`
 const Home = () => {
     // const dispatch = useDispatch()
     const { categoryPostList, loadPostListError } = useSelector(
@@ -77,6 +95,29 @@ const Home = () => {
         <>
             <AppLayout>
                 <CenterContainer>
+                    <MainNoticeWrap>
+                        <MainNotice>
+                            <NotificationOutlined />
+                            &nbsp; &nbsp; 안녕하세요, 키작고 꿈 많은 개발자
+                            누피씨의 블로그 입니다. 반갑습니다^^
+                        </MainNotice>
+                        <MainNoticeSub>
+                            <PushpinOutlined /> &nbsp; 건의 및 신고기능은 차차
+                            추가될 예정입니다. 아쉬운 부분, 버그, 추가됐으면
+                            좋겠는 기능 등... &nbsp;
+                            <a href="mailto:chogr9342@gmail.com">
+                                chogr9342@gmail.com
+                            </a>
+                            으로 문의 및 건의 받고 있습니다.
+                        </MainNoticeSub>
+                        <MainNoticeSub>
+                            <PushpinOutlined /> &nbsp; 제가 공부하며 정리하기
+                            위해 만든 목적이 큰 블로그 입니다. 아직 많이
+                            부족하니 틀린 점이나 아쉬운 점이 있다면 댓글로 제보
+                            부탁드립니다 🙏
+                        </MainNoticeSub>
+                    </MainNoticeWrap>
+
                     <Divider orientation="left" plain>
                         <MainSubTitle>
                             일상 모음 &nbsp;

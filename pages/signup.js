@@ -19,7 +19,7 @@ const ErrorMessage = styled.p`
     color: #ff0000;
 `
 const signup = () => {
-    const [email, onChangeEmail] = useInput('')
+    const [email, setEmail] = useState('')
     const [name, onChangeName] = useInput('')
     const [password, onChangePassword] = useInput('')
     const [passwordCheck, setPasswordCheck] = useState('')
@@ -38,6 +38,20 @@ const signup = () => {
         }
     }, [signUpDone])
 
+    const [emailError, setEmailError] = useState('')
+    const onChangeEmail = useCallback(
+        (e) => {
+            setEmail(e.target.value)
+
+            const regExp = new RegExp(
+                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            )
+            if (!regExp.test(email)) {
+                setEmailError('이메일주소가 유효하지 않습니다.')
+            }
+        },
+        [email]
+    )
     const onChangePasswordCheck = useCallback(
         (e) => {
             setPasswordCheck(e.target.value)
@@ -45,10 +59,15 @@ const signup = () => {
         },
         [password]
     )
-
     const onSubmit = useCallback(() => {
         if (password !== passwordCheck) {
             return setPasswordError(true)
+        }
+        const regExp = new RegExp(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/)
+        if (!regExp.test(password)) {
+            return alert(
+                '비밀번호가 형식에 맞지 않습니다. 영문 대소문자/숫자 8자 이상의 비밀번호로 설정해주세요.'
+            )
         }
         dispatch({
             type: SIGN_UP_REQUEST,
@@ -70,6 +89,7 @@ const signup = () => {
                         onChange={onChangeEmail}
                     />
                 </InputWrap>
+                {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
                 <InputWrap>
                     <label htmlFor="user-name">
                         사이트에서 사용할 닉네임을 적어주세요.

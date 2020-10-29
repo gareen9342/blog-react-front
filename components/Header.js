@@ -78,7 +78,7 @@ const Header = ({ toggle, collapsed }) => {
             </LeftBox>
             <Logo>
                 <Link href="/">
-                    <a>마가린의 블로그</a>
+                    <a>가리지 않아요</a>
                 </Link>
             </Logo>
             <RightBox>
