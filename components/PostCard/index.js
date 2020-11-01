@@ -74,6 +74,16 @@ const PostCard = ({ postData }) => {
     return (
         <CardWrapper>
             <TitleArea>
+                {/* <Link href="/editpost/[id]" as={`/post/${postData.id}`}>
+                    <a>testtest</a>
+                </Link> */}
+                <button
+                    onClick={() =>
+                        Router.push('/editpost', '/editpost', { shallow: true })
+                    }
+                >
+                    test
+                </button>
                 <CateName>
                     {postData.Category && postData.Category.name_show}
                 </CateName>

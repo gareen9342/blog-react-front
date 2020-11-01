@@ -6,9 +6,6 @@ import {
     ADD_CATEGORY_REQUEST,
     ADD_CATEGORY_SUCCESS,
     ADD_CATEGORY_FAILURE,
-    LOAD_MAINPOST_REQUEST,
-    LOAD_MAINPOST_SUCCESS,
-    LOAD_MAINPOST_FAILURE,
     LIKE_POST_REQUEST,
     LIKE_POST_SUCCESS,
     LIKE_POST_FAILURE,
@@ -33,6 +30,9 @@ import {
     LOAD_HASHTAG_POSTS_SUCCESS,
     LOAD_HASHTAG_POSTS_FAILURE,
     LOAD_HASHTAG_POSTS_REQUEST,
+    EDIT_POST_SUCCESS,
+    EDIT_POST_FAILURE,
+    EDIT_POST_REQUEST,
 } from '../types/post'
 import produce from '../util/produce'
 
@@ -67,6 +67,9 @@ const initialState = {
     hashtagPostListLoading: false,
     hashtagPostListDone: false,
     hashtagPostListError: null,
+    editPostLoading: false,
+    editPostDone: false,
+    editPostError: null,
     singlePost: {},
     categoryPostList: [],
     hashtagPostList: [],
@@ -226,6 +229,27 @@ const reducer = (state = initialState, action) =>
             case LOAD_HASHTAG_POSTS_FAILURE:
                 draft.hashtagPostListDone = true
                 draft.hashtagPostListError = action.error
+                break
+            case EDIT_POST_REQUEST:
+                draft.editPostLoading = true
+                draft.editPostDone = false
+                draft.editPostError = null
+                break
+            case EDIT_POST_SUCCESS: {
+                // const chagingPost = categoryPostList.find(
+                //     (x) => x.id === +action.data.id
+                // )
+
+                // chagingPost.content = action.data
+                console.log(action.data)
+                draft.singlePost = action.data
+                draft.editPostLoading = false
+                draft.editPostDone = true
+                break
+            }
+            case EDIT_POST_FAILURE:
+                draft.editPostDone = true
+                draft.editPostError = action.error
                 break
             default:
                 break

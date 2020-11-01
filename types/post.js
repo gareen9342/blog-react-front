@@ -42,6 +42,10 @@ export const LOAD_HASHTAG_POSTS_REQUEST = 'loadHashtagPostsRequest'
 export const LOAD_HASHTAG_POSTS_SUCCESS = 'loadHashtagPostsSuccess'
 export const LOAD_HASHTAG_POSTS_FAILURE = 'loadHashtagPostsFailure'
 
+export const EDIT_POST_REQUEST = 'editPostRequest'
+export const EDIT_POST_SUCCESS = 'editPostSuccess'
+export const EDIT_POST_FAILURE = 'editPostFailure'
+
 /**
  * delete post
  * load single post

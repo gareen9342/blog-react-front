@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic'
 import { UPLOAD_POST_REQUEST } from '../types/post'
 
 import AddCategoryForm from '../components/AddCategoryForm'
+import SelectMenu from '../components/SelectMenu'
 const Editor = dynamic(import('../components/Editor'), { ssr: false })
 
 const write = (props) => {
@@ -22,9 +23,6 @@ const write = (props) => {
         }
     }, [me && me.role])
 
-    /* select values */
-    const { Option } = Select
-
     /*
     addCategory
     name_hidden: req.body.name_hidden, // number
@@ -36,10 +34,6 @@ const write = (props) => {
     const [content, setContent] = useState('')
     const [category, setCategory] = useState('')
     const [hashTag, onChangeHashTag] = useInput('')
-
-    const handleChange = useCallback((value) => {
-        setCategory(value)
-    }, [])
 
     const handleSubmit = useCallback(() => {
         if (!subject || !category || !content) {
@@ -70,14 +64,7 @@ const write = (props) => {
         <>
             <CenteredLayout>
                 <AddCategoryForm />
-                <Select placeholder="카테고리 선택" onChange={handleChange}>
-                    <Option value={1}>css</Option>
-                    <Option value={2}>JavaScript</Option>
-                    <Option value={3}>사는 이야기</Option>
-                    <Option value={4}>HTML</Option>
-                    <Option value={5}>Java</Option>
-                    <Option value={6}>NodeJS</Option>
-                </Select>
+                <SelectMenu setCategory={setCategory} />
                 <br />
                 <Input
                     value={subject}

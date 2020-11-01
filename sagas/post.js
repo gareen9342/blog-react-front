@@ -27,6 +27,9 @@ import {
     LOAD_HASHTAG_POSTS_SUCCESS,
     LOAD_HASHTAG_POSTS_FAILURE,
     LOAD_HASHTAG_POSTS_REQUEST,
+    EDIT_POST_SUCCESS,
+    EDIT_POST_FAILURE,
+    EDIT_POST_REQUEST,
 } from '../types/post'
 import axios from 'axios'
 
@@ -220,6 +223,28 @@ function* loadHashtagPosts(action) {
         })
     }
 }
+
+function editPostAPI(data) {
+    //주소에 한글이나 특수 문자 들어가면 에러나니까 변환해서 서버로 보내고, 받을 수 있다
+    return axios.patch(`post/${data.id}`, data)
+}
+
+function* editPost(action) {
+    try {
+        const result = yield call(editPostAPI, action.data)
+        console.log('result=', result)
+        yield put({
+            type: EDIT_POST_SUCCESS,
+            data: result.data,
+        })
+    } catch (err) {
+        console.error(err)
+        yield put({
+            type: EDIT_POST_FAILURE,
+            error: err.response.data,
+        })
+    }
+}
 /*watch functions */
 function* watchUploadPost() {
     yield takeLatest(UPLOAD_POST_REQUEST, uploadPost)
@@ -257,6 +282,10 @@ function* watchLoadHashtagPosts() {
     yield throttle(5000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts)
 }
 
+function* watchEditPost() {
+    yield takeLatest(EDIT_POST_REQUEST, editPost)
+}
+
 export default function* postSaga() {
     yield all([
         fork(watchUploadPost),
@@ -268,5 +297,6 @@ export default function* postSaga() {
         fork(watchDeletePost),
         fork(watchLoadPostList),
         fork(watchLoadHashtagPosts),
+        fork(watchEditPost),
     ])
 }
