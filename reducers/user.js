@@ -9,6 +9,9 @@ import {
     LOAD_ME_REQUEST,
     LOAD_ME_SUCCESS,
     LOAD_ME_FAILURE,
+    AUTH_ME_REQUEST,
+    AUTH_ME_SUCCESS,
+    AUTH_ME_FAILURE,
 } from '../types/user'
 import produce from '../util/produce'
 
@@ -23,6 +26,9 @@ const initialState = {
     loadMeLoading: false,
     loadMeDone: false,
     loadMeError: null,
+    authMeLoading: false,
+    authMeDone: false,
+    authMeError: null,
 }
 
 // 이전 상태를 액션을 ㄴ통해 다음 상태로 만들어 내는 함수 (불변성은 지키면서)
@@ -73,7 +79,19 @@ const reducer = (state = initialState, action) =>
                 draft.loadMeLoading = false
                 draft.loadMeError = action.error
                 break
-
+            case AUTH_ME_REQUEST:
+                draft.authMeLoading = true
+                draft.authMeDone = false
+                draft.authMeError = null
+                break
+            case AUTH_ME_SUCCESS:
+                draft.authMeLoading = false
+                draft.authMeDone = true
+                break
+            case AUTH_ME_FAILURE:
+                draft.authMeDone = true
+                draft.authMeError = action.error
+                break
             default:
                 break
         }

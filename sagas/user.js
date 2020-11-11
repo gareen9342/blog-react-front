@@ -20,6 +20,9 @@ import {
     LOG_OUT_FAILURE,
     LOG_OUT_SUCCESS,
     LOG_OUT_REQUEST,
+    AUTH_ME_REQUEST,
+    AUTH_ME_SUCCESS,
+    AUTH_ME_FAILURE,
 } from '../types/user'
 import axios from 'axios'
 
@@ -100,6 +103,28 @@ function* logOut() {
         })
     }
 }
+
+//비밀번호 변경 -> 비밀번호 확인
+
+function authMeAPI(data) {
+    console.log(data)
+    return axios.post('/user/change-password', data)
+}
+
+function* authMe(action) {
+    try {
+        yield call(authMeAPI, action.data)
+        yield put({
+            type: AUTH_ME_SUCCESS,
+        })
+    } catch (err) {
+        console.error(err)
+        yield put({
+            type: AUTH_ME_FAILURE,
+            error: err.response.data,
+        })
+    }
+}
 /*
 
     watch functions
@@ -117,11 +142,16 @@ function* watchUserLogOut() {
 function* watchLoadMe() {
     yield takeLatest(LOAD_ME_REQUEST, loadMe)
 }
+function* watchAuthMe() {
+    yield takeLatest(AUTH_ME_REQUEST, authMe)
+}
+
 export default function* userSaga() {
     yield all([
         fork(watchUserLogin),
         fork(watchUserSignUp),
         fork(watchLoadMe),
         fork(watchUserLogOut),
+        fork(watchAuthMe),
     ])
 }

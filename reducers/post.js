@@ -241,7 +241,6 @@ const reducer = (state = initialState, action) =>
                 // )
 
                 // chagingPost.content = action.data
-                console.log(action.data)
                 draft.singlePost = action.data
                 draft.editPostLoading = false
                 draft.editPostDone = true
