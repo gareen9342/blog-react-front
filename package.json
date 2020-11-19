@@ -22,6 +22,7 @@
         "@next/bundle-analyzer": "^9.5.5",
         "antd": "^4.6.5",
         "axios": "^0.20.0",
+        "babel-plugin-transform-remove-console": "^6.9.4",
         "cross-env": "^7.0.2",
         "dotenv": "^8.2.0",
         "draft-js": "^0.11.7",

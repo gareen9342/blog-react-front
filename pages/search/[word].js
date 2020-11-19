@@ -49,7 +49,6 @@ function Search() {
                 ) : (
                     <NoPost>게시물이 존재하지 않습니다.</NoPost>
                 )}
-                {console.log(searchResultHashtags)}
                 <SubTitle>검색어가 포함된 해시태그들 입니다.</SubTitle>
                 {searchResultHashtags.length > 0 ? (
                     <ResultList>

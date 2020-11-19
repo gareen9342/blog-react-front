@@ -5,8 +5,9 @@ import { CenterContainer, SubTitle, Title } from '../styles/common/UI'
 import { Input, Form, Button } from 'antd'
 import useInput from '../hooks/useInput'
 import styled from 'styled-components'
-import { AUTH_ME_REQUEST } from '../types/user'
+import { AUTH_ME_REQUEST, LOG_OUT_REQUEST } from '../types/user'
 import Router from 'next/router'
+import UserService from '../services/userService'
 const CenterCont = styled.div`
     text-align: center;
     // display: flex;
@@ -81,10 +82,29 @@ function ChangePwd() {
     /**
      * change password
      */
-
-    const onSubmitChangePassword = useCallback(() => {
-        console.log('change')
-    }, [])
+    const onSubmitChangePassword = useCallback(async () => {
+        if (modifyPasswordErr) {
+            return
+        }
+        const regExp = new RegExp(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/)
+        if (!regExp.test(modifyPassword)) {
+            return alert(
+                '비밀번호가 형식에 맞지 않습니다. 영문 대소문자/숫자 8자 이상의 비밀번호로 설정해주세요.'
+            )
+        }
+        let result = await UserService.changePassword({
+            password: modifyPassword,
+        })
+        if (result.success) {
+            alert(
+                '비밀번호가 변경되었습니다. 변경된 비밀번호로 다시 로그인해주세요.'
+            )
+            dispatch({
+                type: LOG_OUT_REQUEST,
+            })
+            return Router.push('/')
+        }
+    }, [modifyPassword])
     /*
         error alert
     */
@@ -107,40 +127,58 @@ function ChangePwd() {
                 <Title>비밀번호 변경</Title>
                 {isAuth ? (
                     <CenterCont>
-                        <SubTitle>변경할 비밀번호를 입력해주세요.</SubTitle>
+                        <SubTitle>
+                            본인 인증이 완료되었습니다. 변경할 비밀번호를
+                            입력해주세요.
+                        </SubTitle>
+                        <br /> <br />
                         <Form onFinish={onSubmitChangePassword}>
                             <Input
                                 placeholder="변경할 비밀번호"
+                                type="password"
                                 value={modifyPassword}
                                 onChange={onChangeModifyPassword}
-                            />
+                            />{' '}
+                            <br />
                             <Input
                                 placeholder="변경할 비밀번호를 한 번 더 입력해주세요"
+                                type="password"
                                 value={modifyPasswordCheck}
                                 onChange={onChangeModifyPasswordCheck}
-                            />
+                            />{' '}
+                            <br />
+                            {modifyPasswordErr &&
+                                '비밀번호가 서로 일치하지 않습니다.'}
+                            <Button htmlType="submit">변경</Button>
                         </Form>
-                        인증 끗
                     </CenterCont>
                 ) : (
                     <CenterCont>
-                        <SubTitle>본인 인증</SubTitle>
+                        <SubTitle>본인 인증</SubTitle> <br />
                         <Form onFinish={onSubmitAuth}>
                             <label htmlFor="password">
-                                비밀번호를 입력해주세요.
-                            </label>
+                                현재 사용 중인 비밀번호를 입력해주세요.
+                            </label>{' '}
+                            <br />
+                            <br />
                             <Input
                                 placeholder="비밀번호를 입력해주세요"
+                                type="password"
                                 onChange={onChangePassword}
                                 value={password}
-                            />
+                            />{' '}
+                            <br />
                             <Input
                                 placeholder="비밀번호를 한 번 더 입력해주세요."
+                                type="password"
                                 onChange={onChangePasswordCheck}
                                 value={passwordCheck}
-                            />
+                            />{' '}
+                            <br />
                             {passwordError && (
-                                <p>비밀번호가 일치하지 않습니다.</p>
+                                <p>
+                                    비밀번호가 일치하지 않습니다. <br />
+                                </p>
                             )}
                             <Button htmlType="submit">확인</Button>
                         </Form>

@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-
 // Usage
 function App() {
     // Create a ref that we add to the element for which we want to detect outside clicks
@@ -23,7 +22,7 @@ function App() {
 }
 
 // Hook
-function useOnClickOutside(ref, handler) {
+const useOnClickOutside = (ref, handler) => {
     useEffect(
         () => {
             const listener = (event) => {
@@ -52,3 +51,4 @@ function useOnClickOutside(ref, handler) {
         [ref, handler]
     )
 }
+export default useOnClickOutside

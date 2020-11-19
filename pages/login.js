@@ -7,6 +7,7 @@ import useInput from '../hooks/useInput'
 import { useDispatch, useSelector } from 'react-redux'
 import { LOGIN_REQUEST } from '../types/user'
 import Router from 'next/router'
+import Link from 'next/link'
 const InputWrap = styled.div`
     padding: 25px 0;
     > label {
@@ -69,6 +70,12 @@ const login = () => {
                 </InputWrap>
                 <Button htmlType="submit">로그인</Button>
             </Form>
+            <br />
+            <br />
+            <p>비밀번호를 잊으셨나요?</p>
+            <br />
+            <br />
+            <Link href="/reset-password">비밀번호 재설정 이메일 보내기 🐰</Link>
         </CenteredLayout>
     )
 }

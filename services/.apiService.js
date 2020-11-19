@@ -22,4 +22,23 @@ ApiService.patch = async (uri, data) => {
     return result
 }
 
+ApiService.post = async (uri, data) => {
+    let result = {}
+    await axios
+        .post(
+            `${
+                process.env.NODE_ENV === 'production'
+                    ? backUrl
+                    : 'http://localhost:80'
+            }/${uri}`,
+            data,
+            { withCredentials: true }
+        )
+        .then((res) => {
+            result = res.data
+        })
+        .catch((err) => console.error(err))
+    return result
+}
+
 export default ApiService
