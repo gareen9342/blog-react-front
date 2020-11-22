@@ -70,19 +70,29 @@ const MyEditor = ({ content, setContent }) => {
         }),
         []
     )
+
     const myBlockRenderer = (contentBlock) => {
         const type = contentBlock.getType()
         if (type === 'atomic') {
             return {
                 component: MediaComponent,
                 editable: false,
-                props: {
-                    foo: 'bar',
-                },
             }
         }
     }
 
+    const myBlockStyleFn = (contentBlock) => {
+        const type = contentBlock.getType()
+        if (type === 'code') {
+            return 'code-block'
+        }
+    }
+    // const blockRenderMap = Immutable.Map({
+    //     code: {
+    //         element: 'div',
+    //         wrapper: <CodeComponent />,
+    //     },
+    // })
     return (
         <>
             <NoSSR>
@@ -90,6 +100,7 @@ const MyEditor = ({ content, setContent }) => {
                     editorState={editorState}
                     onEditorStateChange={onEditorStateChange}
                     blockRendererFn={myBlockRenderer}
+                    blockStyleFn={myBlockStyleFn}
                     toolbar={{
                         image: {
                             uploadCallback: uploadImageCallBack,
@@ -99,7 +110,7 @@ const MyEditor = ({ content, setContent }) => {
                     }}
                     wrapperStyle={wrapperStyleObject}
                     editorStyle={editorStyleObject}
-                    toolbarStyle={toolbarStyleObject}
+                    // toolbarStyle={toolbarStyleObject}
                 />
             </NoSSR>
         </>
@@ -125,4 +136,13 @@ const MediaComponent = (props) => {
         </div>
     )
 }
+
+// const CodeComponent = (props) => {
+//     const { block, contentState } = props
+//     // const data = contentState.getEntity(block.getEntityAt(0)).getType()
+//     console.log(contentState)
+//     // const { block, contentState } = props
+//     // console.log(block, contentState)
+//     return <div>{props.children}^^</div>
+// }
 export default MyEditor

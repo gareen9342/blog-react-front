@@ -47,6 +47,21 @@ const GlobalStyle = createGlobalStyle`
         border: 1px solid #eee;
 
        }
+    //    .rdw-editor-main pre {
+    //     color: rgb(191, 199, 213);
+    //     background-color: rgb(41, 45, 62);
+    //     overflow: auto;
+    //     margin: 0;
+    //     padding: 10px;
+    //     line-height: 1.5;
+    //     border-radius: 3px;
+    //     margin-bottom: 23px;
+    //     margin: 20px 0;
+    //     span{
+    //         color: rgb(191, 199, 213) ;
+    //     }
+    //    }
+  
 `
 
 const App = ({ Component }) => {

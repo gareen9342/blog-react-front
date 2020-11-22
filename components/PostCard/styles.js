@@ -66,6 +66,18 @@ export const Content = styled.div`
         list-style: decimal;
         list-style-position: inside;
     }
+
+    pre {
+        color: rgb(191, 199, 213);
+        background-color: rgb(41, 45, 62);
+        overflow: auto;
+        margin: 0;
+        padding: 10px;
+        line-height: 1.5;
+        border-radius: 3px;
+        margin-bottom: 23px;
+        margin: 20px 0;
+    }
 `
 
 export const DeleteButton = styled(Button)`
