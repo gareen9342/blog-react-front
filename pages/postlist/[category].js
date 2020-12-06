@@ -2,19 +2,16 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import styled from 'styled-components'
 import { END } from 'redux-saga'
 import axios from 'axios'
-import Link from 'next/link'
-import { List, Avatar } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
-import AppLayout from '../../../components/AppLayout'
-import { LOAD_ME_REQUEST } from '../../../types/user'
-import { LOAD_POSTLIST_REQUEST } from '../../../types/post'
-import wrapper from '../../../store/configureStore'
-import { CenterContainer } from '../../../styles/common/UI'
-import PostList from '../../../components/PostList'
+import AppLayout from '../../components/AppLayout'
+import { LOAD_ME_REQUEST } from '../../types/user'
+import { LOAD_POSTLIST_REQUEST } from '../../types/post'
+import wrapper from '../../store/configureStore'
+import { CenterContainer } from '../../styles/common/UI'
+import PostList from '../../components/PostList'
 moment.locale('ko')
+
 const Posts = () => {
     const router = useRouter()
     const { category } = router.query

@@ -43,7 +43,6 @@ const Comments = ({ comments, me, postId }) => {
     }, [addCommentDone])
     return (
         <CommentArea>
-            {console.log(comments)}
             <CommentCount>{comments.length} 개의 댓글</CommentCount>
             {comments.length > 0 &&
                 comments.map((comment) => (

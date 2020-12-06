@@ -8,14 +8,7 @@ function AddCategoryForm() {
     const [hiddenName, onChangeHiddenName] = useInput('')
     const [showName, onChangeShowName] = useInput('')
     const dispatch = useDispatch()
-    /**
- * name_hidden: req.body.name_hidden,
-      name_show: req.body.name_show,
- * 
- * 
- * 
- * 
- */
+
     const handleSubmit = useCallback(() => {
         dispatch({
             type: ADD_CATEGORY_REQUEST,

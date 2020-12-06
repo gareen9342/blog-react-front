@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import wrapper from '../store/configureStore'
 const { default: AppLayout } = require('../components/AppLayout')
 import axios from 'axios'
+import useSWR from 'swr'
+import { backUrl } from '../config/config'
 import { END } from 'redux-saga'
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
@@ -11,6 +13,7 @@ import { HeartIcon, CenterContainer } from '../styles/common/UI'
 import { LOAD_POSTLIST_REQUEST } from '../types/post'
 import { LOAD_ME_REQUEST } from '../types/user'
 import { LOAD_MAIN_DIARIES_REQUEST } from '../types/diary'
+import CommentList from '../components/CommentList'
 import PostList from '../components/PostList'
 import ImgSlider from '../components/ImgSlider'
 import {
@@ -18,6 +21,7 @@ import {
     NotificationOutlined,
     PushpinOutlined,
 } from '@ant-design/icons'
+
 const CardListItem = styled.div`
     // width: calc(33.333% - 16px);
     max-height: 243px;
@@ -72,6 +76,7 @@ const MainNoticeSub = styled.h3`
     text-align: left;
     line-height: 1.4;
 `
+
 const Home = () => {
     // const dispatch = useDispatch()
     const { categoryPostList, loadPostListError } = useSelector(
@@ -91,6 +96,7 @@ const Home = () => {
         }
     }, [loadMainDiariesError, loadPostListError])
 
+    // console.log
     return (
         <>
             <AppLayout>
@@ -99,7 +105,7 @@ const Home = () => {
                         <MainNotice>
                             <NotificationOutlined />
                             &nbsp; &nbsp; 안녕하세요, 키작고 꿈 많은 개발자
-                            누피씨의 블로그 입니다. 반갑습니다^^
+                            스누피의 블로그 입니다. 반갑습니다^^
                         </MainNotice>
                         <MainNoticeSub>
                             <PushpinOutlined /> &nbsp; 건의 및 신고기능은 차차
@@ -119,49 +125,18 @@ const Home = () => {
                     </MainNoticeWrap>
 
                     <Divider orientation="left" plain>
-                        <MainSubTitle>
-                            일상 모음 &nbsp;
-                            <HeartIcon style={{ color: 'hotpink' }} />
-                        </MainSubTitle>
-                    </Divider>
-                    <br />
-                    <Row gutter={16}>
-                        {mainDiaryList.length > 0 &&
-                            mainDiaryList.map((diary) => (
-                                <Col key={diary.id} xs={24} md={12} lg={6}>
-                                    <CardListItem>
-                                        <Link
-                                            href="/diary/[id]"
-                                            as={`/diary/${diary.id}`}
-                                            prefetch={false}
-                                        >
-                                            <a>
-                                                {diary.Images && (
-                                                    <ImgSlider
-                                                        images={diary.Images}
-                                                    />
-                                                )}
-                                                <ParaGraph>
-                                                    {diary.content}
-                                                </ParaGraph>
-                                            </a>
-                                        </Link>
-                                    </CardListItem>
-                                </Col>
-                            ))}
-                    </Row>
-                    <BtnWrap>
-                        <Link href="/diary" prefetch={false}>
-                            <a>
-                                일상 카테고리 더 보기
-                                <RightOutlined />
-                            </a>
-                        </Link>
-                    </BtnWrap>
-                    <Divider orientation="left" plain>
                         <MainSubTitle>최신 게시물</MainSubTitle>
                     </Divider>
                     <PostList posts={categoryPostList} />
+                    <br />
+                    {/* 
+                    
+                    최신 댓글
+                    */}
+                    <Divider orientation="left" plain>
+                        <MainSubTitle>최신 댓글</MainSubTitle>
+                    </Divider>
+                    <CommentList />
                 </CenterContainer>
             </AppLayout>
         </>
@@ -182,9 +157,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
         context.store.dispatch({
             type: LOAD_POSTLIST_REQUEST,
             data: 'main',
-        })
-        context.store.dispatch({
-            type: LOAD_MAIN_DIARIES_REQUEST,
         })
         context.store.dispatch({
             type: LOAD_ME_REQUEST,

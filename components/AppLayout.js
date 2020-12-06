@@ -122,8 +122,8 @@ const AppLayout = ({ children }) => {
                                 }`}
                             >
                                 <Link
-                                    href="/post/[category]"
-                                    as={`/post/${menu.name_hidden}`}
+                                    href="/postlist/[category]"
+                                    as={`/postlist/${menu.name_hidden}`}
                                 >
                                     <GnbLink>
                                         <IconCont>
@@ -140,7 +140,7 @@ const AppLayout = ({ children }) => {
                 <Section>
                     <Header toggle={toggle} collapsed={collapsed} />
                     <Contents>{children}</Contents>
-                    <FooterBar>this site is made by Garin Jo </FooterBar>
+                    <FooterBar>This site is made by Garin Jo </FooterBar>
                 </Section>
                 {/* end section */}
             </Layout>

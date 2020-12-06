@@ -81,12 +81,12 @@ const MyEditor = ({ content, setContent }) => {
         }
     }
 
-    const myBlockStyleFn = (contentBlock) => {
-        const type = contentBlock.getType()
-        if (type === 'code') {
-            return 'code-block'
-        }
-    }
+    // const myBlockStyleFn = (contentBlock) => {
+    //     const type = contentBlock.getType()
+    //     if (type === 'code') {
+    //         return 'code-block'
+    //     }
+    // }
     // const blockRenderMap = Immutable.Map({
     //     code: {
     //         element: 'div',
@@ -100,7 +100,6 @@ const MyEditor = ({ content, setContent }) => {
                     editorState={editorState}
                     onEditorStateChange={onEditorStateChange}
                     blockRendererFn={myBlockRenderer}
-                    blockStyleFn={myBlockStyleFn}
                     toolbar={{
                         image: {
                             uploadCallback: uploadImageCallBack,

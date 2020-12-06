@@ -15,7 +15,9 @@ const Editor = dynamic(import('../components/Editor'), { ssr: false })
 const EditPost = () => {
     const router = useRouter()
     const dispatch = useDispatch()
-    const { singlePost } = useSelector((state) => state.post)
+    const { singlePost, editPostLoading, editPostDone } = useSelector(
+        (state) => state.post
+    )
     const { me } = useSelector((state) => state.user)
     const [content, setContent] = useState(singlePost.content)
     const [category, setCategory] = useState(singlePost?.Category?.name_hidden)
@@ -26,6 +28,13 @@ const EditPost = () => {
             router.push('/')
         }
     }, [me && me.role])
+
+    useEffect(() => {
+        if (editPostDone && !editPostLoading) {
+            alert('게시물 수정이 완료 되었습니다. ')
+            router.push('/')
+        }
+    }, [editPostDone, editPostLoading])
     const onSubmitPostEdit = useCallback(() => {
         dispatch({
             type: EDIT_POST_REQUEST,

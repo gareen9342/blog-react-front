@@ -12,7 +12,7 @@ const PostSub = styled.h3`
         font-weight: 600;
     }
 `
-function PostList({ posts, category }) {
+function PostList({ posts }) {
     return (
         <List
             dataSource={posts}
@@ -27,14 +27,7 @@ function PostList({ posts, category }) {
                             )
                         }
                         title={
-                            <Link
-                                href="/post/[category]/[id]"
-                                as={`/post/${
-                                    category
-                                        ? category
-                                        : item.Category.name_hidden
-                                }/${item.id}`}
-                            >
+                            <Link href="/post/[id]" as={`/post/${item.id}`}>
                                 <a>
                                     <PostSub>
                                         {item.subject}&nbsp;&nbsp;

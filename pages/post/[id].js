@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 import Head from 'next/head'
-import AppLayout from '../../../components/AppLayout'
+import AppLayout from '../../components/AppLayout'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
-import { LOAD_SINGLE_POST_REQUEST } from '../../../types/post'
-import { LOAD_ME_REQUEST } from '../../../types/user'
-import wrapper from '../../../store/configureStore'
+import { LOAD_SINGLE_POST_REQUEST } from '../../types/post'
+import { LOAD_ME_REQUEST } from '../../types/user'
+import wrapper from '../../store/configureStore'
 import { END } from 'redux-saga'
 import axios from 'axios'
 import Link from 'next/link'
-import PostCard from '../../../components/PostCard'
-import { CenterContainer } from '../../../styles/common/UI'
+import PostCard from '../../components/PostCard'
+import { CenterContainer } from '../../styles/common/UI'
 
 function SinglePost() {
     const { singlePost } = useSelector((state) => state.post)
