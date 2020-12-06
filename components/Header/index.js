@@ -16,7 +16,7 @@ import Router from 'next/router'
 
 import HeaderDropdown from './Dropdown'
 import { DropdownOverlayLink, LogoutBtn } from './style'
-
+import useLocalStorage from '../../hooks/useLocalStorage'
 const HeaderWrap = styled.div`
     height: 60px;
     position: relative;
@@ -59,12 +59,7 @@ const NavBtn = styled(Button)`
 `
 
 const Header = ({ toggle, collapsed }) => {
-    // const darkMode = useDarkMode(true)
-    // const [dark, setDark] = useState(null)
-    // useEffect(() => {
-    //     setDark(`${darkMode.value}`)
-    //     return () => {}
-    // }, [darkMode.value])
+    const [user, setUser] = useLocalStorage('user')
 
     const dispatch = useDispatch()
     const { me } = useSelector((state) => state.user)
@@ -72,6 +67,7 @@ const Header = ({ toggle, collapsed }) => {
         dispatch({
             type: LOG_OUT_REQUEST,
         })
+        setUser({})
         Router.push('/')
     }, [])
 

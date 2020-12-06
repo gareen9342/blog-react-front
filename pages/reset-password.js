@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { Form, Input, Button } from 'antd'
 import CenteredLayout from '../components/CenteredLayout'
 import { Title } from '../styles/common/UI'
@@ -8,6 +9,12 @@ import UserService from '../services/userService'
 import Router from 'next/router'
 
 function resetPassword() {
+    const { me } = useSelector((state) => state.user)
+    useEffect(() => {
+        if (!(me && me.role)) {
+            Router.push('/')
+        }
+    }, [me && me.id])
     const [email, onChangeEmail] = useInput('')
     const onSubmitResetPassword = useCallback(async () => {
         let result = await UserService.resetPassword({ email: email })

@@ -30,7 +30,6 @@ function CommentList() {
                 comments.length > 0 &&
                 comments.map((item) => (
                     <CommentItem key={item.id}>
-                        {console.log(item)}
                         <Link href={`/post/${item.PostId}`}>
                             {item.content}
                         </Link>

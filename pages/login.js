@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { LOGIN_REQUEST } from '../types/user'
 import Router from 'next/router'
 import Link from 'next/link'
+import useLocalStorage from '../hooks/useLocalStorage'
+
 const InputWrap = styled.div`
     padding: 25px 0;
     > label {
@@ -30,10 +32,12 @@ const login = () => {
             },
         })
     }, [email, password])
+    const [user, setUser] = useLocalStorage('user', {})
 
     //redirection
     useEffect(() => {
         if (me && me.id) {
+            setUser(me)
             Router.push('/')
         }
     }, [me && me.id])
