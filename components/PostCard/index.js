@@ -27,6 +27,7 @@ import {
     HashTagItem,
     HashTagArea,
     Likes,
+    ViewCount,
 } from './styles'
 import Comments from './Comments'
 import moment from 'moment'
@@ -113,6 +114,7 @@ const PostCard = ({ postData }) => {
                         {moment(postData.createdAt).format('YYYY / MM / DD')}
                     </PostDate>
                     &nbsp;&nbsp;
+                    <ViewCount>{postData.views + 'views 👀'}</ViewCount>
                     {me && me.id && postData.User.id === me.id && (
                         <Popconfirm
                             title="Are you sure？"

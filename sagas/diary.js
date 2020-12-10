@@ -6,9 +6,9 @@ import {
     LOAD_DIARIES_REQUEST,
     LOAD_DIARIES_SUCCESS,
     LOAD_DIARIES_FAILURE,
-    LOAD_MAIN_DIARIES_REQUEST,
-    LOAD_MAIN_DIARIES_SUCCESS,
-    LOAD_MAIN_DIARIES_FAILURE,
+    // LOAD_MAIN_DIARIES_REQUEST,
+    // LOAD_MAIN_DIARIES_SUCCESS,
+    // LOAD_MAIN_DIARIES_FAILURE,
     LOAD_SINGLE_DIARY_REQUEST,
     LOAD_SINGLE_DIARY_SUCCESS,
     LOAD_SINGLE_DIARY_FAILURE,
@@ -53,24 +53,24 @@ function* loadDiaries(action) {
     }
 }
 
-function loadMainDiariesAPI() {
-    return axios.get(`/diary/main`)
-}
-function* loadMainDiaries() {
-    try {
-        const result = yield call(loadMainDiariesAPI)
-        yield put({
-            type: LOAD_MAIN_DIARIES_SUCCESS,
-            data: result.data,
-        })
-    } catch (error) {
-        console.error(error)
-        yield put({
-            type: LOAD_MAIN_DIARIES_FAILURE,
-            error: error.response.data,
-        })
-    }
-}
+// function loadMainDiariesAPI() {
+//     return axios.get(`/diary/main`)
+// }
+// function* loadMainDiaries() {
+//     try {
+//         const result = yield call(loadMainDiariesAPI)
+//         yield put({
+//             type: LOAD_MAIN_DIARIES_SUCCESS,
+//             data: result.data,
+//         })
+//     } catch (error) {
+//         console.error(error)
+//         yield put({
+//             type: LOAD_MAIN_DIARIES_FAILURE,
+//             error: error.response.data,
+//         })
+//     }
+// }
 
 function loadSingleDairyAPI(diaryId) {
     return axios.get(`/diary/${diaryId}`)
@@ -99,9 +99,9 @@ function* watchLoadDiaries() {
     yield takeLatest(LOAD_DIARIES_REQUEST, loadDiaries)
 }
 
-function* watchLoadMainDiaries() {
-    yield takeLatest(LOAD_MAIN_DIARIES_REQUEST, loadMainDiaries)
-}
+// function* watchLoadMainDiaries() {
+//     yield takeLatest(LOAD_MAIN_DIARIES_REQUEST, loadMainDiaries)
+// }
 
 function* watchLoadSingleDiary() {
     yield takeLatest(LOAD_SINGLE_DIARY_REQUEST, loadSingleDiary)
@@ -110,7 +110,7 @@ export default function* diarySaga() {
     yield all([
         fork(watchUploadDiary),
         fork(watchLoadDiaries),
-        fork(watchLoadMainDiaries),
+        // fork(watchLoadMainDiaries),
         fork(watchLoadSingleDiary),
     ])
 }

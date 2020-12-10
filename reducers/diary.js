@@ -6,9 +6,9 @@ import {
     LOAD_DIARIES_REQUEST,
     LOAD_DIARIES_SUCCESS,
     LOAD_DIARIES_FAILURE,
-    LOAD_MAIN_DIARIES_REQUEST,
-    LOAD_MAIN_DIARIES_SUCCESS,
-    LOAD_MAIN_DIARIES_FAILURE,
+    // LOAD_MAIN_DIARIES_REQUEST,
+    // LOAD_MAIN_DIARIES_SUCCESS,
+    // LOAD_MAIN_DIARIES_FAILURE,
     LOAD_SINGLE_DIARY_REQUEST,
     LOAD_SINGLE_DIARY_SUCCESS,
     LOAD_SINGLE_DIARY_FAILURE,
@@ -19,9 +19,9 @@ const initialState = {
     loadDiariesLoading: false,
     loadDiariesDone: false,
     loadDiariesError: null,
-    loadMainDiariesLoading: false,
-    loadMainDiariesDone: false,
-    loadMainDiariesError: null,
+    // loadMainDiariesLoading: false,
+    // loadMainDiariesDone: false,
+    // loadMainDiariesError: null,
     loadSingleDiaryLoading: false,
     loadSingleDiaryDone: false,
     loadSingleDiaryError: null,
@@ -67,20 +67,20 @@ const reducer = (state = initialState, action) =>
                 draft.loadDiariesLoading = false
                 draft.loadDiariesError = action.error
                 break
-            case LOAD_MAIN_DIARIES_REQUEST:
-                draft.loadMainDiariesLoading = true
-                draft.loadMainDiariesError = null
-                draft.loadMainDiariesDone = false
-                break
-            case LOAD_MAIN_DIARIES_SUCCESS:
-                draft.loadMainDiariesLoading = false
-                draft.loadMainDiariesDone = true
-                draft.mainDiaryList = action.data
-                break
-            case LOAD_MAIN_DIARIES_FAILURE:
-                draft.loadMainDiariesLoading = false
-                draft.loadMainDiariesError = action.error
-                break
+            // case LOAD_MAIN_DIARIES_REQUEST:
+            //     draft.loadMainDiariesLoading = true
+            //     draft.loadMainDiariesError = null
+            //     draft.loadMainDiariesDone = false
+            //     break
+            // case LOAD_MAIN_DIARIES_SUCCESS:
+            //     draft.loadMainDiariesLoading = false
+            //     draft.loadMainDiariesDone = true
+            //     draft.mainDiaryList = action.data
+            //     break
+            // case LOAD_MAIN_DIARIES_FAILURE:
+            //     draft.loadMainDiariesLoading = false
+            //     draft.loadMainDiariesError = action.error
+            //     break
             case LOAD_SINGLE_DIARY_REQUEST:
                 draft.loadSingleDiaryLoading = true
                 draft.loadSingleDiaryError = null

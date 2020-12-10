@@ -3,6 +3,25 @@ import { backUrl } from '../config/config'
 import axios from 'axios'
 
 const ApiService = () => {}
+
+ApiService.get = async (uri, data) => {
+    let result = {}
+    await axios
+        .get(
+            `${
+                process.env.NODE_ENV === 'production'
+                    ? backUrl
+                    : 'http://localhost:80'
+            }/${uri}`,
+            { withCredentials: true }
+        )
+        .then((res) => {
+            result = res
+        })
+        .catch((err) => console.error(err))
+    return result
+}
+
 ApiService.patch = async (uri, data) => {
     let result = {}
     await axios

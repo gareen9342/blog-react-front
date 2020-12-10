@@ -41,6 +41,22 @@ export const myMenus = [
         key: 'node',
         name_hidden: '6',
     },
+    {
+        menuName: 'React.js',
+        key: 'react',
+        name_hidden: '7',
+    },
+    {
+        menuName: 'Spring',
+        key: 'spring',
+        name_hidden: '8',
+    },
+    {
+        menuName: 'DataBase',
+        key: 'db',
+        name_hidden: '9',
+    },
+
     // {
     //     _id: 3,
     //     menuName: 'HTML',

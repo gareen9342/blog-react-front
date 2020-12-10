@@ -40,11 +40,13 @@ const Logo = styled.h1`
     left: 50%;
     top: 50%;
     text-align: center;
-    font-size: 15px;
+    font-size: 1em;
+    letter-spacing: 1px;
 
     > a {
         // color: #9896f1;
         // font-weight: 600;
+        color: #ff90b3;
     }
     transform: translate(-50%, -50%);
 `
@@ -80,7 +82,7 @@ const Header = ({ toggle, collapsed }) => {
             </LeftBox>
             <Logo>
                 <Link href="/">
-                    <a>가리지 않아요</a>
+                    <a>SNOOPY'S BLOG</a>
                 </Link>
             </Logo>
             <RightBox>

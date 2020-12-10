@@ -25,10 +25,12 @@ const mypage = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if (!user.id) {
-            // alert('')
-            router.push('/')
-        }
+        console.log(user)
+
+        // if (!user.id) {
+        //     // alert('')
+        //     router.push('/')
+        // }
     }, [user])
 
     return (

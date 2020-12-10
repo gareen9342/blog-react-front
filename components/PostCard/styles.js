@@ -105,3 +105,8 @@ export const HashTagItem = styled.span`
         font-size: 0.9em;
     }
 `
+
+export const ViewCount = styled.span`
+    color: #9b9b9b;
+    font-size: 0.9em;
+`

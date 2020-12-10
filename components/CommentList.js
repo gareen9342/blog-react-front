@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
+import { List } from 'antd'
 import axios from 'axios'
 import useSWR from 'swr'
 import styled from 'styled-components'
@@ -26,15 +26,19 @@ function CommentList() {
     }
     return (
         <CommentBox>
-            {!!comments &&
-                comments.length > 0 &&
-                comments.map((item) => (
-                    <CommentItem key={item.id}>
-                        <Link href={`/post/${item.PostId}`}>
-                            {item.content}
-                        </Link>
-                    </CommentItem>
-                ))}
+            {!!comments && comments.length > 0 && (
+                <List
+                    bordered
+                    dataSource={comments}
+                    renderItem={(item) => (
+                        <List.Item>
+                            <Link href="/post/[id]" as={`/post/${item.PostId}`}>
+                                {item.content}
+                            </Link>
+                        </List.Item>
+                    )}
+                />
+            )}
         </CommentBox>
     )
 }
