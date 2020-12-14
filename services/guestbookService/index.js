@@ -10,5 +10,8 @@ const guestbookService = {
     editGuestbook: (data) => {
         return ApiService.patch(`guestbook/`, data)
     },
+    deleteGuestbook: (data) => {
+        return ApiService.post(`guestbook/delete`, data)
+    },
 }
 export default guestbookService

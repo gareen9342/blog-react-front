@@ -1,21 +1,22 @@
 import axios from 'axios'
 import useSWR from 'swr'
+// import { useSWRInfinite } from 'swr'
 
 const fetcher = (url) =>
     axios.get(url, { withCredentials: true }).then((result) => result.data)
 
-const useGuestbook = () => {
-    const { data, error, mutate } = useSWR(
+const useGuestbook = (lastId) => {
+    const { data: guestbooks, error, mutate } = useSWR(
         `${
             process.env.NODE_ENV === 'production'
                 ? backUrl
                 : 'http://localhost:80'
-        }/guestbook`,
+        }/guestbook?lastId=${lastId || 0}`,
         fetcher
     )
     return {
-        guestbooks: data,
-        isLoading: !error && !data,
+        guestbooks,
+        isLoading: !error && !guestbooks,
         loadGuestbookError: error,
         mutate,
     }

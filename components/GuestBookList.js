@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import guestbookService from '../services/guestbookService'
 import useGuestbook from './useGuestbook'
 import useInput from '../hooks/useInput'
+
 const GuestBookListWrap = styled.div`
     height: calc(100% - 200px);
     padding: 0 13px;
@@ -15,38 +16,60 @@ const ActionBtn = styled.button`
     border: none;
     outline: none;
     cursor: pointer;
-    /* color: */
 `
 const { TextArea } = Input
 function GuestBookList() {
     const [visible, setVisible] = useState(false)
-    const [password, onChangePassword] = useInput('')
+    const [password, onChangePassword, setPassword] = useInput('')
     const [content, onChangeContent] = useInput('')
+    const [lastId, setLastId] = useState(null)
     const { guestbooks, isLoading, loadGuestbookError, mutate } = useGuestbook()
+    // lastId
 
     const handleVisibleChange = useCallback(() => {
         setVisible(!visible)
     }, [visible])
     const onEditGuestbook = useCallback(
         async (id) => {
-            let guestbook = guestbooks.find((x) => x.id === id)
-            const result = await guestbookService.editGuestbook({
+            // let guestbook = guestbooks.find((x) => x.id === id)
+            let result = await guestbookService.editGuestbook({
                 id,
                 password,
                 content,
             })
-            // if (result) {
-            //     guestbook = result
-            // }
+            if (result.success) {
+                setVisible(false)
+                setPassword('')
+            }
             mutate(guestbooks, true)
         },
         [password, content]
     )
-    const hide = useCallback(() => {
-        setVisible(false)
-    }, [visible])
+
+    const [deletePassword, onChangeDeletePassword] = useInput('')
+    const [deleteVisible, setDeleteVisible] = useState(false)
+
+    const handleDeleteVisibleChange = useCallback(() => {
+        setDeleteVisible(!deleteVisible)
+    }, [deleteVisible])
+
+    const onDeleteGuestbook = useCallback(
+        async (id) => {
+            console.log(id)
+            let result = await guestbookService.deleteGuestbook({
+                id,
+                password: deletePassword,
+            })
+            if (result.success) {
+                mutate(guestbooks, true)
+                setVisible(true)
+            }
+        },
+        [deletePassword]
+    )
     return (
         <GuestBookListWrap>
+            {/* {editSuccess} */}
             <div>
                 {guestbooks &&
                     guestbooks.length > 0 &&
@@ -61,6 +84,7 @@ function GuestBookList() {
                                         <Input
                                             onChange={onChangePassword}
                                             value={password}
+                                            type="password"
                                             placeholder="비밀번호를 입력해주세요."
                                         />
                                         <br />
@@ -96,9 +120,44 @@ function GuestBookList() {
                                 </Button>
                             </Popover>
                             &nbsp;&nbsp;
-                            <Button size="small">delete</Button>
+                            <Popover
+                                content={
+                                    <div>
+                                        <Input
+                                            type="password"
+                                            value={deletePassword}
+                                            onChange={onChangeDeletePassword}
+                                        />
+                                        <Button
+                                            onClick={() =>
+                                                onDeleteGuestbook(item.id)
+                                            }
+                                            size="small"
+                                        >
+                                            정말로 삭제하시겠습니까?
+                                        </Button>
+                                    </div>
+                                }
+                            >
+                                <Button
+                                    onClick={handleDeleteVisibleChange}
+                                    size="small"
+                                >
+                                    delete
+                                </Button>
+                            </Popover>
                         </Card>
                     ))}
+                {/* {console.log(guestbooks.length)} */}
+                <Button
+                    onClick={() => {
+                        // console.log(guestbooks[guestbooks.length - 1].id)
+                        setLastId(guestbooks[guestbooks.length - 1].id)
+                        mutate(useGuestbook(lastId))
+                    }}
+                >
+                    load more
+                </Button>
             </div>
         </GuestBookListWrap>
     )
