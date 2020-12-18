@@ -8,7 +8,7 @@ moment.locale('ko')
 const PostSub = styled.h3`
     font-size: 1em;
     > span {
-        color: #d59bf6;
+        color: #7579e7;
         font-weight: 600;
     }
 `

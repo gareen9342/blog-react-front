@@ -3,13 +3,7 @@ import { Menu, Dropdown, Button } from 'antd'
 
 import styled from 'styled-components'
 import Link from 'next/link'
-import {
-    DownOutlined,
-    LeftOutlined,
-    UserOutlined,
-    EditOutlined,
-    MenuOutlined,
-} from '@ant-design/icons'
+import { LeftOutlined, MenuOutlined } from '@ant-design/icons'
 import { useSelector, useDispatch } from 'react-redux'
 import { LOG_OUT_REQUEST } from '../../types/user'
 import Router from 'next/router'
@@ -45,8 +39,10 @@ const Logo = styled.h1`
 
     > a {
         // color: #9896f1;
-        // font-weight: 600;
-        color: #ff90b3;
+        letter-spacing: 1px;
+        font-weight: 600;
+        font-size: 1.2em;
+        color: #7579e7;
     }
     transform: translate(-50%, -50%);
 `

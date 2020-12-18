@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Card, Popover, Button, Input } from 'antd'
 import styled from 'styled-components'
 import guestbookService from '../services/guestbookService'
@@ -7,69 +7,78 @@ import useInput from '../hooks/useInput'
 
 const GuestBookListWrap = styled.div`
     height: calc(100% - 200px);
-    padding: 0 13px;
+    /* padding: 0 13px; */
     /* outline: 1px solid; */
     overflow-y: auto;
 `
-const ActionBtn = styled.button`
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-`
+
 const { TextArea } = Input
 function GuestBookList() {
     const [visible, setVisible] = useState(false)
     const [password, onChangePassword, setPassword] = useInput('')
-    const [content, onChangeContent] = useInput('')
-    const [lastId, setLastId] = useState(null)
-    const { guestbooks, isLoading, loadGuestbookError, mutate } = useGuestbook()
-    // lastId
+    const [content, onChangeContent, setContent] = useInput('')
+    const [
+        deletePassword,
+        onChangeDeletePassword,
+        setDeletePassword,
+    ] = useInput('')
+    const [deleteVisible, setDeleteVisible] = useState(false)
+    // data fetching
+    const {
+        guestbooks,
+        isLoading,
+        loadGuestbookError,
+        mutate,
+        uri,
+    } = useGuestbook()
 
     const handleVisibleChange = useCallback(() => {
         setVisible(!visible)
     }, [visible])
     const onEditGuestbook = useCallback(
         async (id) => {
-            // let guestbook = guestbooks.find((x) => x.id === id)
             let result = await guestbookService.editGuestbook({
                 id,
                 password,
                 content,
             })
+            if (!result.success && result.message) {
+                return alert(result.message)
+            }
             if (result.success) {
                 setVisible(false)
+                setContent('')
                 setPassword('')
+                alert('수정되었습니다')
+                mutate(guestbooks, true)
             }
-            mutate(guestbooks, true)
         },
         [password, content]
     )
 
-    const [deletePassword, onChangeDeletePassword] = useInput('')
-    const [deleteVisible, setDeleteVisible] = useState(false)
-
     const handleDeleteVisibleChange = useCallback(() => {
         setDeleteVisible(!deleteVisible)
     }, [deleteVisible])
-
     const onDeleteGuestbook = useCallback(
         async (id) => {
-            console.log(id)
             let result = await guestbookService.deleteGuestbook({
                 id,
                 password: deletePassword,
             })
+            if (!result.success && result.message) {
+                setDeletePassword('')
+                return alert(result.message)
+            }
             if (result.success) {
-                mutate(guestbooks, true)
-                setVisible(true)
+                const filteredData = guestbooks.filter((x) => x.id !== id)
+                mutate(filteredData, true)
+                setDeletePassword('')
             }
         },
         [deletePassword]
     )
     return (
         <GuestBookListWrap>
-            {/* {editSuccess} */}
             <div>
                 {guestbooks &&
                     guestbooks.length > 0 &&
@@ -85,6 +94,7 @@ function GuestBookList() {
                                             onChange={onChangePassword}
                                             value={password}
                                             type="password"
+                                            maxlength="10"
                                             placeholder="비밀번호를 입력해주세요."
                                         />
                                         <br />
@@ -121,13 +131,19 @@ function GuestBookList() {
                             </Popover>
                             &nbsp;&nbsp;
                             <Popover
+                                trigger="click"
+                                title="수정하기"
                                 content={
                                     <div>
                                         <Input
                                             type="password"
+                                            placeholder="비밀번호 입력"
+                                            maxlength="10"
                                             value={deletePassword}
                                             onChange={onChangeDeletePassword}
                                         />
+                                        <br />
+                                        <br />
                                         <Button
                                             onClick={() =>
                                                 onDeleteGuestbook(item.id)
@@ -148,16 +164,6 @@ function GuestBookList() {
                             </Popover>
                         </Card>
                     ))}
-                {/* {console.log(guestbooks.length)} */}
-                <Button
-                    onClick={() => {
-                        // console.log(guestbooks[guestbooks.length - 1].id)
-                        setLastId(guestbooks[guestbooks.length - 1].id)
-                        mutate(useGuestbook(lastId))
-                    }}
-                >
-                    load more
-                </Button>
             </div>
         </GuestBookListWrap>
     )

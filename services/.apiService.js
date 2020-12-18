@@ -56,7 +56,13 @@ ApiService.post = async (uri, data) => {
         .then((res) => {
             result = res.data
         })
-        .catch((err) => console.error(err))
+        .catch((err) => {
+            if (err.response && err.response.data.message) {
+                console.log(err.response.data)
+                // alert(err.response.data.message) // some reason error message
+            }
+            // console.error(err)
+        })
     return result
 }
 
@@ -74,7 +80,12 @@ ApiService.delete = async (uri, data) => {
         .then((res) => {
             result = res.data
         })
-        .catch((err) => console.error(err))
+        .catch((err) => {
+            if (err.response && err.response.data) {
+                alert(err.response.data.message) // some reason error message
+            }
+            console.error(err)
+        })
     return result
 }
 export default ApiService
