@@ -1,13 +1,22 @@
 import React, { useCallback, useState, useEffect } from 'react'
+import wrapper from '../store/configureStore'
+import axios from 'axios'
+
+import { END } from 'redux-saga'
 import { useDispatch, useSelector } from 'react-redux'
 import AppLayout from '../components/AppLayout'
 import { CenterContainer, SubTitle, Title } from '../styles/common/UI'
 import { Input, Form, Button } from 'antd'
 import useInput from '../hooks/useInput'
 import styled from 'styled-components'
-import { AUTH_ME_REQUEST, LOG_OUT_REQUEST } from '../types/user'
+import {
+    AUTH_ME_REQUEST,
+    LOG_OUT_REQUEST,
+    LOAD_ME_REQUEST,
+} from '../types/user'
 import Router from 'next/router'
 import UserService from '../services/userService'
+
 const CenterCont = styled.div`
     text-align: center;
     // display: flex;
@@ -189,5 +198,22 @@ function ChangePwd() {
         </AppLayout>
     )
 }
+export const getServerSideProps = wrapper.getServerSideProps(
+    async (context) => {
+        //서버쪽에서 실행시에는 context.req 존재
 
+        const cookie = context.req ? context.req.headers.cookie : ''
+
+        axios.defaults.headers.Cookie = ''
+
+        if (context.req && cookie) {
+            axios.defaults.headers.Cookie = cookie
+        }
+        context.store.dispatch({
+            type: LOAD_ME_REQUEST,
+        })
+        context.store.dispatch(END)
+        await context.store.sagaTask.toPromise()
+    }
+)
 export default ChangePwd

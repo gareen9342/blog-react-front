@@ -68,7 +68,7 @@ function GuestBookForm() {
                 />
                 &nbsp; &nbsp;
                 <GuestBookInput
-                    maxlength="10"
+                    maxLength="10"
                     type="password"
                     value={password}
                     onChange={onChangePassword}

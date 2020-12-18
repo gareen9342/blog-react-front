@@ -1,14 +1,17 @@
 import React, { useCallback, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import wrapper from '../store/configureStore'
+import axios from 'axios'
+
+import { END } from 'redux-saga'
+// import PropTypes from 'prop-types'
 import CenteredLayout from '../components/CenteredLayout'
 import { Form, Input, Button } from 'antd'
 import styled from 'styled-components'
 import useInput from '../hooks/useInput'
 import { useDispatch, useSelector } from 'react-redux'
-import { LOGIN_REQUEST } from '../types/user'
+import { LOGIN_REQUEST, LOAD_ME_REQUEST } from '../types/user'
 import Router from 'next/router'
 import Link from 'next/link'
-import useLocalStorage from '../hooks/useLocalStorage'
 
 const InputWrap = styled.div`
     padding: 25px 0;
@@ -32,12 +35,10 @@ const login = () => {
             },
         })
     }, [email, password])
-    const [user, setUser] = useLocalStorage('user', {})
 
     //redirection
     useEffect(() => {
         if (me && me.id) {
-            setUser(me)
             Router.push('/')
         }
     }, [me && me.id])
@@ -84,6 +85,22 @@ const login = () => {
     )
 }
 
-login.propTypes = {}
+export const getServerSideProps = wrapper.getServerSideProps(
+    async (context) => {
+        //서버쪽에서 실행시에는 context.req 존재
 
+        const cookie = context.req ? context.req.headers.cookie : ''
+
+        axios.defaults.headers.Cookie = ''
+
+        if (context.req && cookie) {
+            axios.defaults.headers.Cookie = cookie
+        }
+        context.store.dispatch({
+            type: LOAD_ME_REQUEST,
+        })
+        context.store.dispatch(END)
+        await context.store.sagaTask.toPromise()
+    }
+)
 export default login
