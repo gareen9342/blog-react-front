@@ -1,4 +1,3 @@
-import Axios from 'axios'
 import { backUrl } from '../config/config'
 import axios from 'axios'
 

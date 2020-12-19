@@ -98,7 +98,7 @@ const Home = () => {
                     <Row gutter={16}>
                         <Col xs={24} md={12} lg={12}>
                             <MainSubTitle>최신 댓글</MainSubTitle>
-                            <CommentList />
+                            {/* <CommentList /> */}
                         </Col>
                         <Col xs={24} md={12} lg={12}>
                             <MainSubTitle>방명록</MainSubTitle>
