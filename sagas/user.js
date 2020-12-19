@@ -32,7 +32,6 @@ function logInAPI(data) {
 function* logUserIn(action) {
     try {
         const result = yield call(logInAPI, action.data)
-        // console.log(result)
         yield put({
             type: LOGIN_SUCCESS,
             data: result.data,
@@ -46,7 +45,6 @@ function* logUserIn(action) {
     }
 }
 function signUpAPI(data) {
-    // console.log(data)
     return axios.post('/user/signup', data)
 }
 function* signUp(action) {
@@ -71,7 +69,6 @@ function loadMeAPI() {
 function* loadMe() {
     try {
         const result = yield call(loadMeAPI)
-        // console.log('result=', result)
         yield put({
             type: LOAD_ME_SUCCESS,
             data: result.data,
@@ -107,7 +104,6 @@ function* logOut() {
 //비밀번호 변경 -> 비밀번호 확인
 
 function authMeAPI(data) {
-    console.log(data)
     return axios.post('/user/change-password', data)
 }
 

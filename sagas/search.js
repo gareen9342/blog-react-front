@@ -12,7 +12,6 @@ function searchPostAPI(data) {
 function* searchPost(action) {
     try {
         const result = yield call(searchPostAPI, action.data)
-        // console.log(result)
         yield put({
             type: SEARCH_POST_SUCCESS,
             data: result.data,

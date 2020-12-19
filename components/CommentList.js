@@ -22,10 +22,11 @@ function CommentList() {
         fetcher
     )
     if (commentsError) {
-        setCommentError('댓글을 로딩 중에 에러가 발생했습니다.')
+        setCommentError('댓글을 로딩중에 에러가 발생했습니다.')
     }
     return (
         <CommentBox>
+            {loadCommentsError}
             {!!comments && comments.length > 0 && (
                 <List
                     bordered

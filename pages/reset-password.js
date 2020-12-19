@@ -1,4 +1,8 @@
 import React, { useCallback, useEffect } from 'react'
+import wrapper from '../store/configureStore'
+import axios from 'axios'
+import { END } from 'redux-saga'
+//
 import { useSelector } from 'react-redux'
 import { Form, Input, Button } from 'antd'
 import CenteredLayout from '../components/CenteredLayout'
@@ -6,16 +10,17 @@ import { Title } from '../styles/common/UI'
 import useInput from '../hooks/useInput'
 
 import UserService from '../services/userService'
+import { LOAD_ME_REQUEST } from '../types/user'
 import Router from 'next/router'
 
 function resetPassword() {
     const { me } = useSelector((state) => state.user)
+    const [email, onChangeEmail] = useInput('')
     useEffect(() => {
-        if (!(me && me.role)) {
+        if (me && me.id) {
             Router.push('/')
         }
     }, [me && me.id])
-    const [email, onChangeEmail] = useInput('')
     const onSubmitResetPassword = useCallback(async () => {
         let result = await UserService.resetPassword({ email: email })
 
@@ -49,5 +54,24 @@ function resetPassword() {
         </CenteredLayout>
     )
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(
+    async (context) => {
+        //서버쪽에서 실행시에는 context.req 존재
+
+        const cookie = context.req ? context.req.headers.cookie : ''
+
+        axios.defaults.headers.Cookie = ''
+
+        if (context.req && cookie) {
+            axios.defaults.headers.Cookie = cookie
+        }
+        context.store.dispatch({
+            type: LOAD_ME_REQUEST,
+        })
+        context.store.dispatch(END)
+        await context.store.sagaTask.toPromise()
+    }
+)
 
 export default resetPassword

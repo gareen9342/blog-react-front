@@ -58,7 +58,6 @@ ApiService.post = async (uri, data) => {
         })
         .catch((err) => {
             if (err.response && err.response.data.message) {
-                console.log(err.response.data)
                 // alert(err.response.data.message) // some reason error message
             }
             // console.error(err)

@@ -236,11 +236,6 @@ const reducer = (state = initialState, action) =>
                 draft.editPostError = null
                 break
             case EDIT_POST_SUCCESS: {
-                // const chagingPost = categoryPostList.find(
-                //     (x) => x.id === +action.data.id
-                // )
-
-                // chagingPost.content = action.data
                 draft.singlePost = action.data
                 draft.editPostLoading = false
                 draft.editPostDone = true

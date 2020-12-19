@@ -1,10 +1,12 @@
 import React, { useCallback, useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Input, Button } from 'antd'
-import guestbookService from '../services/guestbookService'
 import useInput from '../hooks/useInput'
-import useGuestbook from './useGuestbook'
-
+import {
+    POST_GUESTBOOK_REQUEST,
+    EDIT_GUESTBOOK_REQUEST,
+} from '../types/guestbook'
 const { TextArea } = Input
 
 const GuestBookFormWrap = styled.div`
@@ -28,7 +30,14 @@ function GuestBookForm() {
     const [email, onChangeEmail, setEmail] = useInput('')
     const [password, onChangePassword, setPassword] = useInput('')
     const [content, onChangeContent, setContent] = useInput('')
-    const { guestbooks, mutate, loadGuestbookError } = useGuestbook()
+
+    const dispatch = useDispatch()
+
+    const {
+        postGuestbookError,
+        postGuestbookLoading,
+        postGuestbookDone,
+    } = useSelector((state) => state.guestbook)
     const onPostGuestbook = useCallback(async () => {
         if (!email || !password || !content) {
             return alert('필드를 모두 채워주세요 ')
@@ -40,21 +49,30 @@ function GuestBookForm() {
             return alert('이메일 주소가 유효하지 않습니다.')
         }
         //email, password, content
-        let result = await guestbookService.postGuestbook({
-            email,
-            password,
-            content,
+        dispatch({
+            type: POST_GUESTBOOK_REQUEST,
+            data: {
+                email,
+                password,
+                content,
+            },
         })
-        // console.log(result)
-        if (result.message && !result.success) {
-            return alert(result.message)
-        }
-        mutate([...guestbooks, result], true)
-        alert('방명록이 성공적으로 업로드 되었습니다.')
         setEmail('')
         setPassword('')
         setContent('')
     }, [email, password, content])
+
+    useEffect(() => {
+        if (postGuestbookDone && !postGuestbookLoading) {
+            alert('방명록이 성공적으로 업로드 되었습니다.')
+        }
+    }, [postGuestbookDone])
+    useEffect(() => {
+        if (postGuestbookError) {
+            alert(postGuestbookError)
+        }
+    }, [postGuestbookError])
+    ///=================== end post guestbook ==================////
 
     return (
         <GuestBookFormWrap>
@@ -68,7 +86,7 @@ function GuestBookForm() {
                 />
                 &nbsp; &nbsp;
                 <GuestBookInput
-                    maxLength="10"
+                    maxLength={10}
                     type="password"
                     value={password}
                     onChange={onChangePassword}

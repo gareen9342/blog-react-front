@@ -80,7 +80,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
         if (context.req && cookie) {
             axios.defaults.headers.Cookie = cookie
         }
-        // console.log('context=', context)
         context.store.dispatch({
             type: SEARCH_POST_REQUEST,
             data: context.params.word,

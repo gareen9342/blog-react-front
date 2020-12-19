@@ -4,11 +4,11 @@ import user from './user'
 import post from './post'
 import diary from './diary'
 import search from './search'
+import guestbook from './guestbook'
 const rootReducer = (state, action) => {
     switch (action.type) {
         // 루트 리듀서의 상태를 전체를 덮어씌울 수 있다.
         case HYDRATE:
-            // console.log('HYDRATE', action)
             return action.payload
         default: {
             const combinedReducer = combineReducers({
@@ -16,6 +16,7 @@ const rootReducer = (state, action) => {
                 post,
                 diary,
                 search,
+                guestbook,
             })
             return combinedReducer(state, action)
         }

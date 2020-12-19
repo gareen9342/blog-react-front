@@ -5,6 +5,7 @@ import postSaga from './post'
 import categorySaga from './category'
 import diarySaga from './diary'
 import searchSaga from './search'
+import guestbookSaga from './guestbook'
 import { backUrl } from '../config/config'
 
 axios.defaults.baseURL =
@@ -18,5 +19,6 @@ export default function* rootSaga() {
         fork(categorySaga),
         fork(diarySaga),
         fork(searchSaga),
+        fork(guestbookSaga),
     ])
 }

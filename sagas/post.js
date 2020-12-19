@@ -39,7 +39,6 @@ function uploadPostAPI(data) {
 function* uploadPost(action) {
     try {
         const result = yield call(uploadPostAPI, action.data)
-        // console.log(result)
         yield put({
             type: UPLOAD_POST_SUCCESS,
             data: result.data,
@@ -59,7 +58,6 @@ function loadSinglePostAPI(postId) {
 function* loadSinglePost(action) {
     try {
         const result = yield call(loadSinglePostAPI, action.data)
-        // console.log(result)
         yield put({
             type: LOAD_SINGLE_POST_SUCCESS,
             data: result.data,
@@ -142,7 +140,6 @@ function deleteCommentAPI(data) {
 function* deleteComment(action) {
     try {
         const result = yield call(deleteCommentAPI, action.data)
-        // console.log(result)
         yield put({
             type: DELETE_COMMENT_SUCCESS,
             data: result.data,
@@ -232,7 +229,6 @@ function editPostAPI(data) {
 function* editPost(action) {
     try {
         const result = yield call(editPostAPI, action.data)
-        console.log('result=', result)
         yield put({
             type: EDIT_POST_SUCCESS,
             data: result.data,
