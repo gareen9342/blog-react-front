@@ -33,6 +33,9 @@ import {
     EDIT_POST_SUCCESS,
     EDIT_POST_FAILURE,
     EDIT_POST_REQUEST,
+    LOAD_MAIN_COMMENTS_REQUEST,
+    LOAD_MAIN_COMMENTS_SUCCESS,
+    LOAD_MAIN_COMMENTS_FAILURE,
 } from '../types/post'
 import produce from '../util/produce'
 
@@ -70,9 +73,13 @@ const initialState = {
     editPostLoading: false,
     editPostDone: false,
     editPostError: null,
+    loadMainCommentsLoading: false,
+    loadMainCommentsDone: false,
+    loadMainCommentsError: null,
     singlePost: {},
     categoryPostList: [],
     hashtagPostList: [],
+    mainComments: [],
 }
 
 // 이전 상태를 액션을 ㄴ통해 다음 상태로 만들어 내는 함수 (불변성은 지키면서)
@@ -244,6 +251,21 @@ const reducer = (state = initialState, action) =>
             case EDIT_POST_FAILURE:
                 draft.editPostDone = true
                 draft.editPostError = action.error
+                break
+            case LOAD_MAIN_COMMENTS_REQUEST:
+                draft.loadMainCommentsLoading = true
+                draft.loadMainCommentsDone = false
+                draft.loadMainCommentsError = null
+                break
+            case LOAD_MAIN_COMMENTS_SUCCESS: {
+                draft.mainComments = action.data
+                draft.loadMainCommentsLoading = false
+                draft.loadMainCommentsDone = true
+                break
+            }
+            case LOAD_MAIN_COMMENTS_FAILURE:
+                draft.loadMainCommentsDone = true
+                draft.loadMainCommentsError = action.error
                 break
             default:
                 break

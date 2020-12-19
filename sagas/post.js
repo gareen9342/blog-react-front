@@ -30,6 +30,9 @@ import {
     EDIT_POST_SUCCESS,
     EDIT_POST_FAILURE,
     EDIT_POST_REQUEST,
+    LOAD_MAIN_COMMENTS_REQUEST,
+    LOAD_MAIN_COMMENTS_SUCCESS,
+    LOAD_MAIN_COMMENTS_FAILURE,
 } from '../types/post'
 import axios from 'axios'
 
@@ -241,6 +244,27 @@ function* editPost(action) {
         })
     }
 }
+//
+
+function loadMainCommentsAPI() {
+    return axios.get('/post/comments')
+}
+
+function* loadMainComments(action) {
+    try {
+        const result = yield call(loadMainCommentsAPI)
+        yield put({
+            type: LOAD_MAIN_COMMENTS_SUCCESS,
+            data: result.data,
+        })
+    } catch (error) {
+        console.error(error)
+        yield put({
+            type: LOAD_MAIN_COMMENTS_FAILURE,
+            error: error.response.data,
+        })
+    }
+}
 /*watch functions */
 function* watchUploadPost() {
     yield takeLatest(UPLOAD_POST_REQUEST, uploadPost)
@@ -282,6 +306,9 @@ function* watchEditPost() {
     yield takeLatest(EDIT_POST_REQUEST, editPost)
 }
 
+function* watchLoadMainComments() {
+    yield takeLatest(LOAD_MAIN_COMMENTS_REQUEST, loadMainComments)
+}
 export default function* postSaga() {
     yield all([
         fork(watchUploadPost),
@@ -294,5 +321,6 @@ export default function* postSaga() {
         fork(watchLoadPostList),
         fork(watchLoadHashtagPosts),
         fork(watchEditPost),
+        fork(watchLoadMainComments),
     ])
 }

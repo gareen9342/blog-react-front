@@ -46,17 +46,6 @@ export const EDIT_POST_REQUEST = 'editPostRequest'
 export const EDIT_POST_SUCCESS = 'editPostSuccess'
 export const EDIT_POST_FAILURE = 'editPostFailure'
 
-/**
- * delete post
- * load single post
- * get category post list
- * upload avatar
- * get comments
- * upload daily record
- * post upload 시 접근할 수 있는 사용자 정의
- * 운영자/ 회원 /
- *
- *
- *
- *
- */
+export const LOAD_MAIN_COMMENTS_REQUEST = 'loadMainCommentsRequest'
+export const LOAD_MAIN_COMMENTS_SUCCESS = 'loadMainCommentsSuccess'
+export const LOAD_MAIN_COMMENTS_FAILURE = 'loadMainCommentsFailure'

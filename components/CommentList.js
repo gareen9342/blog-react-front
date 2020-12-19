@@ -1,47 +1,42 @@
-// import React, { useEffect, useState } from 'react'
-// import { List } from 'antd'
-// import axios from 'axios'
-// import useSWR from 'swr'
-// import styled from 'styled-components'
-// import Link from 'next/link'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { List } from 'antd'
+import styled from 'styled-components'
+import Link from 'next/link'
+import { LOAD_MAIN_COMMENTS_REQUEST } from '../types/post'
+const CommentBox = styled.ul``
 
-// const CommentBox = styled.ul``
-// const CommentItem = styled.li``
+function CommentList() {
+    const dispatch = useDispatch()
+    const {
+        loadMainCommentsLoading,
+        mainComments,
+        loadMainCommentsError,
+    } = useSelector((state) => state.post)
+    useEffect(() => {
+        dispatch({
+            type: LOAD_MAIN_COMMENTS_REQUEST,
+        })
+    }, [])
+    return (
+        <CommentBox>
+            {loadMainCommentsError ? loadMainCommentsError : ''}
+            {!!mainComments && mainComments.length > 0 && (
+                <List
+                    bordered
+                    loading={loadMainCommentsLoading}
+                    dataSource={mainComments}
+                    renderItem={(item) => (
+                        <List.Item>
+                            <Link href="/post/[id]" as={`/post/${item.PostId}`}>
+                                {item.content}
+                            </Link>
+                        </List.Item>
+                    )}
+                />
+            )}
+        </CommentBox>
+    )
+}
 
-// const fetcher = (url) =>
-//     axios.get(url, { withCredentials: true }).then((result) => result.data)
-
-// function CommentList() {
-//     const [loadCommentsError, setCommentError] = useState('')
-//     const { data: comments, error: commentsError } = useSWR(
-//         `${
-//             process.env.NODE_ENV === 'production'
-//                 ? backUrl
-//                 : 'http://localhost:80'
-//         }/post/comments`,
-//         fetcher
-//     )
-//     if (commentsError) {
-//         setCommentError('댓글을 로딩중에 에러가 발생했습니다.')
-//     }
-//     return (
-//         <CommentBox>
-//             {loadCommentsError}
-//             {!!comments && comments.length > 0 && (
-//                 <List
-//                     bordered
-//                     dataSource={comments}
-//                     renderItem={(item) => (
-//                         <List.Item>
-//                             <Link href="/post/[id]" as={`/post/${item.PostId}`}>
-//                                 {item.content}
-//                             </Link>
-//                         </List.Item>
-//                     )}
-//                 />
-//             )}
-//         </CommentBox>
-//     )
-// }
-
-// export default CommentList
+export default CommentList

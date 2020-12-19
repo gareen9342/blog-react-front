@@ -12,6 +12,7 @@ import useInput from '../hooks/useInput'
 const GuestBookListWrap = styled.div`
     height: calc(100% - 200px);
     overflow-y: auto;
+    border: 1px solid #d9d9d9;
 `
 
 const { TextArea } = Input
@@ -29,11 +30,7 @@ function GuestBookList() {
     const {
         loadGuestbooksLoading,
         guestbooksList: guestbooks,
-        editGuestbookLoading,
-        editGuestbookDone,
         editGuestbookError,
-        deleteGuestbookLoading,
-        deleteGuestbookDone,
         deleteGuestbookError,
     } = useSelector((state) => state.guestbook)
     const dispatch = useDispatch()
@@ -91,7 +88,10 @@ function GuestBookList() {
                 {guestbooks &&
                     guestbooks.length > 0 &&
                     guestbooks.map((item) => (
-                        <Card key={item.id}>
+                        <Card
+                            key={item.id}
+                            style={{ borderLeft: 'none', borderRight: 'none ' }}
+                        >
                             <div>{item.content}</div>
                             <br />
                             <br />

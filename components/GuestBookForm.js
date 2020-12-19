@@ -3,10 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Input, Button } from 'antd'
 import useInput from '../hooks/useInput'
-import {
-    POST_GUESTBOOK_REQUEST,
-    EDIT_GUESTBOOK_REQUEST,
-} from '../types/guestbook'
+import { POST_GUESTBOOK_REQUEST } from '../types/guestbook'
 const { TextArea } = Input
 
 const GuestBookFormWrap = styled.div`
