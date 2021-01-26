@@ -20,11 +20,7 @@ function GuestBookList() {
     const [visible, setVisible] = useState(false)
     const [password, onChangePassword, setPassword] = useInput('')
     const [content, onChangeContent, setContent] = useInput('')
-    const [
-        deletePassword,
-        onChangeDeletePassword,
-        setDeletePassword,
-    ] = useInput('')
+    const [deletePassword, onChangeDeletePassword] = useInput('')
     const [deleteVisible, setDeleteVisible] = useState(false)
     //======data fetching=====//
     const {

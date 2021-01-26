@@ -64,13 +64,6 @@ const MyEditor = ({ content, setContent }) => {
         []
     )
 
-    const toolbarStyleObject = useMemo(
-        () => ({
-            // border: '1px solid #0ff',
-        }),
-        []
-    )
-
     const myBlockRenderer = (contentBlock) => {
         const type = contentBlock.getType()
         if (type === 'atomic') {

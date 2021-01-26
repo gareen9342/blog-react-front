@@ -1,34 +1,45 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import wrapper from '../../store/configureStore'
 import { END } from 'redux-saga'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Link from 'next/link'
 import AppLayout from '../../components/AppLayout'
 import { LOAD_HASHTAG_POSTS_REQUEST } from '../../types/post'
 import { LOAD_ME_REQUEST } from '../../types/user'
 import { CenterContainer } from '../../styles/common/UI'
+
 const HashTagTitle = styled.h2`
     font-size: 1.5em;
 `
 
 function hashtag() {
     const router = useRouter()
-    const { hashtagPostList } = useSelector((state) => state.post)
+    const dispatch = useDispatch()
+    const { hashtagPostList, hashtagPostListLoading } = useSelector(
+        (state) => state.post
+    )
     const { tag } = router.query
-    // console.log(hashtagPostList)
+    useEffect(() => {
+        dispatch({
+            type: LOAD_HASHTAG_POSTS_REQUEST,
+            data: tag,
+        })
+    }, [])
+
     return (
         <AppLayout>
             <CenterContainer>
                 <HashTagTitle>{tag}</HashTagTitle>
+                {hashtagPostListLoading & 'loading...'}
                 {hashtagPostList.length > 0 &&
                     hashtagPostList.map((post) => (
                         <Link
                             key={post.id}
-                            href="/post/[category]/[id]"
-                            as={`/post/${post.Category.name_hidden}/${post.id}`}
+                            href="/post/[id]"
+                            as={`/post/${post.id}`}
                             prefetch={false}
                         >
                             <a>{post.subject}</a>
@@ -48,11 +59,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         if (context.req && cookie) {
             axios.defaults.headers.Cookie = cookie
         }
-        // console.log('context=', context)
-        context.store.dispatch({
-            type: LOAD_HASHTAG_POSTS_REQUEST,
-            data: context.params.tag,
-        })
+
         context.store.dispatch({
             type: LOAD_ME_REQUEST,
         })
