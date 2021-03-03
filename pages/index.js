@@ -10,7 +10,7 @@ import { NotificationOutlined, PushpinOutlined } from '@ant-design/icons'
 import { Row, Col } from 'antd'
 import { CenterContainer } from '../styles/common/UI'
 import { LOAD_POSTLIST_REQUEST } from '../types/post'
-import { LOAD_ME_REQUEST } from '../types/user'
+import { LOAD_ME_REQUEST} from '../types/user'
 import CommentList from '../components/CommentList'
 import PostList from '../components/PostList'
 import GuestBookForm from '../components/GuestBookForm'
@@ -58,7 +58,6 @@ const Home = () => {
         }
     }, [loadMainDiariesError, loadPostListError])
 
-    // console.log
     return (
         <>
             <AppLayout>

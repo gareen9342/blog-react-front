@@ -21,3 +21,4 @@ export const AUTH_ME_FAILURE = 'authMeFailure'
 export const CHANGE_PASSWORD_REQUEST = 'ChangePasswordRequest'
 export const CHANGE_PASSWORD_SUCCESS = 'ChangePasswordSuccess'
 export const CHANGE_PASSWORD_FAILURE = 'ChangePasswordFailure'
+

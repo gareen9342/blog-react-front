@@ -7,5 +7,6 @@ const postService = {
     resetPassword: (data) => {
         return ApiService.post(`user/reset-password`, data)
     },
+    
 }
 export default postService
