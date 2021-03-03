@@ -1,4 +1,4 @@
-# myblog
+# myblog : frontend
 
 React의 Next.js를 이용해 SSR과 CSR을 적용하여 만든 개인 블로그입니다. 
 
@@ -30,3 +30,4 @@ React의 Next.js를 이용해 SSR과 CSR을 적용하여 만든 개인 블로그
 - [x] 방명록 업로드
 - [x] 방명록 수정
 - [x] 방명록 삭제
+- [x] 부분적인 SSR 처리
